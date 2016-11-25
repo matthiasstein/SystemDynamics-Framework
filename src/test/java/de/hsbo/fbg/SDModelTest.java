@@ -9,11 +9,13 @@ import net.objecthunter.exp4j.Expression;
 import net.objecthunter.exp4j.ExpressionBuilder;
 import de.hsbo.fbg.systemdynamics.exceptions.DuplicateFlowException;
 import de.hsbo.fbg.systemdynamics.exceptions.DuplicateModelEntityException;
-import de.hsbo.fbg.systemdynamics.functions.AlgebraicFunction;
+import de.hsbo.fbg.systemdynamics.functions.IFunction;
+import de.hsbo.fbg.systemdynamics.model.Converter;
 import de.hsbo.fbg.systemdynamics.model.Flow;
 import de.hsbo.fbg.systemdynamics.model.Model;
 
 public class SDModelTest {
+
 
 	@Test
 	public void modelCreationTest() {
@@ -26,31 +28,30 @@ public class SDModelTest {
 			Flow deathsPrey = (Flow) model.createModelEntity(ModelEntityType.FLOW, "Deaths_Prey");
 			populationPrey.addInputFlow(birthsPrey);
 			populationPrey.addOutputFlow(deathsPrey);
-			Variable birthRatePrey=(Variable)model.createModelEntity(ModelEntityType.VARIABLE, "BirthRate_Prey");
-			Variable deathRatePrey=(Variable)model.createModelEntity(ModelEntityType.VARIABLE, "DeathRate_Prey");
-			
+			Variable birthRatePrey = (Variable) model.createModelEntity(ModelEntityType.VARIABLE, "BirthRate_Prey");
+			birthRatePrey.setValue(0.01);
+			Variable deathRatePrey = (Variable) model.createModelEntity(ModelEntityType.VARIABLE, "DeathRate_Prey");
 
-			Expression e = new ExpressionBuilder("x * y")
-			        .variables("x", "y")
-			        .build()
-			        .setVariable("x", populationPrey.getValue())
-			        .setVariable("y", birthRatePrey.getValue());
+			// Approach for converting entity values by implementing IFunction
+			// with an inner class
+			Converter birthsPreyConverter = new Converter(birthsPrey, new IFunction() {
+				@Override
+				public double calculateEntityValue() {
+					double result = populationPrey.getValue() * birthRatePrey.getValue();
+					return result;
+				}
+			});
 
-			AlgebraicFunction birthRatePreyFunction=new AlgebraicFunction(e);
-			double result = e.evaluate();
-			//birthRatePrey.createConverter();
-							
+			birthsPreyConverter.convert();
+			System.out.println(birthsPrey.getValue());
+
 			Stock populationPredator = (Stock) model.createModelEntity(ModelEntityType.STOCK, "Population_Predator");
 			populationPredator.setInitialValue(200);
 			Flow birthsPredator = (Flow) model.createModelEntity(ModelEntityType.FLOW, "Births_Predator");
 			Flow deathsPredator = (Flow) model.createModelEntity(ModelEntityType.FLOW, "Deaths_Predator");
 			populationPredator.addInputFlow(birthsPredator);
 			populationPredator.addOutputFlow(deathsPredator);
-			
-			
-			
 
-			
 		} catch (DuplicateModelEntityException | DuplicateFlowException e) {
 			e.printStackTrace();
 		}

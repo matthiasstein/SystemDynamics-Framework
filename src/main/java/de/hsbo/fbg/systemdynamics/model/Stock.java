@@ -6,7 +6,6 @@ import de.hsbo.fbg.systemdynamics.exceptions.DuplicateFlowException;
 
 public class Stock extends ModelEntity {
 
-	private double initialValue;
 	private ArrayList<Flow> inputFlows;
 	private ArrayList<Flow> outputFlows;
 
@@ -17,13 +16,9 @@ public class Stock extends ModelEntity {
 	}
 
 	public void setInitialValue(double value) {
-		this.initialValue = value;
-
+		setValue(value);
 	}
 
-	public double getInitialValue() {
-		return initialValue;
-	}
 
 	public void addInputFlow(Flow flow) throws DuplicateFlowException{
 		if (flowAlreadyAdded(flow)){

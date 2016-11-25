@@ -37,6 +37,8 @@ public class Model {
 			throw new DuplicateModelEntityException("Model Entity name already exsists");
 		}
 	}
+	
+	
 
 	private boolean existsModelEntity(ModelEntity modelEntity) {
 		return this.modelEntities.containsKey(modelEntity.getName());
