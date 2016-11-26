@@ -2,37 +2,37 @@ package de.hsbo.fbg.systemdynamics.model;
 
 public abstract class ModelEntity {
 
-	private String name;
-	private double value;
-	private double previousValue;
+    private String name;
+    private double value;
+    private double previousValue;
 
-	public ModelEntity(String name) {
-		super();
-		this.name = name;
-	}
+    public ModelEntity(String name) {
+        super();
+        this.name = name;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public double getValue() {
-		return value;
-	}
+    public double getValue() {
+        return value;
+    }
 
-	public void setValue(double value) {
-		this.value = value;
-	}
+    public void setValue(double value) {
+        this.value = value;
+    }
 
-	public double getPreviousValue() {
-		return previousValue;
-	}
+    public double getPreviousValue() {
+        return previousValue;
+    }
 
-	public void setPreviousValue(double previousValue) {
-		this.previousValue = previousValue;
-	}
+    public void setPreviousValue(double previousValue) {
+        this.previousValue = previousValue;
+    }
 
 }

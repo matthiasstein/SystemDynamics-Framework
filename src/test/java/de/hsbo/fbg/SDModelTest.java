@@ -5,8 +5,6 @@ import org.junit.Test;
 import de.hsbo.fbg.systemdynamics.model.ModelEntityType;
 import de.hsbo.fbg.systemdynamics.model.Stock;
 import de.hsbo.fbg.systemdynamics.model.Variable;
-import net.objecthunter.exp4j.Expression;
-import net.objecthunter.exp4j.ExpressionBuilder;
 import de.hsbo.fbg.systemdynamics.exceptions.DuplicateFlowException;
 import de.hsbo.fbg.systemdynamics.exceptions.DuplicateModelEntityException;
 import de.hsbo.fbg.systemdynamics.functions.IFunction;
@@ -16,45 +14,89 @@ import de.hsbo.fbg.systemdynamics.model.Model;
 
 public class SDModelTest {
 
+    @Test
+    public void modelCreationTest() {
+        Model model = new Model();
 
-	@Test
-	public void modelCreationTest() {
-		Model model = new Model();
+        try {
+            // prey
+            // Create prey population as stock
+            Stock populationPrey = (Stock) model.createModelEntity(ModelEntityType.STOCK, "Population_Prey");
+            populationPrey.setInitialValue(500);
+            // Create prey births and deaths as flows
+            Flow birthsPrey = (Flow) model.createModelEntity(ModelEntityType.FLOW, "Births_Prey");
+            Flow deathsPrey = (Flow) model.createModelEntity(ModelEntityType.FLOW, "Deaths_Prey");
+            // Add flows to prey population
+            populationPrey.addInputFlow(birthsPrey);
+            populationPrey.addOutputFlow(deathsPrey);
+            // Create prey birthrate and deathrate as variable
+            Variable expansionRatePrey = (Variable) model.createModelEntity(ModelEntityType.VARIABLE, "BirthRate_Prey");
+            expansionRatePrey.setValue(0.05);
+            Variable lossRatePrey = (Variable) model.createModelEntity(ModelEntityType.VARIABLE, "DeathRate_Prey");
+            lossRatePrey.setValue(0.001);
 
-		try {
-			Stock populationPrey = (Stock) model.createModelEntity(ModelEntityType.STOCK, "Population_Prey");
-			populationPrey.setInitialValue(5000);
-			Flow birthsPrey = (Flow) model.createModelEntity(ModelEntityType.FLOW, "Births_Prey");
-			Flow deathsPrey = (Flow) model.createModelEntity(ModelEntityType.FLOW, "Deaths_Prey");
-			populationPrey.addInputFlow(birthsPrey);
-			populationPrey.addOutputFlow(deathsPrey);
-			Variable birthRatePrey = (Variable) model.createModelEntity(ModelEntityType.VARIABLE, "BirthRate_Prey");
-			birthRatePrey.setValue(0.01);
-			Variable deathRatePrey = (Variable) model.createModelEntity(ModelEntityType.VARIABLE, "DeathRate_Prey");
+            // predator
+            // Create predator population as stock
+            Stock populationPredator = (Stock) model.createModelEntity(ModelEntityType.STOCK, "Population_Predator");
+            populationPredator.setInitialValue(50);
+            // Create prey births and deaths as flows
+            Flow birthsPredator = (Flow) model.createModelEntity(ModelEntityType.FLOW, "Births_Predator");
+            Flow deathsPredator = (Flow) model.createModelEntity(ModelEntityType.FLOW, "Deaths_Predator");
+            // Add flows to predator population
+            populationPredator.addInputFlow(birthsPredator);
+            populationPredator.addOutputFlow(deathsPredator);
+            // Create prey birthrate and deathrate as variable
+            Variable expansionRatePredator = (Variable) model.createModelEntity(ModelEntityType.VARIABLE, "BirthRate_Predator");
+            expansionRatePredator.setValue(0.0002);
+            Variable lossRatePredator = (Variable) model.createModelEntity(ModelEntityType.VARIABLE, "DeathRate_Predator");
+            lossRatePredator.setValue(0.1);
 
-			// Approach for converting entity values by implementing IFunction
-			// with an inner class
-			Converter birthsPreyConverter = new Converter(birthsPrey, new IFunction() {
-				@Override
-				public double calculateEntityValue() {
-					double result = populationPrey.getValue() * birthRatePrey.getValue();
-					return result;
-				}
-			});
+            // Create meetings as variable
+            Variable meetings = (Variable) model.createModelEntity(ModelEntityType.VARIABLE, "Meetings");
 
-			birthsPreyConverter.convert();
-			System.out.println(birthsPrey.getValue());
+            // Approach for converting entity values by implementing IFunction
+            // with an inner class
+            Converter meetingsConverter = new Converter(meetings, new IFunction() {
+                @Override
+                public double calculateEntityValue() {
+                    return populationPrey.getValue() * populationPredator.getValue();
+                }
+            });
 
-			Stock populationPredator = (Stock) model.createModelEntity(ModelEntityType.STOCK, "Population_Predator");
-			populationPredator.setInitialValue(200);
-			Flow birthsPredator = (Flow) model.createModelEntity(ModelEntityType.FLOW, "Births_Predator");
-			Flow deathsPredator = (Flow) model.createModelEntity(ModelEntityType.FLOW, "Deaths_Predator");
-			populationPredator.addInputFlow(birthsPredator);
-			populationPredator.addOutputFlow(deathsPredator);
+            Converter birthsPreyConverter = new Converter(birthsPrey, new IFunction() {
+                @Override
+                public double calculateEntityValue() {
+                    return populationPrey.getValue() * expansionRatePrey.getValue();
+                }
+            });
 
-		} catch (DuplicateModelEntityException | DuplicateFlowException e) {
-			e.printStackTrace();
-		}
+            Converter deathsPreyConverter = new Converter(deathsPrey, new IFunction() {
+                @Override
+                public double calculateEntityValue() {
+                    return meetings.getValue() * lossRatePrey.getValue();
+                }
+            });
 
-	}
+            Converter birthsPredatorConverter = new Converter(birthsPredator, new IFunction() {
+                @Override
+                public double calculateEntityValue() {
+                    return meetings.getValue() * expansionRatePredator.getValue();
+                }
+            });
+
+            Converter deathsPredatorConverter = new Converter(deathsPredator, new IFunction() {
+                @Override
+                public double calculateEntityValue() {
+                    return populationPredator.getValue() * lossRatePredator.getValue();
+                }
+            });
+
+            model.addConverters(meetingsConverter, birthsPreyConverter, deathsPreyConverter, birthsPredatorConverter, deathsPredatorConverter);
+            model.simulate();
+
+        } catch (DuplicateModelEntityException | DuplicateFlowException e) {
+            e.printStackTrace();
+        }
+
+    }
 }
