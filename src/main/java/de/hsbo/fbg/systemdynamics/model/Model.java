@@ -58,5 +58,12 @@ public class Model {
 
     public void simulate() {
         // simulate model
+        converterList.forEach((converter) -> {
+            converter.convert();
+        });
+    }
+
+    public HashMap<String, ModelEntity> getModelEntities() {
+        return modelEntities;
     }
 }

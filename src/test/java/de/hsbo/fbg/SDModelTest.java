@@ -11,6 +11,8 @@ import de.hsbo.fbg.systemdynamics.functions.IFunction;
 import de.hsbo.fbg.systemdynamics.model.Converter;
 import de.hsbo.fbg.systemdynamics.model.Flow;
 import de.hsbo.fbg.systemdynamics.model.Model;
+import de.hsbo.fbg.systemdynamics.model.ModelEntity;
+import java.util.HashMap;
 
 public class SDModelTest {
 
@@ -56,43 +58,20 @@ public class SDModelTest {
 
             // Approach for converting entity values by implementing IFunction
             // with an inner class
-            Converter meetingsConverter = new Converter(meetings, new IFunction() {
-                @Override
-                public double calculateEntityValue() {
-                    return populationPrey.getValue() * populationPredator.getValue();
-                }
-            });
+            Converter meetingsConverter = new Converter(meetings, () -> populationPrey.getValue() * populationPredator.getValue());
 
-            Converter birthsPreyConverter = new Converter(birthsPrey, new IFunction() {
-                @Override
-                public double calculateEntityValue() {
-                    return populationPrey.getValue() * expansionRatePrey.getValue();
-                }
-            });
+            Converter birthsPreyConverter = new Converter(birthsPrey, () -> populationPrey.getValue() * expansionRatePrey.getValue());
 
-            Converter deathsPreyConverter = new Converter(deathsPrey, new IFunction() {
-                @Override
-                public double calculateEntityValue() {
-                    return meetings.getValue() * lossRatePrey.getValue();
-                }
-            });
+            Converter deathsPreyConverter = new Converter(deathsPrey, () -> meetings.getValue() * lossRatePrey.getValue());
 
-            Converter birthsPredatorConverter = new Converter(birthsPredator, new IFunction() {
-                @Override
-                public double calculateEntityValue() {
-                    return meetings.getValue() * expansionRatePredator.getValue();
-                }
-            });
+            Converter birthsPredatorConverter = new Converter(birthsPredator, () -> meetings.getValue() * expansionRatePredator.getValue());
 
-            Converter deathsPredatorConverter = new Converter(deathsPredator, new IFunction() {
-                @Override
-                public double calculateEntityValue() {
-                    return populationPredator.getValue() * lossRatePredator.getValue();
-                }
-            });
+            Converter deathsPredatorConverter = new Converter(deathsPredator, () -> populationPredator.getValue() * lossRatePredator.getValue());
 
             model.addConverters(meetingsConverter, birthsPreyConverter, deathsPreyConverter, birthsPredatorConverter, deathsPredatorConverter);
             model.simulate();
+            HashMap<String, ModelEntity> modelEntities = model.getModelEntities();
+            System.out.println(modelEntities);
 
         } catch (DuplicateModelEntityException | DuplicateFlowException e) {
             e.printStackTrace();

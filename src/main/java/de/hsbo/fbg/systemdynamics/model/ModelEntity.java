@@ -35,4 +35,9 @@ public abstract class ModelEntity {
         this.previousValue = previousValue;
     }
 
+    @Override
+    public String toString() {
+        return "ModelEntity{" + "name=" + name + ", value=" + value + ", previousValue=" + previousValue + '}';
+    }
+
 }
