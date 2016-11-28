@@ -5,8 +5,9 @@ public abstract class ModelEntity {
     private String name;
     private double value;
     private double previousValue;
+    private Converter converter;
 
-    public ModelEntity(String name) {
+    protected ModelEntity(String name) {
         super();
         this.name = name;
     }
@@ -39,5 +40,10 @@ public abstract class ModelEntity {
     public String toString() {
         return "ModelEntity{" + "name=" + name + ", value=" + value + ", previousValue=" + previousValue + '}';
     }
+
+	protected void setConverter(Converter converter) {
+		this.converter=converter;
+		
+	}
 
 }

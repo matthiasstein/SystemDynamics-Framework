@@ -58,15 +58,15 @@ public class SDModelTest {
 
             // Approach for converting entity values by implementing IFunction
             // with an inner class
-            Converter meetingsConverter = new Converter(meetings, () -> populationPrey.getValue() * populationPredator.getValue());
+            Converter meetingsConverter = model.createConverter(meetings, () -> populationPrey.getValue() * populationPredator.getValue());
 
-            Converter birthsPreyConverter = new Converter(birthsPrey, () -> populationPrey.getValue() * expansionRatePrey.getValue());
+            Converter birthsPreyConverter = model.createConverter(birthsPrey, () -> populationPrey.getValue() * expansionRatePrey.getValue());
 
-            Converter deathsPreyConverter = new Converter(deathsPrey, () -> meetings.getValue() * lossRatePrey.getValue());
+            Converter deathsPreyConverter = model.createConverter(deathsPrey, () -> meetings.getValue() * lossRatePrey.getValue());
 
-            Converter birthsPredatorConverter = new Converter(birthsPredator, () -> meetings.getValue() * expansionRatePredator.getValue());
+            Converter birthsPredatorConverter = model.createConverter(birthsPredator, () -> meetings.getValue() * expansionRatePredator.getValue());
 
-            Converter deathsPredatorConverter = new Converter(deathsPredator, () -> populationPredator.getValue() * lossRatePredator.getValue());
+            Converter deathsPredatorConverter = model.createConverter(deathsPredator, () -> populationPredator.getValue() * lossRatePredator.getValue());
 
             model.addConverters(meetingsConverter, birthsPreyConverter, deathsPreyConverter, birthsPredatorConverter, deathsPredatorConverter);
             model.simulate();

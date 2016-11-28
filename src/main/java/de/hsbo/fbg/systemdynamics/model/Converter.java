@@ -7,7 +7,7 @@ public class Converter {
     private IFunction function;
     private ModelEntity targetEntity;
 
-    public Converter(ModelEntity entity, IFunction function) {
+    protected Converter(ModelEntity entity, IFunction function) {
         this.targetEntity = entity;
         this.function = function;
     }
