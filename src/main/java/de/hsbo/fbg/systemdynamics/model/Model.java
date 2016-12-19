@@ -72,7 +72,14 @@ public class Model {
 		return this.modelEntities.containsKey(modelEntity.getName());
 	}
 
-	public Converter createConverter(ModelEntity entity, IFunction function) {
+	public void prepareValuesForTimestep() {
+		this.modelEntities.forEach((k, v) -> {
+			v.setPreviousValue(v.getCurrentValue());
+			v.setCurrentValueCalculated(false);
+		});
+	}
+
+	public Converter createConverter(ModelEntity entity, IFunction function, ModelEntity... inputs) {
 		Converter converter = new Converter(entity, function);
 		this.addConverter(converter);
 		entity.setConverter(converter);
@@ -143,6 +150,26 @@ public class Model {
 	public void setCurrentTime(double currentTime) {
 		this.currentTime = currentTime;
 	}
+
+	public ArrayList<Converter> getConverterList() {
+		return converterList;
+	}
+
+	public ArrayList<Converter> getStockConverterList() {
+		return stockConverterList;
+	}
+
+	public void updateCurrentTime() {
+		this.currentTime = currentTime + timeSteps;
+	}
+
+	public boolean finalTimeReached() {
+		return currentTime <= finalTime;
+	}
 	
+	@Override
+	public String toString() {
+		return "Model [modelEntities=" + modelEntities + "]";
+	}
 
 }

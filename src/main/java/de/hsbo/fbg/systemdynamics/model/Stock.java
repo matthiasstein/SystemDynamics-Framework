@@ -16,9 +16,15 @@ public class Stock extends ModelEntity {
     }
 
     public void setInitialValue(double value) {
-        setValue(value);
+        setCurrentValue(value);
     }
 
+    public void addInputFlows(Flow... flow) throws ModelException {
+        for (Flow f : flow) {
+            this.addInputFlow(f);
+        }
+    }
+    
     public void addInputFlow(Flow flow) throws ModelException {
         if (flowAlreadyAdded(flow)) {
             throw new ModelException(ModelException.DUPLICATE_FLOW_EXCEPTION);
@@ -26,10 +32,10 @@ public class Stock extends ModelEntity {
             this.inputFlows.add(flow);
         }
     }
-
-    public void addInputFlows(Flow... flow) throws ModelException {
+    
+    public void addOutputFlows(Flow... flow) throws ModelException {
         for (Flow f : flow) {
-            this.addInputFlow(f);
+            this.addOutputFlow(f);
         }
     }
 
@@ -38,11 +44,7 @@ public class Stock extends ModelEntity {
     }
 
     private boolean flowAlreadyAdded(Flow flow) {
-        if (inputFlows.contains(flow) || outputFlows.contains(flow)) {
-            return true;
-        } else {
-            return false;
-        }
+        return inputFlows.contains(flow) || outputFlows.contains(flow);
     }
 
 	public ArrayList<Flow> getInputFlows() {

@@ -5,10 +5,9 @@ import org.junit.Test;
 import de.hsbo.fbg.systemdynamics.model.ModelEntityType;
 import de.hsbo.fbg.systemdynamics.model.Stock;
 import de.hsbo.fbg.systemdynamics.model.Variable;
+import de.hsbo.fbg.systemdynamics.simulation.Simulation;
 import de.hsbo.fbg.systemdynamics.exceptions.ModelException;
 import de.hsbo.fbg.systemdynamics.functions.EulerCauchyIntegration;
-import de.hsbo.fbg.systemdynamics.functions.IFunction;
-import de.hsbo.fbg.systemdynamics.functions.IntegrationType;
 import de.hsbo.fbg.systemdynamics.model.Converter;
 import de.hsbo.fbg.systemdynamics.model.Flow;
 import de.hsbo.fbg.systemdynamics.model.Model;
@@ -24,7 +23,7 @@ public class SDModelTest {
 		// finalTime=50
 		// timeSteps=1
 		// integrationType=Euler-Cauchy
-		Model model = new Model(0, 50, 1, new EulerCauchyIntegration());
+		Model model = new Model(0, 10, 1, new EulerCauchyIntegration());
 
 		try {
 			// prey
@@ -39,9 +38,9 @@ public class SDModelTest {
 			populationPrey.addOutputFlow(deathsPrey);
 			// Create prey birthrate and deathrate as variable
 			Variable expansionRatePrey = (Variable) model.createModelEntity(ModelEntityType.VARIABLE, "BirthRate_Prey");
-			expansionRatePrey.setValue(0.05);
+			expansionRatePrey.setCurrentValue(0.05);
 			Variable lossRatePrey = (Variable) model.createModelEntity(ModelEntityType.VARIABLE, "DeathRate_Prey");
-			lossRatePrey.setValue(0.001);
+			lossRatePrey.setCurrentValue(0.001);
 
 			// predator
 			// Create predator population as stock
@@ -56,10 +55,10 @@ public class SDModelTest {
 			// Create prey birthrate and deathrate as variable
 			Variable expansionRatePredator = (Variable) model.createModelEntity(ModelEntityType.VARIABLE,
 					"BirthRate_Predator");
-			expansionRatePredator.setValue(0.0002);
+			expansionRatePredator.setCurrentValue(0.0002);
 			Variable lossRatePredator = (Variable) model.createModelEntity(ModelEntityType.VARIABLE,
 					"DeathRate_Predator");
-			lossRatePredator.setValue(0.1);
+			lossRatePredator.setCurrentValue(0.1);
 
 			// Create meetings as variable
 			Variable meetings = (Variable) model.createModelEntity(ModelEntityType.VARIABLE, "Meetings");
@@ -67,27 +66,30 @@ public class SDModelTest {
 			// Approach for converting entity values by implementing IFunction
 			// with an inner class
 			Converter meetingsConverter = model.createConverter(meetings,
-					() -> populationPrey.getValue() * populationPredator.getValue());
+					() -> populationPrey.getCurrentValue() * populationPredator.getCurrentValue(), populationPrey,
+					populationPredator);
 
 			Converter birthsPreyConverter = model.createConverter(birthsPrey,
-					() -> populationPrey.getValue() * expansionRatePrey.getValue());
+					() -> populationPrey.getCurrentValue() * expansionRatePrey.getCurrentValue(), populationPrey, populationPredator);
 
 			Converter deathsPreyConverter = model.createConverter(deathsPrey,
-					() -> meetings.getValue() * lossRatePrey.getValue());
+					() -> meetings.getCurrentValue() * lossRatePrey.getCurrentValue(), meetings, lossRatePrey);
 
 			Converter birthsPredatorConverter = model.createConverter(birthsPredator,
-					() -> meetings.getValue() * expansionRatePredator.getValue());
+					() -> meetings.getCurrentValue() * expansionRatePredator.getCurrentValue(), meetings, expansionRatePredator);
 
 			Converter deathsPredatorConverter = model.createConverter(deathsPredator,
-					() -> populationPredator.getValue() * lossRatePredator.getValue());
+					() -> populationPredator.getCurrentValue() * lossRatePredator.getCurrentValue(), populationPredator,
+					lossRatePredator);
 
 			Converter preyPopulationConverter = model.createStockConverter(populationPrey);
 
 			Converter predatorPopulationConverter = model.createStockConverter(populationPredator);
 
-			model.simulate();
-			HashMap<String, ModelEntity> modelEntities = model.getModelEntities();
-			System.out.println(modelEntities);
+			Simulation simulation = new Simulation(model);
+			simulation.run();
+//			HashMap<String, ModelEntity> modelEntities = model.getModelEntities();
+//			System.out.println(modelEntities);
 
 		} catch (ModelException e) {
 			e.printStackTrace();
