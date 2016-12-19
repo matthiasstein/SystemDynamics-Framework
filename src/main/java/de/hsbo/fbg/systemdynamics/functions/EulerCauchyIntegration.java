@@ -1,6 +1,7 @@
-package de.hsbo.fbg.systemdynamics.model;
+package de.hsbo.fbg.systemdynamics.functions;
 
-import de.hsbo.fbg.systemdynamics.functions.IFunction;
+import de.hsbo.fbg.systemdynamics.model.Flow;
+import de.hsbo.fbg.systemdynamics.model.Stock;
 
 public class EulerCauchyIntegration extends IntegrationType {
 

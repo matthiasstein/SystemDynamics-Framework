@@ -3,7 +3,9 @@ package de.hsbo.fbg.systemdynamics.model;
 import java.util.HashMap;
 
 import de.hsbo.fbg.systemdynamics.exceptions.ModelException;
+import de.hsbo.fbg.systemdynamics.functions.EulerCauchyIntegration;
 import de.hsbo.fbg.systemdynamics.functions.IFunction;
+import de.hsbo.fbg.systemdynamics.functions.IntegrationType;
 
 import java.util.ArrayList;
 
@@ -15,13 +17,15 @@ public class Model {
 	private double initialTime;
 	private double finalTime;
 	private double timeSteps;
+	private double currentTime;
 	private IntegrationType intergrationType;
 
 	public Model() {
 		modelEntities = new HashMap<String, ModelEntity>();
 		converterList = new ArrayList<Converter>();
-		stockConverterList= new ArrayList<Converter>();
+		stockConverterList = new ArrayList<Converter>();
 		initialTime = 0;
+		currentTime = initialTime;
 		finalTime = 100;
 		timeSteps = 1;
 		intergrationType = new EulerCauchyIntegration();
@@ -31,6 +35,7 @@ public class Model {
 		modelEntities = new HashMap<String, ModelEntity>();
 		converterList = new ArrayList<Converter>();
 		this.initialTime = initialTime;
+		currentTime = initialTime;
 		this.finalTime = finalTime;
 		this.timeSteps = timeSteps;
 		this.intergrationType = integrationType;
@@ -131,9 +136,13 @@ public class Model {
 		this.intergrationType = intergrationType;
 	}
 
-	public void addIntegrationType(String string, Class<IntegrationType> integrationClass) {
-		// TODO Auto-generated method stub
-
+	public double getCurrentTime() {
+		return currentTime;
 	}
+
+	public void setCurrentTime(double currentTime) {
+		this.currentTime = currentTime;
+	}
+	
 
 }
