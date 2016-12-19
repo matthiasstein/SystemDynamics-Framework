@@ -2,7 +2,7 @@ package de.hsbo.fbg.systemdynamics.model;
 
 import java.util.ArrayList;
 
-import de.hsbo.fbg.systemdynamics.exceptions.DuplicateFlowException;
+import de.hsbo.fbg.systemdynamics.exceptions.ModelException;
 
 public class Stock extends ModelEntity {
 
@@ -19,15 +19,15 @@ public class Stock extends ModelEntity {
         setValue(value);
     }
 
-    public void addInputFlow(Flow flow) throws DuplicateFlowException {
+    public void addInputFlow(Flow flow) throws ModelException {
         if (flowAlreadyAdded(flow)) {
-            throw new DuplicateFlowException("Flow has already been added");
+            throw new ModelException(ModelException.DUPLICATE_FLOW_EXCEPTION);
         } else {
             this.inputFlows.add(flow);
         }
     }
 
-    public void addInputFlows(Flow... flow) throws DuplicateFlowException {
+    public void addInputFlows(Flow... flow) throws ModelException {
         for (Flow f : flow) {
             this.addInputFlow(f);
         }
@@ -44,5 +44,14 @@ public class Stock extends ModelEntity {
             return false;
         }
     }
+
+	public ArrayList<Flow> getInputFlows() {
+		return inputFlows;
+	}
+
+	public ArrayList<Flow> getOutputFlows() {
+		return outputFlows;
+	}
+
 
 }

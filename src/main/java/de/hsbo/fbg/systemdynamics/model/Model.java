@@ -2,7 +2,7 @@ package de.hsbo.fbg.systemdynamics.model;
 
 import java.util.HashMap;
 
-import de.hsbo.fbg.systemdynamics.exceptions.DuplicateModelEntityException;
+import de.hsbo.fbg.systemdynamics.exceptions.ModelException;
 import de.hsbo.fbg.systemdynamics.functions.IFunction;
 
 import java.util.ArrayList;
@@ -11,13 +11,32 @@ public class Model {
 
 	private HashMap<String, ModelEntity> modelEntities;
 	private ArrayList<Converter> converterList;
+	private ArrayList<Converter> stockConverterList;
+	private double initialTime;
+	private double finalTime;
+	private double timeSteps;
+	private IntegrationType intergrationType;
 
 	public Model() {
 		modelEntities = new HashMap<String, ModelEntity>();
 		converterList = new ArrayList<Converter>();
+		stockConverterList= new ArrayList<Converter>();
+		initialTime = 0;
+		finalTime = 100;
+		timeSteps = 1;
+		intergrationType = new EulerCauchyIntegration();
 	}
 
-	public ModelEntity createModelEntity(ModelEntityType entityType, String name) throws DuplicateModelEntityException {
+	public Model(double initialTime, double finalTime, double timeSteps, IntegrationType integrationType) {
+		modelEntities = new HashMap<String, ModelEntity>();
+		converterList = new ArrayList<Converter>();
+		this.initialTime = initialTime;
+		this.finalTime = finalTime;
+		this.timeSteps = timeSteps;
+		this.intergrationType = integrationType;
+	}
+
+	public ModelEntity createModelEntity(ModelEntityType entityType, String name) throws ModelException {
 		ModelEntity modelEntity;
 		switch (entityType) {
 		case STOCK:
@@ -36,11 +55,11 @@ public class Model {
 		return modelEntity;
 	}
 
-	private void addModelEntity(ModelEntity modelEntity) throws DuplicateModelEntityException {
+	private void addModelEntity(ModelEntity modelEntity) throws ModelException {
 		if (!existsModelEntity(modelEntity)) {
 			this.modelEntities.put(modelEntity.getName(), modelEntity);
 		} else {
-			throw new DuplicateModelEntityException("Model Entity name already exsists");
+			throw new ModelException(ModelException.DUPLICATE_MODEL_ENTITY_EXCEPTION);
 		}
 	}
 
@@ -50,25 +69,23 @@ public class Model {
 
 	public Converter createConverter(ModelEntity entity, IFunction function) {
 		Converter converter = new Converter(entity, function);
-		addConverter(converter);
+		this.addConverter(converter);
 		entity.setConverter(converter);
 		return converter;
 	}
 
 	public Converter createStockConverter(Stock stock) {
-		// TODO Implement combining all input and output flows in a function
-
-		return null;
+		Converter converter = new Converter(stock, intergrationType.getIntegrationFunction(stock));
+		this.addStockConverter(converter);
+		return converter;
 	}
 
 	private void addConverter(Converter converter) {
 		converterList.add(converter);
 	}
 
-	public void addConverters(Converter... converters) {
-		for (Converter c : converters) {
-			this.addConverter(c);
-		}
+	private void addStockConverter(Converter converter) {
+		stockConverterList.add(converter);
 	}
 
 	public void simulate() {
@@ -81,4 +98,42 @@ public class Model {
 	public HashMap<String, ModelEntity> getModelEntities() {
 		return modelEntities;
 	}
+
+	public double getInitialTime() {
+		return initialTime;
+	}
+
+	public void setInitialTime(double initialTime) {
+		this.initialTime = initialTime;
+	}
+
+	public double getFinalTime() {
+		return finalTime;
+	}
+
+	public void setFinalTime(double finalTime) {
+		this.finalTime = finalTime;
+	}
+
+	public double getTimeSteps() {
+		return timeSteps;
+	}
+
+	public void setTimeSteps(double timeSteps) {
+		this.timeSteps = timeSteps;
+	}
+
+	public IntegrationType getIntergrationType() {
+		return intergrationType;
+	}
+
+	public void setIntergrationType(IntegrationType intergrationType) {
+		this.intergrationType = intergrationType;
+	}
+
+	public void addIntegrationType(String string, Class<IntegrationType> integrationClass) {
+		// TODO Auto-generated method stub
+
+	}
+
 }
