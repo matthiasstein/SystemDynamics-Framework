@@ -12,10 +12,10 @@ public class EulerCauchyIntegration extends IntegrationType {
 			public double calculateEntityValue() {
 				double result = stock.getCurrentValue();
 				for (Flow input : stock.getInputFlows()) {
-					result += input.getCurrentValue();
+					result += input.getPreviousValue();
 				}
 				for (Flow output : stock.getOutputFlows()) {
-					result -= output.getCurrentValue();
+					result -= output.getPreviousValue();
 				}
 				return result;
 			}

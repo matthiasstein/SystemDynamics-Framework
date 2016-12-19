@@ -76,12 +76,15 @@ public class Model {
 	public void prepareValuesForTimestep() {
 		this.modelEntities.forEach((k, v) -> {
 			v.setPreviousValue(v.getCurrentValue());
+			if (v instanceof Stock){
+				v.setCurrentValueCalculated(true);
+			}
 			v.setCurrentValueCalculated(false);
 		});
 	}
 
 	public Converter createConverter(ModelEntity entity, IFunction function, ModelEntity... inputs) {
-		Converter converter = new Converter(entity, function);
+		Converter converter = new Converter(entity, function, inputs);
 		this.addConverter(converter);
 		entity.setConverter(converter);
 		return converter;

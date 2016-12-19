@@ -11,6 +11,7 @@ public class Stock extends ModelEntity {
 
     public Stock(String name) {
         super(name);
+        this.setCurrentValueCalculated(true);
         inputFlows = new ArrayList<Flow>();
         outputFlows = new ArrayList<Flow>();
     }
