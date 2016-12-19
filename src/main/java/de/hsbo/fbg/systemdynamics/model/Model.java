@@ -34,6 +34,7 @@ public class Model {
 	public Model(double initialTime, double finalTime, double timeSteps, IntegrationType integrationType) {
 		modelEntities = new HashMap<String, ModelEntity>();
 		converterList = new ArrayList<Converter>();
+		stockConverterList = new ArrayList<Converter>();
 		this.initialTime = initialTime;
 		currentTime = initialTime;
 		this.finalTime = finalTime;

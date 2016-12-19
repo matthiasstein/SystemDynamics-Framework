@@ -14,11 +14,12 @@ public class Simulation {
 		this.model.prepareValuesForTimestep();
 		executeConverters();
 		this.model.updateCurrentTime();
-		while (!this.model.finalTimeReached()) {
+		while (this.model.finalTimeReached()) {
 			this.model.prepareValuesForTimestep();
 			executeStockConverters();
 			executeConverters();
 			this.model.updateCurrentTime();
+			System.out.println(this.model);
 		}
 	}
 
