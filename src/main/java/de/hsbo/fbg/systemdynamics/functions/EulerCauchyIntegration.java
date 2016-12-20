@@ -8,7 +8,7 @@ import de.hsbo.fbg.systemdynamics.model.Stock;
  * 
  * @author Sebastian Drost, Matthias Stein
  */
-public class EulerCauchyIntegration extends IntegrationType {
+public class EulerCauchyIntegration extends Integration {
 
     @Override
     public IFunction getIntegrationFunction(Stock stock) {
@@ -16,13 +16,15 @@ public class EulerCauchyIntegration extends IntegrationType {
             @Override
             public double calculateEntityValue() {
                 double result = stock.getCurrentValue();
+                double inputSum=0;
+                double outputSum=0;
                 for (Flow input : stock.getInputFlows()) {
-                    result += input.getPreviousValue();
+                    inputSum += input.getPreviousValue();
                 }
                 for (Flow output : stock.getOutputFlows()) {
-                    result -= output.getPreviousValue();
+                    outputSum += output.getPreviousValue();
                 }
-                return result;
+                return result+(inputSum-outputSum)*getDt();
             }
         };
     }

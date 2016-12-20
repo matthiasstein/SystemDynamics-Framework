@@ -5,11 +5,6 @@ import java.util.ArrayList;
 import de.hsbo.fbg.systemdynamics.exceptions.ModelException;
 import de.hsbo.fbg.systemdynamics.functions.IFunction;
 
-/**
- * class that represents a converter
- * 
- * @author Sebastian Drost, Matthias Stein
- */
 public class Converter {
 
     private IFunction function;

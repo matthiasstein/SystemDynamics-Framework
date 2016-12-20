@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import de.hsbo.fbg.systemdynamics.exceptions.ModelException;
 import de.hsbo.fbg.systemdynamics.functions.EulerCauchyIntegration;
 import de.hsbo.fbg.systemdynamics.functions.IFunction;
-import de.hsbo.fbg.systemdynamics.functions.IntegrationType;
+import de.hsbo.fbg.systemdynamics.functions.Integration;
 
 /**
  * class that represents the model
@@ -22,7 +22,7 @@ public class Model {
     private double finalTime;
     private double timeSteps;
     private double currentTime;
-    private IntegrationType intergrationType;
+    private Integration integration;
 
     public Model() {
         this.modelEntities = new HashMap<String, ModelEntity>();
@@ -32,10 +32,12 @@ public class Model {
         this.currentTime = this.initialTime;
         this.finalTime = 100;
         this.timeSteps = 1;
-        this.intergrationType = new EulerCauchyIntegration();
+        this.integration = new EulerCauchyIntegration();
+        this.integration.setDt(timeSteps);
+        
     }
 
-    public Model(double initialTime, double finalTime, double timeSteps, IntegrationType integrationType) {
+    public Model(double initialTime, double finalTime, double timeSteps, Integration integrationType) {
         this.modelEntities = new HashMap<String, ModelEntity>();
         this.converterList = new ArrayList<Converter>();
         this.stockConverterList = new ArrayList<Converter>();
@@ -43,7 +45,8 @@ public class Model {
         this.currentTime = initialTime;
         this.finalTime = finalTime;
         this.timeSteps = timeSteps;
-        this.intergrationType = integrationType;
+        this.integration = integrationType;
+        this.integration.setDt(timeSteps);
     }
 
     public ModelEntity createModelEntity(ModelEntityType entityType, String name) throws ModelException {
@@ -96,7 +99,7 @@ public class Model {
     }
 
     public Converter createStockConverter(Stock stock) {
-        Converter converter = new Converter(stock, intergrationType.getIntegrationFunction(stock));
+        Converter converter = new Converter(stock, integration.getIntegrationFunction(stock));
         this.addStockConverter(converter);
         return converter;
     }
@@ -144,12 +147,12 @@ public class Model {
         this.timeSteps = timeSteps;
     }
 
-    public IntegrationType getIntergrationType() {
-        return this.intergrationType;
+    public Integration getIntergrationType() {
+        return this.integration;
     }
 
-    public void setIntergrationType(IntegrationType intergrationType) {
-        this.intergrationType = intergrationType;
+    public void setIntergrationType(Integration intergrationType) {
+        this.integration = intergrationType;
     }
 
     public double getCurrentTime() {

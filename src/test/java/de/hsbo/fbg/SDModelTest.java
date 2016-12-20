@@ -26,13 +26,25 @@ public class SDModelTest {
         // finalTime=50
         // timeSteps=1
         // integrationType=Euler-Cauchy
-        Model model = new Model(0, 5, 1, new EulerCauchyIntegration());
+    	
+    	
+		double populationPreyValue = 100;
+		double expansionRatePreyValue = 0.001;
+		double lossRatePreyValue = 0.001;
+
+		double populationPredatorValue = 50;
+		double expansionRatePredatorValue = 0.001;
+		double lossRatePredatorValue = 0.001;
+		
+		double dt=0.5;
+		
+        Model model = new Model(0, 5, dt, new EulerCauchyIntegration());
 
         try {
             // prey
             // Create prey population as stock
             Stock populationPrey = (Stock) model.createModelEntity(ModelEntityType.STOCK, "Population_Prey");
-            populationPrey.setInitialValue(100);
+            populationPrey.setInitialValue(populationPreyValue);
             // Create prey births and deaths as flows
             Flow birthsPrey = (Flow) model.createModelEntity(ModelEntityType.FLOW, "Births_Prey");
             Flow deathsPrey = (Flow) model.createModelEntity(ModelEntityType.FLOW, "Deaths_Prey");
@@ -41,14 +53,14 @@ public class SDModelTest {
             populationPrey.addOutputFlow(deathsPrey);
             // Create prey birthrate and deathrate as variable
             Variable expansionRatePrey = (Variable) model.createModelEntity(ModelEntityType.VARIABLE, "BirthRate_Prey");
-            expansionRatePrey.setCurrentValue(0.05);
+            expansionRatePrey.setCurrentValue(expansionRatePreyValue);
             Variable lossRatePrey = (Variable) model.createModelEntity(ModelEntityType.VARIABLE, "DeathRate_Prey");
-            lossRatePrey.setCurrentValue(0.002);
+            lossRatePrey.setCurrentValue(lossRatePreyValue);
 
             // predator
             // Create predator population as stock
             Stock populationPredator = (Stock) model.createModelEntity(ModelEntityType.STOCK, "Population_Predator");
-            populationPredator.setInitialValue(50);
+            populationPredator.setInitialValue(populationPredatorValue);
             // Create prey births and deaths as flows
             Flow birthsPredator = (Flow) model.createModelEntity(ModelEntityType.FLOW, "Births_Predator");
             Flow deathsPredator = (Flow) model.createModelEntity(ModelEntityType.FLOW, "Deaths_Predator");
@@ -58,10 +70,10 @@ public class SDModelTest {
             // Create prey birthrate and deathrate as variable
             Variable expansionRatePredator = (Variable) model.createModelEntity(ModelEntityType.VARIABLE,
                     "BirthRate_Predator");
-            expansionRatePredator.setCurrentValue(0.0002);
+            expansionRatePredator.setCurrentValue(expansionRatePredatorValue);
             Variable lossRatePredator = (Variable) model.createModelEntity(ModelEntityType.VARIABLE,
                     "DeathRate_Predator");
-            lossRatePredator.setCurrentValue(0.1);
+            lossRatePredator.setCurrentValue(lossRatePredatorValue);
 
             // Create meetings as variable
             Variable meetings = (Variable) model.createModelEntity(ModelEntityType.VARIABLE, "Meetings");
