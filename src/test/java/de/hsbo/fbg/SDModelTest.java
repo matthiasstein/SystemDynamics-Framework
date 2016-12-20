@@ -11,6 +11,8 @@ import de.hsbo.fbg.systemdynamics.functions.EulerCauchyIntegration;
 import de.hsbo.fbg.systemdynamics.model.Converter;
 import de.hsbo.fbg.systemdynamics.model.Flow;
 import de.hsbo.fbg.systemdynamics.model.Model;
+import de.hsbo.fbg.systemdynamics.output.CSVExporter;
+import java.io.IOException;
 
 /**
  * sample

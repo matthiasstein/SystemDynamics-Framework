@@ -7,6 +7,7 @@ import de.hsbo.fbg.systemdynamics.exceptions.ModelException;
 import de.hsbo.fbg.systemdynamics.functions.EulerCauchyIntegration;
 import de.hsbo.fbg.systemdynamics.functions.IFunction;
 import de.hsbo.fbg.systemdynamics.functions.Integration;
+import java.util.List;
 
 /**
  * class that represents the model
@@ -276,6 +277,19 @@ public class Model {
     @Override
     public String toString() {
         return "Model [modelEntities=" + this.modelEntities + "]";
+    }
+
+    public List<String> getModelEntitiesKeys() {
+        return new ArrayList<String>(this.modelEntities.keySet());
+    }
+
+    public List<String> getModelEntitiesValues() {
+        ArrayList<ModelEntity> modelEntities = new ArrayList<ModelEntity>(this.modelEntities.values());
+        ArrayList<String> modelEntitiesValues = new ArrayList<String>();
+        modelEntities.forEach((modelEntity) -> {
+            modelEntitiesValues.add(String.valueOf(modelEntity.getCurrentValue()));
+        });
+        return modelEntitiesValues;
     }
 
 }
