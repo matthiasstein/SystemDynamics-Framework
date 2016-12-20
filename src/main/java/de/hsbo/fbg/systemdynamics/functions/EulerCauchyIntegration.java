@@ -3,6 +3,11 @@ package de.hsbo.fbg.systemdynamics.functions;
 import de.hsbo.fbg.systemdynamics.model.Flow;
 import de.hsbo.fbg.systemdynamics.model.Stock;
 
+/**
+ * class that extends the IntegraationType and represents the euler cauchy calculation
+ * 
+ * @author Sebastian Drost, Matthias Stein
+ */
 public class EulerCauchyIntegration extends IntegrationType {
 
     @Override

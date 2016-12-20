@@ -1,5 +1,10 @@
 package de.hsbo.fbg.systemdynamics.model;
 
+/**
+ * abstract class that represents a model entity
+ * 
+ * @author Sebastian Drost, Matthias Stein
+ */
 public abstract class ModelEntity {
 
     private String name;
@@ -14,7 +19,7 @@ public abstract class ModelEntity {
     }
 
     public String getName() {
-        return name;
+        return this.name;
     }
 
     public void setName(String name) {
@@ -22,7 +27,7 @@ public abstract class ModelEntity {
     }
 
     public double getCurrentValue() {
-        return currentValue;
+        return this.currentValue;
     }
 
     public void setCurrentValue(double currentValue) {
@@ -30,7 +35,7 @@ public abstract class ModelEntity {
     }
 
     public double getPreviousValue() {
-        return previousValue;
+        return this.previousValue;
     }
 
     public void setPreviousValue(double previousValue) {
@@ -39,7 +44,7 @@ public abstract class ModelEntity {
 
     @Override
     public String toString() {
-        return "ModelEntity{" + "name=" + name + ", value=" + currentValue + ", previousValue=" + previousValue + '}';
+        return "ModelEntity{" + "name=" + this.name + ", value=" + this.currentValue + ", previousValue=" + this.previousValue + '}';
     }
 
     protected void setConverter(Converter converter) {
@@ -48,7 +53,7 @@ public abstract class ModelEntity {
     }
 
     public Converter getConverter() {
-        return converter;
+        return this.converter;
     }
 
     public void setCurrentValueCalculated(boolean b) {
@@ -56,6 +61,6 @@ public abstract class ModelEntity {
     }
 
     public boolean isCurrentValueCalculated() {
-        return currentValueCalculated;
+        return this.currentValueCalculated;
     }
 }

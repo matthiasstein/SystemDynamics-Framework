@@ -1,5 +1,10 @@
 package de.hsbo.fbg.systemdynamics.exceptions;
 
+/**
+ * model exceptions
+ * 
+ * @author Sebastian Drost, Matthias Stein
+ */
 public class ModelException extends Exception {
 
     private static final long serialVersionUID = 1L;

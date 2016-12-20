@@ -12,6 +12,11 @@ import de.hsbo.fbg.systemdynamics.model.Converter;
 import de.hsbo.fbg.systemdynamics.model.Flow;
 import de.hsbo.fbg.systemdynamics.model.Model;
 
+/**
+ * sample
+ * 
+ * @author Sebastian Drost, Matthias Stein
+ */
 public class SDModelTest {
 
     @Test

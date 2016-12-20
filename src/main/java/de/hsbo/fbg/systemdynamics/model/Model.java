@@ -1,14 +1,18 @@
 package de.hsbo.fbg.systemdynamics.model;
 
 import java.util.HashMap;
+import java.util.ArrayList;
 
 import de.hsbo.fbg.systemdynamics.exceptions.ModelException;
 import de.hsbo.fbg.systemdynamics.functions.EulerCauchyIntegration;
 import de.hsbo.fbg.systemdynamics.functions.IFunction;
 import de.hsbo.fbg.systemdynamics.functions.IntegrationType;
 
-import java.util.ArrayList;
-
+/**
+ * class that represents the model
+ * 
+ * @author Sebastian Drost, Matthias Stein
+ */
 public class Model {
 
     private HashMap<String, ModelEntity> modelEntities;
@@ -21,22 +25,22 @@ public class Model {
     private IntegrationType intergrationType;
 
     public Model() {
-        modelEntities = new HashMap<String, ModelEntity>();
-        converterList = new ArrayList<Converter>();
-        stockConverterList = new ArrayList<Converter>();
-        initialTime = 0;
-        currentTime = initialTime;
-        finalTime = 100;
-        timeSteps = 1;
-        intergrationType = new EulerCauchyIntegration();
+        this.modelEntities = new HashMap<String, ModelEntity>();
+        this.converterList = new ArrayList<Converter>();
+        this.stockConverterList = new ArrayList<Converter>();
+        this.initialTime = 0;
+        this.currentTime = this.initialTime;
+        this.finalTime = 100;
+        this.timeSteps = 1;
+        this.intergrationType = new EulerCauchyIntegration();
     }
 
     public Model(double initialTime, double finalTime, double timeSteps, IntegrationType integrationType) {
-        modelEntities = new HashMap<String, ModelEntity>();
-        converterList = new ArrayList<Converter>();
-        stockConverterList = new ArrayList<Converter>();
+        this.modelEntities = new HashMap<String, ModelEntity>();
+        this.converterList = new ArrayList<Converter>();
+        this.stockConverterList = new ArrayList<Converter>();
         this.initialTime = initialTime;
-        currentTime = initialTime;
+        this.currentTime = initialTime;
         this.finalTime = finalTime;
         this.timeSteps = timeSteps;
         this.intergrationType = integrationType;
@@ -76,7 +80,7 @@ public class Model {
     public void prepareValuesForTimestep() {
         this.modelEntities.forEach((k, v) -> {
             v.setPreviousValue(v.getCurrentValue());
-            if (v instanceof Stock && currentTime == initialTime) {
+            if (v instanceof Stock && this.currentTime == this.initialTime) {
                 v.setCurrentValueCalculated(true);
             } else {
                 v.setCurrentValueCalculated(false);
@@ -98,26 +102,26 @@ public class Model {
     }
 
     private void addConverter(Converter converter) {
-        converterList.add(converter);
+        this.converterList.add(converter);
     }
 
     private void addStockConverter(Converter converter) {
-        stockConverterList.add(converter);
+        this.stockConverterList.add(converter);
     }
 
     public void simulate() {
         // simulate model
-        converterList.forEach((converter) -> {
+        this.converterList.forEach((converter) -> {
             converter.convert();
         });
     }
 
     public HashMap<String, ModelEntity> getModelEntities() {
-        return modelEntities;
+        return this.modelEntities;
     }
 
     public double getInitialTime() {
-        return initialTime;
+        return this.initialTime;
     }
 
     public void setInitialTime(double initialTime) {
@@ -141,7 +145,7 @@ public class Model {
     }
 
     public IntegrationType getIntergrationType() {
-        return intergrationType;
+        return this.intergrationType;
     }
 
     public void setIntergrationType(IntegrationType intergrationType) {
@@ -149,7 +153,7 @@ public class Model {
     }
 
     public double getCurrentTime() {
-        return currentTime;
+        return this.currentTime;
     }
 
     public void setCurrentTime(double currentTime) {
@@ -157,24 +161,24 @@ public class Model {
     }
 
     public ArrayList<Converter> getConverterList() {
-        return converterList;
+        return this.converterList;
     }
 
     public ArrayList<Converter> getStockConverterList() {
-        return stockConverterList;
+        return this.stockConverterList;
     }
 
     public void updateCurrentTime() {
-        this.currentTime = currentTime + timeSteps;
+        this.currentTime = this.currentTime + this.timeSteps;
     }
 
     public boolean finalTimeReached() {
-        return currentTime <= finalTime;
+        return this.currentTime <= this.finalTime;
     }
 
     @Override
     public String toString() {
-        return "Model [modelEntities=" + modelEntities + "]";
+        return "Model [modelEntities=" + this.modelEntities + "]";
     }
 
 }
