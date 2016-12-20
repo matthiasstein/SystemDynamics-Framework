@@ -22,13 +22,13 @@ public class CSVExporter {
     private String csvFile;
     private StringBuilder sb;
 
-    public CSVExporter(String separator, String csvFile) {
+    public CSVExporter(String csvFile, String separator) {
         this.separator = separator;
         this.csvFile = csvFile;
         this.sb = new StringBuilder();
     }
 
-    public void writeLine(List<String> values) throws IOException {
+    public void writeLine(List<String> values) {
 
         boolean first = true;
 

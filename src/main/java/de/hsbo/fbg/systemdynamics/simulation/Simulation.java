@@ -29,17 +29,13 @@ public class Simulation {
      * method to run the simulation
      */
     public void run() {
-        CSVExporter csvExporter = new CSVExporter(";", "output.csv");
+        CSVExporter csvExporter = new CSVExporter("output.csv", ";");
         this.model.prepareValuesForTimestep();
         executeConverters();
         this.model.updateCurrentTime();
         // add keys and first values to csv
-        try {
-            csvExporter.writeLine(this.model.getModelEntitiesKeys());
-            csvExporter.writeLine(this.model.getModelEntitiesValues());
-        } catch (IOException ex) {
-            Logger.getLogger(Simulation.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        csvExporter.writeLine(this.model.getModelEntitiesKeys());
+        csvExporter.writeLine(this.model.getModelEntitiesValues());
         while (this.model.finalTimeReached()) {
             this.model.prepareValuesForTimestep();
             executeStockConverters();
@@ -47,11 +43,7 @@ public class Simulation {
             this.model.updateCurrentTime();
             System.out.println(this.model);
             // add values to csv
-            try {
-                csvExporter.writeLine(this.model.getModelEntitiesValues());
-            } catch (IOException ex) {
-                Logger.getLogger(Simulation.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            csvExporter.writeLine(this.model.getModelEntitiesValues());
         }
         csvExporter.saveFile();
     }
