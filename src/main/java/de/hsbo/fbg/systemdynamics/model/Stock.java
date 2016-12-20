@@ -14,6 +14,10 @@ public class Stock extends ModelEntity {
     private ArrayList<Flow> inputFlows;
     private ArrayList<Flow> outputFlows;
 
+    /**
+     *
+     * @param name
+     */
     public Stock(String name) {
         super(name);
         this.setCurrentValueCalculated(true);
@@ -21,17 +25,31 @@ public class Stock extends ModelEntity {
         this.outputFlows = new ArrayList<Flow>();
     }
 
+    /**
+     *
+     * @param value
+     */
     public void setInitialValue(double value) {
         setCurrentValue(value);
         setPreviousValue(value);
     }
 
+    /**
+     *
+     * @param flow
+     * @throws ModelException
+     */
     public void addInputFlows(Flow... flow) throws ModelException {
         for (Flow f : flow) {
             this.addInputFlow(f);
         }
     }
 
+    /**
+     *
+     * @param flow
+     * @throws ModelException
+     */
     public void addInputFlow(Flow flow) throws ModelException {
         if (flowAlreadyAdded(flow)) {
             throw new ModelException(ModelException.DUPLICATE_FLOW_EXCEPTION);
@@ -40,12 +58,21 @@ public class Stock extends ModelEntity {
         }
     }
 
+    /**
+     *
+     * @param flow
+     * @throws ModelException
+     */
     public void addOutputFlows(Flow... flow) throws ModelException {
         for (Flow f : flow) {
             this.addOutputFlow(f);
         }
     }
 
+    /**
+     *
+     * @param flow
+     */
     public void addOutputFlow(Flow flow) {
         this.outputFlows.add(flow);
     }
@@ -54,10 +81,18 @@ public class Stock extends ModelEntity {
         return inputFlows.contains(flow) || outputFlows.contains(flow);
     }
 
+    /**
+     *
+     * @return
+     */
     public ArrayList<Flow> getInputFlows() {
         return inputFlows;
     }
 
+    /**
+     *
+     * @return
+     */
     public ArrayList<Flow> getOutputFlows() {
         return outputFlows;
     }

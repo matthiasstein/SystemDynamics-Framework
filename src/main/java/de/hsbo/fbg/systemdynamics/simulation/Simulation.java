@@ -12,6 +12,10 @@ public class Simulation {
 
     private Model model;
 
+    /**
+     *
+     * @param model
+     */
     public Simulation(Model model) {
         this.model = model;
     }

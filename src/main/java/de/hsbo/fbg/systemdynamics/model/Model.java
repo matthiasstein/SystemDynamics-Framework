@@ -10,7 +10,7 @@ import de.hsbo.fbg.systemdynamics.functions.Integration;
 
 /**
  * class that represents the model
- * 
+ *
  * @author Sebastian Drost, Matthias Stein
  */
 public class Model {
@@ -24,6 +24,9 @@ public class Model {
     private double currentTime;
     private Integration integration;
 
+    /**
+     *
+     */
     public Model() {
         this.modelEntities = new HashMap<String, ModelEntity>();
         this.converterList = new ArrayList<Converter>();
@@ -34,9 +37,16 @@ public class Model {
         this.timeSteps = 1;
         this.integration = new EulerCauchyIntegration();
         this.integration.setDt(timeSteps);
-        
+
     }
 
+    /**
+     *
+     * @param initialTime
+     * @param finalTime
+     * @param timeSteps
+     * @param integrationType
+     */
     public Model(double initialTime, double finalTime, double timeSteps, Integration integrationType) {
         this.modelEntities = new HashMap<String, ModelEntity>();
         this.converterList = new ArrayList<Converter>();
@@ -49,6 +59,13 @@ public class Model {
         this.integration.setDt(timeSteps);
     }
 
+    /**
+     *
+     * @param entityType
+     * @param name
+     * @return
+     * @throws ModelException
+     */
     public ModelEntity createModelEntity(ModelEntityType entityType, String name) throws ModelException {
         ModelEntity modelEntity;
         switch (entityType) {
@@ -80,6 +97,9 @@ public class Model {
         return this.modelEntities.containsKey(modelEntity.getName());
     }
 
+    /**
+     *
+     */
     public void prepareValuesForTimestep() {
         this.modelEntities.forEach((k, v) -> {
             v.setPreviousValue(v.getCurrentValue());
@@ -91,6 +111,13 @@ public class Model {
         });
     }
 
+    /**
+     *
+     * @param entity
+     * @param function
+     * @param inputs
+     * @return
+     */
     public Converter createConverter(ModelEntity entity, IFunction function, ModelEntity... inputs) {
         Converter converter = new Converter(entity, function, inputs);
         this.addConverter(converter);
@@ -98,6 +125,11 @@ public class Model {
         return converter;
     }
 
+    /**
+     *
+     * @param stock
+     * @return
+     */
     public Converter createStockConverter(Stock stock) {
         Converter converter = new Converter(stock, integration.getIntegrationFunction(stock));
         this.addStockConverter(converter);
@@ -112,6 +144,9 @@ public class Model {
         this.stockConverterList.add(converter);
     }
 
+    /**
+     *
+     */
     public void simulate() {
         // simulate model
         this.converterList.forEach((converter) -> {
@@ -119,62 +154,121 @@ public class Model {
         });
     }
 
+    /**
+     *
+     * @return
+     */
     public HashMap<String, ModelEntity> getModelEntities() {
         return this.modelEntities;
     }
 
+    /**
+     *
+     * @return
+     */
     public double getInitialTime() {
         return this.initialTime;
     }
 
+    /**
+     *
+     * @param initialTime
+     */
     public void setInitialTime(double initialTime) {
         this.initialTime = initialTime;
     }
 
+    /**
+     *
+     * @return
+     */
     public double getFinalTime() {
         return finalTime;
     }
 
+    /**
+     *
+     * @param finalTime
+     */
     public void setFinalTime(double finalTime) {
         this.finalTime = finalTime;
     }
 
+    /**
+     *
+     * @return
+     */
     public double getTimeSteps() {
         return timeSteps;
     }
 
+    /**
+     *
+     * @param timeSteps
+     */
     public void setTimeSteps(double timeSteps) {
         this.timeSteps = timeSteps;
     }
 
+    /**
+     *
+     * @return
+     */
     public Integration getIntergrationType() {
         return this.integration;
     }
 
+    /**
+     *
+     * @param intergrationType
+     */
     public void setIntergrationType(Integration intergrationType) {
         this.integration = intergrationType;
     }
 
+    /**
+     *
+     * @return
+     */
     public double getCurrentTime() {
         return this.currentTime;
     }
 
+    /**
+     *
+     * @param currentTime
+     */
     public void setCurrentTime(double currentTime) {
         this.currentTime = currentTime;
     }
 
+    /**
+     *
+     * @return
+     */
     public ArrayList<Converter> getConverterList() {
         return this.converterList;
     }
 
+    /**
+     *
+     * @return
+     */
     public ArrayList<Converter> getStockConverterList() {
         return this.stockConverterList;
     }
 
+    /**
+     *
+     */
     public void updateCurrentTime() {
         this.currentTime = this.currentTime + this.timeSteps;
     }
 
+    /**
+     *
+     * @return
+     */
     public boolean finalTimeReached() {
         return this.currentTime <= this.finalTime;
     }

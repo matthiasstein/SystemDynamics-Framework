@@ -14,11 +14,14 @@ import de.hsbo.fbg.systemdynamics.model.Model;
 
 /**
  * sample
- * 
+ *
  * @author Sebastian Drost, Matthias Stein
  */
 public class SDModelTest {
 
+    /**
+     *
+     */
     @Test
     public void modelCreationTest() {
         // Create a model with the parameters:
@@ -26,18 +29,17 @@ public class SDModelTest {
         // finalTime=50
         // timeSteps=1
         // integrationType=Euler-Cauchy
-    	
-    	
-		double populationPreyValue = 100;
-		double expansionRatePreyValue = 0.001;
-		double lossRatePreyValue = 0.001;
 
-		double populationPredatorValue = 50;
-		double expansionRatePredatorValue = 0.001;
-		double lossRatePredatorValue = 0.001;
-		
-		double dt=0.5;
-		
+        double populationPreyValue = 100;
+        double expansionRatePreyValue = 0.001;
+        double lossRatePreyValue = 0.001;
+
+        double populationPredatorValue = 50;
+        double expansionRatePredatorValue = 0.001;
+        double lossRatePredatorValue = 0.001;
+
+        double dt = 0.5;
+
         Model model = new Model(0, 5, dt, new EulerCauchyIntegration());
 
         try {

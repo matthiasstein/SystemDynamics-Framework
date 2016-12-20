@@ -5,12 +5,22 @@ import java.util.ArrayList;
 import de.hsbo.fbg.systemdynamics.exceptions.ModelException;
 import de.hsbo.fbg.systemdynamics.functions.IFunction;
 
+/**
+ *
+ * @author Mattes
+ */
 public class Converter {
 
     private IFunction function;
     private ModelEntity targetEntity;
     ArrayList<ModelEntity> inputs;
 
+    /**
+     *
+     * @param entity
+     * @param function
+     * @param inputs
+     */
     protected Converter(ModelEntity entity, IFunction function, ModelEntity... inputs) {
         this.targetEntity = entity;
         this.function = function;
@@ -20,6 +30,9 @@ public class Converter {
         }
     }
 
+    /**
+     *
+     */
     public void convert() {
         for (ModelEntity input : this.inputs) {
             if (!input.isCurrentValueCalculated() && input.getConverter() != null) {
@@ -29,6 +42,11 @@ public class Converter {
         this.targetEntity.setCurrentValue(function.calculateEntityValue());
     }
 
+    /**
+     *
+     * @param inputs
+     * @throws ModelException
+     */
     public void addInputs(ModelEntity... inputs) throws ModelException {
         for (ModelEntity f : inputs) {
             this.addInput(f);
@@ -47,6 +65,10 @@ public class Converter {
         return inputs.contains(variable);
     }
 
+    /**
+     *
+     * @return
+     */
     public ModelEntity getTargetEntity() {
         return this.targetEntity;
     }
