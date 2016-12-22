@@ -6,5 +6,19 @@ package de.hsbo.fbg.systemdynamics.model;
  * @author Sebastian Drost, Matthias Stein
  */
 public enum ModelEntityType {
-    STOCK, FLOW, VARIABLE
+
+    /**
+     *
+     */
+    STOCK,
+
+    /**
+     *
+     */
+    FLOW,
+
+    /**
+     *
+     */
+    VARIABLE
 }

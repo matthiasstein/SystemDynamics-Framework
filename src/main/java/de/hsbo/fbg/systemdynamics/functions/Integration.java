@@ -4,22 +4,34 @@ import de.hsbo.fbg.systemdynamics.model.Stock;
 
 /**
  * abstract class
- * 
+ *
  * @author Sebastian Drost, Matthias Stein
  */
 public abstract class Integration {
 
-	double dt;
-	
+    double dt;
+
+    /**
+     *
+     * @param stock
+     * @return
+     */
     public abstract IFunction getIntegrationFunction(Stock stock);
 
-	public double getDt() {
-		return dt;
-	}
+    /**
+     *
+     * @return
+     */
+    public double getDt() {
+        return dt;
+    }
 
-	public void setDt(double dt) {
-		this.dt = dt;
-	}
-    
-    
+    /**
+     *
+     * @param dt
+     */
+    public void setDt(double dt) {
+        this.dt = dt;
+    }
+
 }

@@ -7,6 +7,10 @@ package de.hsbo.fbg.systemdynamics.model;
  */
 public class Flow extends ModelEntity {
 
+    /**
+     *
+     * @param name
+     */
     public Flow(String name) {
         super(name);
     }
