@@ -30,6 +30,7 @@ public class Simulation {
      */
     public void run() {
         CSVExporter csvExporter = new CSVExporter("output.csv", ";");
+        this.model.saveInitialValues();                    
         this.model.prepareValuesForTimestep();
         executeConverters();
         this.model.updateCurrentTime();
@@ -46,6 +47,7 @@ public class Simulation {
             csvExporter.writeLine(this.model.getModelEntitiesValues());
         }
         csvExporter.saveFile();
+        this.model.resetValues();  
     }
 
     /**

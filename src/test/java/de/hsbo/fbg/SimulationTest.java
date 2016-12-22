@@ -1,5 +1,7 @@
 package de.hsbo.fbg;
 
+import org.hamcrest.Matchers;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -13,8 +15,8 @@ import de.hsbo.fbg.systemdynamics.functions.IFunction;
 import de.hsbo.fbg.systemdynamics.model.Converter;
 import de.hsbo.fbg.systemdynamics.model.Flow;
 import de.hsbo.fbg.systemdynamics.model.Model;
-import de.hsbo.fbg.systemdynamics.output.CSVExporter;
-import java.io.IOException;
+import de.hsbo.fbg.systemdynamics.model.ModelEntity;
+import java.util.HashMap;
 
 /**
  * sample
@@ -24,6 +26,18 @@ import java.io.IOException;
 public class SimulationTest {
 
 	private Model model;
+	private final String POPULATION_PREY_KEY = "Population_Prey";
+	private final String BIRTHS_PREY_KEY = "Births_Prey";
+	private final String DEATHS_PREY_KEY = "Deaths_Prey";
+	private final String BIRTH_RATE_PREY_KEY = "BirthRate_Prey";
+	private final String DEATH_RATE_PREY_KEY = "DeathRate_Prey";
+
+	private final String POPULATION_PREDATOR_KEY = "Population_Predator";
+	private final String BIRTHS_PREDATOR_KEY = "Births_Predator";
+	private final String DEATHS_PREDATOR_KEY = "Deaths_Predator";
+	private final String BIRTH_RATE_PREDATOR_KEY = "BirthRate_Predator";
+	private final String DEATH_RATE_PREDATOR_KEY = "DeathRate_Predator";
+	private final String MEETINGS_KEY = "Meetings";
 
 	@Before
 	public void prepareValues() {
@@ -46,40 +60,41 @@ public class SimulationTest {
 		try {
 			// prey
 			// Create prey population as stock
-			Stock populationPrey = (Stock) model.createModelEntity(ModelEntityType.STOCK, "Population_Prey");
+			Stock populationPrey = (Stock) model.createModelEntity(ModelEntityType.STOCK, POPULATION_PREY_KEY);
 			populationPrey.setInitialValue(populationPreyValue);
 			// Create prey births and deaths as flows
-			Flow birthsPrey = (Flow) model.createModelEntity(ModelEntityType.FLOW, "Births_Prey");
-			Flow deathsPrey = (Flow) model.createModelEntity(ModelEntityType.FLOW, "Deaths_Prey");
+			Flow birthsPrey = (Flow) model.createModelEntity(ModelEntityType.FLOW, BIRTHS_PREY_KEY);
+			Flow deathsPrey = (Flow) model.createModelEntity(ModelEntityType.FLOW, DEATHS_PREY_KEY);
 			// Add flows to prey population
 			populationPrey.addInputFlow(birthsPrey);
 			populationPrey.addOutputFlow(deathsPrey);
 			// Create prey birthrate and deathrate as variable
-			Variable expansionRatePrey = (Variable) model.createModelEntity(ModelEntityType.VARIABLE, "BirthRate_Prey");
+			Variable expansionRatePrey = (Variable) model.createModelEntity(ModelEntityType.VARIABLE,
+					BIRTH_RATE_PREY_KEY);
 			expansionRatePrey.setCurrentValue(expansionRatePreyValue);
-			Variable lossRatePrey = (Variable) model.createModelEntity(ModelEntityType.VARIABLE, "DeathRate_Prey");
+			Variable lossRatePrey = (Variable) model.createModelEntity(ModelEntityType.VARIABLE, DEATH_RATE_PREY_KEY);
 			lossRatePrey.setCurrentValue(lossRatePreyValue);
 
 			// predator
 			// Create predator population as stock
-			Stock populationPredator = (Stock) model.createModelEntity(ModelEntityType.STOCK, "Population_Predator");
+			Stock populationPredator = (Stock) model.createModelEntity(ModelEntityType.STOCK, POPULATION_PREDATOR_KEY);
 			populationPredator.setInitialValue(populationPredatorValue);
 			// Create prey births and deaths as flows
-			Flow birthsPredator = (Flow) model.createModelEntity(ModelEntityType.FLOW, "Births_Predator");
-			Flow deathsPredator = (Flow) model.createModelEntity(ModelEntityType.FLOW, "Deaths_Predator");
+			Flow birthsPredator = (Flow) model.createModelEntity(ModelEntityType.FLOW, BIRTHS_PREDATOR_KEY);
+			Flow deathsPredator = (Flow) model.createModelEntity(ModelEntityType.FLOW, DEATHS_PREDATOR_KEY);
 			// Add flows to predator population
 			populationPredator.addInputFlow(birthsPredator);
 			populationPredator.addOutputFlow(deathsPredator);
 			// Create prey birthrate and deathrate as variable
 			Variable expansionRatePredator = (Variable) model.createModelEntity(ModelEntityType.VARIABLE,
-					"BirthRate_Predator");
+					BIRTH_RATE_PREDATOR_KEY);
 			expansionRatePredator.setCurrentValue(expansionRatePredatorValue);
 			Variable lossRatePredator = (Variable) model.createModelEntity(ModelEntityType.VARIABLE,
-					"DeathRate_Predator");
+					DEATH_RATE_PREDATOR_KEY);
 			lossRatePredator.setCurrentValue(lossRatePredatorValue);
 
 			// Create meetings as variable
-			Variable meetings = (Variable) model.createModelEntity(ModelEntityType.VARIABLE, "Meetings");
+			Variable meetings = (Variable) model.createModelEntity(ModelEntityType.VARIABLE, MEETINGS_KEY);
 
 			// Approach for converting entity values by implementing IFunction
 			// with an inner class
@@ -90,11 +105,6 @@ public class SimulationTest {
 					return populationPrey.getCurrentValue() * populationPredator.getCurrentValue();
 				}
 			}, populationPrey, populationPredator);
-
-			// Converter meetingsConverter = model.createConverter(meetings,
-			// () -> populationPrey.getCurrentValue() *
-			// populationPredator.getCurrentValue(), populationPrey,
-			// populationPredator);
 
 			Converter birthsPreyConverter = model.createConverter(birthsPrey,
 					() -> populationPrey.getCurrentValue() * expansionRatePrey.getCurrentValue(), populationPrey,
@@ -123,10 +133,66 @@ public class SimulationTest {
 	 *
 	 */
 	@Test
-	public void modelCreationTest() {
+	public void simulationRunTest() {
+		double error = 0.001;
 
 		Simulation simulation = new Simulation(model);
+
+		model.setFinalTime(0);
 		simulation.run();
+		HashMap<String, ModelEntity> entities = model.getModelEntities();
+
+		Assert.assertThat(entities.get(POPULATION_PREY_KEY).getCurrentValue(), Matchers.equalTo(100.));
+		Assert.assertThat(entities.get(BIRTH_RATE_PREY_KEY).getCurrentValue(), Matchers.equalTo(0.001));
+		Assert.assertThat(entities.get(DEATH_RATE_PREY_KEY).getCurrentValue(), Matchers.equalTo(0.001));
+		Assert.assertThat(entities.get(BIRTHS_PREY_KEY).getCurrentValue(), Matchers.equalTo(0.1));
+		Assert.assertThat(entities.get(DEATHS_PREY_KEY).getCurrentValue(), Matchers.equalTo(5.));
+
+		Assert.assertThat(entities.get(POPULATION_PREDATOR_KEY).getCurrentValue(), Matchers.equalTo(50.));
+		Assert.assertThat(entities.get(BIRTH_RATE_PREDATOR_KEY).getCurrentValue(), Matchers.equalTo(0.001));
+		Assert.assertThat(entities.get(DEATH_RATE_PREDATOR_KEY).getCurrentValue(), Matchers.equalTo(0.001));
+		Assert.assertThat(entities.get(BIRTHS_PREDATOR_KEY).getCurrentValue(), Matchers.equalTo(5.));
+		Assert.assertThat(entities.get(DEATHS_PREDATOR_KEY).getCurrentValue(), Matchers.equalTo(0.05));
+
+		Assert.assertThat(entities.get(MEETINGS_KEY).getCurrentValue(), Matchers.equalTo(5000.));
+
+		model.setFinalTime(0.5);
+		System.out.println("Run Simulation 1");
+		simulation.run();
+		entities = model.getModelEntities();
+
+		Assert.assertThat(entities.get(POPULATION_PREY_KEY).getCurrentValue(), Matchers.closeTo(97.5500, error));
+		Assert.assertThat(entities.get(BIRTH_RATE_PREY_KEY).getCurrentValue(), Matchers.equalTo(0.001));
+		Assert.assertThat(entities.get(DEATH_RATE_PREY_KEY).getCurrentValue(), Matchers.equalTo(0.001));
+		Assert.assertThat(entities.get(BIRTHS_PREY_KEY).getCurrentValue(), Matchers.closeTo(0.0976, error));
+		Assert.assertThat(entities.get(DEATHS_PREY_KEY).getCurrentValue(), Matchers.closeTo(5.1189,error));
+
+		Assert.assertThat(entities.get(POPULATION_PREDATOR_KEY).getCurrentValue(), Matchers.closeTo(52.4750, error));
+		Assert.assertThat(entities.get(BIRTH_RATE_PREDATOR_KEY).getCurrentValue(), Matchers.equalTo(0.001));
+		Assert.assertThat(entities.get(DEATH_RATE_PREDATOR_KEY).getCurrentValue(), Matchers.equalTo(0.001));
+		Assert.assertThat(entities.get(BIRTHS_PREDATOR_KEY).getCurrentValue(), Matchers.closeTo(5.1189, error));
+		Assert.assertThat(entities.get(DEATHS_PREDATOR_KEY).getCurrentValue(), Matchers.closeTo(0.0525, error));
+
+		Assert.assertThat(entities.get(MEETINGS_KEY).getCurrentValue(), Matchers.closeTo(5118.9363, 0.001));
+		
+		model.setFinalTime(2);
+		System.out.println("Run Simulation 2");
+		simulation.run();
+		entities = model.getModelEntities();
+
+		Assert.assertThat(entities.get(POPULATION_PREY_KEY).getCurrentValue(), Matchers.closeTo(89.8561, error));
+		Assert.assertThat(entities.get(BIRTH_RATE_PREY_KEY).getCurrentValue(), Matchers.equalTo(0.001));
+		Assert.assertThat(entities.get(DEATH_RATE_PREY_KEY).getCurrentValue(), Matchers.equalTo(0.001));
+		Assert.assertThat(entities.get(BIRTHS_PREY_KEY).getCurrentValue(), Matchers.closeTo(0.0899, error));
+		Assert.assertThat(entities.get(DEATHS_PREY_KEY).getCurrentValue(), Matchers.closeTo(5.4119,error));
+
+		Assert.assertThat(entities.get(POPULATION_PREDATOR_KEY).getCurrentValue(), Matchers.closeTo(60.2289, error));
+		Assert.assertThat(entities.get(BIRTH_RATE_PREDATOR_KEY).getCurrentValue(), Matchers.equalTo(0.001));
+		Assert.assertThat(entities.get(DEATH_RATE_PREDATOR_KEY).getCurrentValue(), Matchers.equalTo(0.001));
+		Assert.assertThat(entities.get(BIRTHS_PREDATOR_KEY).getCurrentValue(), Matchers.closeTo(5.4119, error));
+		Assert.assertThat(entities.get(DEATHS_PREDATOR_KEY).getCurrentValue(), Matchers.closeTo(0.0602, error));
+
+		Assert.assertThat(entities.get(MEETINGS_KEY).getCurrentValue(), Matchers.closeTo(5411.9328, 0.001));
 
 	}
 }

@@ -17,6 +17,7 @@ import java.util.List;
 public class Model {
 
     private HashMap<String, ModelEntity> modelEntities;
+    private HashMap<String, ModelEntity> initialModelEntities;
     private ArrayList<Converter> converterList;
     private ArrayList<Converter> stockConverterList;
     private double initialTime;
@@ -30,6 +31,7 @@ public class Model {
      */
     public Model() {
         this.modelEntities = new HashMap<String, ModelEntity>();
+        this.initialModelEntities = new HashMap<String, ModelEntity>();
         this.converterList = new ArrayList<Converter>();
         this.stockConverterList = new ArrayList<Converter>();
         this.initialTime = 0;
@@ -50,6 +52,7 @@ public class Model {
      */
     public Model(double initialTime, double finalTime, double timeSteps, Integration integrationType) {
         this.modelEntities = new HashMap<String, ModelEntity>();
+        this.initialModelEntities = new HashMap<String, ModelEntity>();
         this.converterList = new ArrayList<Converter>();
         this.stockConverterList = new ArrayList<Converter>();
         this.initialTime = initialTime;
@@ -292,4 +295,14 @@ public class Model {
         return modelEntitiesValues;
     }
 
+	public void resetValues() {
+		this.currentTime=this.initialTime;
+		//TODO Reset Values
+	}
+
+	public void saveInitialValues() {
+		//TODO Save Values
+		
+	}
+    
 }
