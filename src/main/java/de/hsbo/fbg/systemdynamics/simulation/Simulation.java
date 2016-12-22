@@ -16,6 +16,7 @@ import java.util.logging.Logger;
 public class Simulation {
 
     private Model model;
+    private boolean initialRun;
 
     /**
      *
@@ -23,6 +24,7 @@ public class Simulation {
      */
     public Simulation(Model model) {
         this.model = model;
+        this.initialRun=true;
     }
 
     /**
@@ -30,7 +32,12 @@ public class Simulation {
      */
     public void run() {
         CSVExporter csvExporter = new CSVExporter("output.csv", ";");
-        this.model.saveInitialValues();                    
+        if (initialRun){
+        	this.model.saveInitialValues();
+        }
+        else{
+        	this.model.resetValues();
+        }                           
         this.model.prepareValuesForTimestep();
         executeConverters();
         this.model.updateCurrentTime();
@@ -46,8 +53,8 @@ public class Simulation {
             // add values to csv
             csvExporter.writeLine(this.model.getModelEntitiesValues());
         }
-        csvExporter.saveFile();
-        this.model.resetValues();  
+        csvExporter.saveFile(); 
+        initialRun=false;
     }
 
     /**
