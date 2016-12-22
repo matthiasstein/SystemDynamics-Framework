@@ -8,6 +8,7 @@ import de.hsbo.fbg.systemdynamics.model.Variable;
 import de.hsbo.fbg.systemdynamics.simulation.Simulation;
 import de.hsbo.fbg.systemdynamics.exceptions.ModelException;
 import de.hsbo.fbg.systemdynamics.functions.EulerCauchyIntegration;
+import de.hsbo.fbg.systemdynamics.functions.IFunction;
 import de.hsbo.fbg.systemdynamics.model.Converter;
 import de.hsbo.fbg.systemdynamics.model.Flow;
 import de.hsbo.fbg.systemdynamics.model.Model;
@@ -80,10 +81,18 @@ public class SDModelTest {
 
             // Approach for converting entity values by implementing IFunction
             // with an inner class
-            Converter meetingsConverter = model.createConverter(meetings,
-                    () -> populationPrey.getCurrentValue() * populationPredator.getCurrentValue(), populationPrey,
-                    populationPredator);
-
+         
+            Converter meetingsConverter = model.createConverter(meetings,new IFunction() {		
+				@Override
+				public double calculateEntityValue() {
+					return populationPrey.getCurrentValue() * populationPredator.getCurrentValue();
+				}
+			}, populationPrey, populationPredator);
+            
+//          Converter meetingsConverter = model.createConverter(meetings,
+//          () -> populationPrey.getCurrentValue() * populationPredator.getCurrentValue(), populationPrey,
+//          populationPredator);
+            
             Converter birthsPreyConverter = model.createConverter(birthsPrey,
                     () -> populationPrey.getCurrentValue() * expansionRatePrey.getCurrentValue(), populationPrey, populationPredator);
 
