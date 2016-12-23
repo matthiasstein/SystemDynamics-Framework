@@ -3,15 +3,13 @@ package de.hsbo.fbg.systemdynamics.simulation;
 import de.hsbo.fbg.systemdynamics.model.Converter;
 import de.hsbo.fbg.systemdynamics.model.Model;
 import de.hsbo.fbg.systemdynamics.output.CSVExporter;
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
- * class that represents a system dynamics simulation and controls the
- * simulation execution
+ * This class represents a system dynamics simulation and controls the
+ * simulation execution.
  *
- * @author Sebastian Drost, Matthias Stein
+ * @author Sebastian Drost
+ * @author Matthias Stein
  */
 public class Simulation {
 
@@ -19,25 +17,25 @@ public class Simulation {
     private boolean initialRun;
 
     /**
+     * Constructor.
      *
-     * @param model
+     * @param model the model object that describes the system dynamic model.
      */
     public Simulation(Model model) {
         this.model = model;
-        this.initialRun=true;
+        this.initialRun = true;
     }
 
     /**
-     * method to run the simulation
+     * This method runs the simulation.
      */
     public void run() {
         CSVExporter csvExporter = new CSVExporter("output.csv", ";");
-        if (initialRun){
-        	this.model.saveInitialValues();
+        if (initialRun) {
+            this.model.saveInitialValues();
+        } else {
+            this.model.resetValues();
         }
-        else{
-        	this.model.resetValues();
-        }                           
         this.model.prepareValuesForTimestep();
         executeConverters();
         this.model.updateCurrentTime();
@@ -53,12 +51,12 @@ public class Simulation {
             // add values to csv
             csvExporter.writeLine(this.model.getModelEntitiesValues());
         }
-        csvExporter.saveFile(); 
-        initialRun=false;
+        csvExporter.saveFile();
+        initialRun = false;
     }
 
     /**
-     * method to execute the stock converters
+     * Method to execute the stock converters.
      */
     private void executeStockConverters() {
         for (Converter stockConverter : this.model.getStockConverterList()) {
@@ -69,7 +67,7 @@ public class Simulation {
     }
 
     /**
-     * method to execute the converters
+     * Method to execute the converters.
      */
     private void executeConverters() {
         for (Converter converter : this.model.getConverterList()) {

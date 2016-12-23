@@ -1,15 +1,16 @@
 package de.hsbo.fbg.systemdynamics.functions;
 
 /**
- * function interface
+ * Function interface.
  *
- * @author Sebastian Drost, Matthias Stein
+ * @author Sebastian Drost
+ * @author Matthias Stein
  */
 public interface IFunction {
 
     /**
      *
-     * @return
+     * @return calculated entity value
      */
     public double calculateEntityValue();
 

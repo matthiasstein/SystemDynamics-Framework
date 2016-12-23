@@ -1,28 +1,28 @@
 package de.hsbo.fbg.systemdynamics.model;
 
 /**
- * class that represents a flow
- * 
- * @author Sebastian Drost, Matthias Stein
+ * This class represents a flow.
+ *
+ * @author Sebastian Drost
+ * @author Matthias Stein
  */
 public class Flow extends ModelEntity {
 
     /**
+     * Constructor.
      *
-     * @param name
+     * @param name flow name.
      */
     public Flow(String name) {
         super(name);
     }
 
-	@Override
-	public Object clone() throws CloneNotSupportedException {
-		Flow flow=new Flow(this.getName());
-		flow.setCurrentValue(this.getCurrentValue());
-		flow.setPreviousValue(this.getPreviousValue());
-		return flow;
-	}
-    
-    
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        Flow flow = new Flow(this.getName());
+        flow.setCurrentValue(this.getCurrentValue());
+        flow.setPreviousValue(this.getPreviousValue());
+        return flow;
+    }
 
 }

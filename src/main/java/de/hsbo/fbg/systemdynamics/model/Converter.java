@@ -6,8 +6,10 @@ import de.hsbo.fbg.systemdynamics.exceptions.ModelException;
 import de.hsbo.fbg.systemdynamics.functions.IFunction;
 
 /**
+ * This class represents a converter.
  *
- * @author Mattes
+ * @author Sebastian Drost
+ * @author Matthias Stein
  */
 public class Converter {
 
@@ -16,10 +18,11 @@ public class Converter {
     ArrayList<ModelEntity> inputs;
 
     /**
+     * Constructor.
      *
-     * @param entity
-     * @param function
-     * @param inputs
+     * @param entity target model entity.
+     * @param function calculation function.
+     * @param inputs input model entities.
      */
     protected Converter(ModelEntity entity, IFunction function, ModelEntity... inputs) {
         this.targetEntity = entity;
@@ -31,7 +34,7 @@ public class Converter {
     }
 
     /**
-     *
+     * Method to convert the target model entity value.
      */
     public void convert() {
         for (ModelEntity input : this.inputs) {
@@ -43,8 +46,9 @@ public class Converter {
     }
 
     /**
+     * Method to add multiple input model entities.
      *
-     * @param inputs
+     * @param inputs model entities.
      * @throws ModelException
      */
     public void addInputs(ModelEntity... inputs) throws ModelException {
@@ -67,7 +71,7 @@ public class Converter {
 
     /**
      *
-     * @return
+     * @return target entity.
      */
     public ModelEntity getTargetEntity() {
         return this.targetEntity;

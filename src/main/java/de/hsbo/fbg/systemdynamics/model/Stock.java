@@ -5,19 +5,20 @@ import java.util.ArrayList;
 import de.hsbo.fbg.systemdynamics.exceptions.ModelException;
 
 /**
- * class that represents a stock
- * 
- * @author Sebastian Drost, Matthias Stein
+ * This class represents a stock.
+ *
+ * @author Sebastian Drost
+ * @author Matthias Stein
  */
 public class Stock extends ModelEntity {
 
     private ArrayList<Flow> inputFlows;
     private ArrayList<Flow> outputFlows;
-    
 
     /**
+     * Constructor.
      *
-     * @param name
+     * @param name the name of the stock.
      */
     public Stock(String name) {
         super(name);
@@ -28,7 +29,7 @@ public class Stock extends ModelEntity {
 
     /**
      *
-     * @param value
+     * @param value value to set
      */
     public void setInitialValue(double value) {
         setCurrentValue(value);
@@ -36,8 +37,9 @@ public class Stock extends ModelEntity {
     }
 
     /**
+     * Method to add multiple input flows.
      *
-     * @param flow
+     * @param flow flows that should be added.
      * @throws ModelException
      */
     public void addInputFlows(Flow... flow) throws ModelException {
@@ -47,8 +49,9 @@ public class Stock extends ModelEntity {
     }
 
     /**
+     * Method to add one input flow.
      *
-     * @param flow
+     * @param flow flow that should be added.
      * @throws ModelException
      */
     public void addInputFlow(Flow flow) throws ModelException {
@@ -60,8 +63,9 @@ public class Stock extends ModelEntity {
     }
 
     /**
+     * Method to add multiple output flow.
      *
-     * @param flow
+     * @param flow flow that should be added.
      * @throws ModelException
      */
     public void addOutputFlows(Flow... flow) throws ModelException {
@@ -71,20 +75,27 @@ public class Stock extends ModelEntity {
     }
 
     /**
+     * Method to add one output flow.
      *
-     * @param flow
+     * @param flow flow that should be added.
      */
     public void addOutputFlow(Flow flow) {
         this.outputFlows.add(flow);
     }
 
+    /**
+     * Method that controls if the flow has already been added.
+     *
+     * @param flow flow.
+     * @return <tt>true</tt> only if the has already been added.
+     */
     private boolean flowAlreadyAdded(Flow flow) {
         return inputFlows.contains(flow) || outputFlows.contains(flow);
     }
 
     /**
      *
-     * @return
+     * @return input flows.
      */
     public ArrayList<Flow> getInputFlows() {
         return inputFlows;
@@ -92,28 +103,26 @@ public class Stock extends ModelEntity {
 
     /**
      *
-     * @return
+     * @return output flows.
      */
     public ArrayList<Flow> getOutputFlows() {
         return outputFlows;
     }
 
-	@Override
-	public Object clone() throws CloneNotSupportedException {
-		Stock stock=new Stock(this.getName());
-		stock.setCurrentValue(this.getCurrentValue());
-		stock.setPreviousValue(this.getPreviousValue());
-		ArrayList <Flow> inputFlows=new ArrayList<Flow>();
-		ArrayList <Flow> outputFlows=new ArrayList<Flow>();
-		for (Flow flow:this.getInputFlows()){
-			inputFlows.add((Flow)flow.clone());
-		}
-		for (Flow flow:this.getOutputFlows()){
-			outputFlows.add((Flow)flow.clone());
-		}
-		return stock;
-	}
-    
-    
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        Stock stock = new Stock(this.getName());
+        stock.setCurrentValue(this.getCurrentValue());
+        stock.setPreviousValue(this.getPreviousValue());
+        ArrayList<Flow> inputFlows = new ArrayList<Flow>();
+        ArrayList<Flow> outputFlows = new ArrayList<Flow>();
+        for (Flow flow : this.getInputFlows()) {
+            inputFlows.add((Flow) flow.clone());
+        }
+        for (Flow flow : this.getOutputFlows()) {
+            outputFlows.add((Flow) flow.clone());
+        }
+        return stock;
+    }
 
 }

@@ -1,24 +1,23 @@
 package de.hsbo.fbg.systemdynamics.model;
 
 /**
- * types of model entities
- * 
- * @author Sebastian Drost, Matthias Stein
+ * Types of model entities.
+ *
+ * @author Sebastian Drost
+ * @author Matthias Stein
  */
 public enum ModelEntityType {
 
     /**
-     *
+     * Stock
      */
     STOCK,
-
     /**
-     *
+     * Flow
      */
     FLOW,
-
     /**
-     *
+     * Variable
      */
     VARIABLE
 }

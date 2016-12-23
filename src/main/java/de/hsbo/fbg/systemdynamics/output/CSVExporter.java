@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package de.hsbo.fbg.systemdynamics.output;
 
 import java.io.FileWriter;
@@ -12,22 +7,33 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * class that handles the CSV output
+ * This class handles the CSV output.
  *
  * @author Matthias Stein
  */
 public class CSVExporter {
 
-    private String separator;
-    private String csvFile;
-    private StringBuilder sb;
+    private final String separator;
+    private final String csvFile;
+    private final StringBuilder sb;
 
+    /**
+     * Constructor.
+     *
+     * @param csvFile the path to the csv file.
+     * @param separator the separator string.
+     */
     public CSVExporter(String csvFile, String separator) {
         this.separator = separator;
         this.csvFile = csvFile;
         this.sb = new StringBuilder();
     }
 
+    /**
+     * Method to write on line.
+     *
+     * @param values list of values that should be added to the csv file.
+     */
     public void writeLine(List<String> values) {
 
         boolean first = true;
@@ -44,16 +50,19 @@ public class CSVExporter {
 
     }
 
+    /**
+     * This method writes the data to the csv file.
+     */
     public void saveFile() {
         try {
             int last = sb.lastIndexOf("\n");
             if (last >= 0) {
                 sb.delete(last, sb.length());
             }
-            FileWriter writer = new FileWriter(this.csvFile);
-            writer.append(sb.toString());
-            writer.flush();
-            writer.close();
+            try (FileWriter writer = new FileWriter(this.csvFile)) {
+                writer.append(sb.toString());
+                writer.flush();
+            }
         } catch (IOException ex) {
             Logger.getLogger(CSVExporter.class.getName()).log(Level.SEVERE, null, ex);
         }

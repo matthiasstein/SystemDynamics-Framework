@@ -1,11 +1,12 @@
 package de.hsbo.fbg.systemdynamics.model;
 
 /**
- * abstract class that represents a model entity
- * 
- * @author Sebastian Drost, Matthias Stein
+ * Abstract class that represents a model entity.
+ *
+ * @author Sebastian Drost
+ * @author Matthias Stein
  */
-public abstract class ModelEntity implements Cloneable{
+public abstract class ModelEntity implements Cloneable {
 
     private String name;
     private double currentValue;
@@ -14,8 +15,9 @@ public abstract class ModelEntity implements Cloneable{
     private Converter converter;
 
     /**
+     * Constructor.
      *
-     * @param name
+     * @param name model entity name.
      */
     protected ModelEntity(String name) {
         super();
@@ -24,7 +26,7 @@ public abstract class ModelEntity implements Cloneable{
 
     /**
      *
-     * @return
+     * @return model entity name.
      */
     public String getName() {
         return this.name;
@@ -32,7 +34,7 @@ public abstract class ModelEntity implements Cloneable{
 
     /**
      *
-     * @param name
+     * @param name name to set.
      */
     public void setName(String name) {
         this.name = name;
@@ -40,7 +42,7 @@ public abstract class ModelEntity implements Cloneable{
 
     /**
      *
-     * @return
+     * @return current model entity value.
      */
     public double getCurrentValue() {
         return this.currentValue;
@@ -48,7 +50,7 @@ public abstract class ModelEntity implements Cloneable{
 
     /**
      *
-     * @param currentValue
+     * @param currentValue current value to set.
      */
     public void setCurrentValue(double currentValue) {
         this.currentValue = currentValue;
@@ -56,7 +58,7 @@ public abstract class ModelEntity implements Cloneable{
 
     /**
      *
-     * @return
+     * @return previous model entity value.
      */
     public double getPreviousValue() {
         return this.previousValue;
@@ -64,7 +66,7 @@ public abstract class ModelEntity implements Cloneable{
 
     /**
      *
-     * @param previousValue
+     * @param previousValue previous value to set.
      */
     public void setPreviousValue(double previousValue) {
         this.previousValue = previousValue;
@@ -77,7 +79,7 @@ public abstract class ModelEntity implements Cloneable{
 
     /**
      *
-     * @param converter
+     * @param converter converter to set.
      */
     protected void setConverter(Converter converter) {
         this.converter = converter;
@@ -86,7 +88,7 @@ public abstract class ModelEntity implements Cloneable{
 
     /**
      *
-     * @return
+     * @return converter.
      */
     public Converter getConverter() {
         return this.converter;
@@ -94,7 +96,7 @@ public abstract class ModelEntity implements Cloneable{
 
     /**
      *
-     * @param b
+     * @param b true or false.
      */
     public void setCurrentValueCalculated(boolean b) {
         this.currentValueCalculated = b;
@@ -102,16 +104,13 @@ public abstract class ModelEntity implements Cloneable{
 
     /**
      *
-     * @return
+     * @return true if value has already been calculated.
      */
     public boolean isCurrentValueCalculated() {
         return this.currentValueCalculated;
     }
 
-	@Override
-	public abstract  Object clone() throws CloneNotSupportedException;
+    @Override
+    public abstract Object clone() throws CloneNotSupportedException;
 
-    
-    
-    
 }
