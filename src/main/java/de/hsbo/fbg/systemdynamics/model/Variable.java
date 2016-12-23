@@ -14,4 +14,14 @@ public class Variable extends ModelEntity {
     public Variable(String name) {
         super(name);
     }
+
+	@Override
+	public Object clone() throws CloneNotSupportedException {
+		Variable variable=new Variable(this.getName());
+		variable.setCurrentValue(this.getCurrentValue());
+		variable.setPreviousValue(this.getPreviousValue());
+		return variable;
+	}
+    
+    
 }

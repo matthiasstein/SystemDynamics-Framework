@@ -5,7 +5,7 @@ package de.hsbo.fbg.systemdynamics.model;
  * 
  * @author Sebastian Drost, Matthias Stein
  */
-public abstract class ModelEntity {
+public abstract class ModelEntity implements Cloneable{
 
     private String name;
     private double currentValue;
@@ -107,4 +107,11 @@ public abstract class ModelEntity {
     public boolean isCurrentValueCalculated() {
         return this.currentValueCalculated;
     }
+
+	@Override
+	public abstract  Object clone() throws CloneNotSupportedException;
+
+    
+    
+    
 }

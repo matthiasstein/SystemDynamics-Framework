@@ -15,4 +15,14 @@ public class Flow extends ModelEntity {
         super(name);
     }
 
+	@Override
+	public Object clone() throws CloneNotSupportedException {
+		Flow flow=new Flow(this.getName());
+		flow.setCurrentValue(this.getCurrentValue());
+		flow.setPreviousValue(this.getPreviousValue());
+		return flow;
+	}
+    
+    
+
 }

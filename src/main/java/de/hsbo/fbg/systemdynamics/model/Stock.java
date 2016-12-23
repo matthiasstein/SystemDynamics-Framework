@@ -13,6 +13,7 @@ public class Stock extends ModelEntity {
 
     private ArrayList<Flow> inputFlows;
     private ArrayList<Flow> outputFlows;
+    
 
     /**
      *
@@ -96,5 +97,23 @@ public class Stock extends ModelEntity {
     public ArrayList<Flow> getOutputFlows() {
         return outputFlows;
     }
+
+	@Override
+	public Object clone() throws CloneNotSupportedException {
+		Stock stock=new Stock(this.getName());
+		stock.setCurrentValue(this.getCurrentValue());
+		stock.setPreviousValue(this.getPreviousValue());
+		ArrayList <Flow> inputFlows=new ArrayList<Flow>();
+		ArrayList <Flow> outputFlows=new ArrayList<Flow>();
+		for (Flow flow:this.getInputFlows()){
+			inputFlows.add((Flow)flow.clone());
+		}
+		for (Flow flow:this.getOutputFlows()){
+			outputFlows.add((Flow)flow.clone());
+		}
+		return stock;
+	}
+    
+    
 
 }
