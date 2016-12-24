@@ -137,9 +137,9 @@ public class SimulationTest {
                     () -> populationPredator.getCurrentValue() * lossRatePredator.getCurrentValue(), populationPredator,
                     lossRatePredator);
 
-            Converter preyPopulationConverter = model.createStockConverter(populationPrey);
+            Converter preyPopulationConverter = model.createStockConverter(populationPrey,new EulerCauchyIntegration());
 
-            Converter predatorPopulationConverter = model.createStockConverter(populationPredator);
+            Converter predatorPopulationConverter = model.createStockConverter(populationPredator,new EulerCauchyIntegration());
         } catch (ModelException e) {
             e.printStackTrace();
         }

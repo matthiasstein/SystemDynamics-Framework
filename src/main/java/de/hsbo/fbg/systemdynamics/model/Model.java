@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.ArrayList;
 
 import de.hsbo.fbg.systemdynamics.exceptions.ModelException;
-import de.hsbo.fbg.systemdynamics.functions.EulerCauchyIntegration;
 import de.hsbo.fbg.systemdynamics.functions.IFunction;
 import de.hsbo.fbg.systemdynamics.functions.Integration;
 import java.util.List;
@@ -24,7 +23,6 @@ public class Model {
 	private double finalTime;
 	private double timeSteps;
 	private double currentTime;
-	private Integration integration;
 
 	/**
 	 * Constructor.
@@ -37,8 +35,6 @@ public class Model {
 		this.currentTime = this.initialTime;
 		this.finalTime = 100;
 		this.timeSteps = 1;
-		this.integration = new EulerCauchyIntegration();
-		this.integration.setDt(timeSteps);
 
 	}
 
@@ -62,8 +58,6 @@ public class Model {
 		this.currentTime = initialTime;
 		this.finalTime = finalTime;
 		this.timeSteps = timeSteps;
-		this.integration = integrationType;
-		this.integration.setDt(timeSteps);
 	}
 
 	/**
@@ -146,8 +140,10 @@ public class Model {
 	 *            stock.
 	 * @return the created stock converter.
 	 */
-	public Converter createStockConverter(Stock stock) {
-		Converter converter = new Converter(stock, integration.getIntegrationFunction(stock));
+	public Converter createStockConverter(Stock stock, Integration integration) {
+		stock.setIntegration(integration);
+		integration.setDt(timeSteps);
+		Converter converter = new Converter(stock, stock.getIntegration().getIntegrationFunction(stock));
 		this.addStockConverter(converter);
 		return converter;
 	}
@@ -227,25 +223,24 @@ public class Model {
 	 */
 	public void setTimeSteps(double timeSteps) {
 		this.timeSteps = timeSteps;
-		this.integration.setDt(timeSteps);
 	}
 
-	/**
-	 *
-	 * @return integration type.
-	 */
-	public Integration getIntergrationType() {
-		return this.integration;
-	}
+//	/**
+//	 *
+//	 * @return integration type.
+//	 */
+//	public Integration getIntergrationType() {
+//		return this.integration;
+//	}
 
-	/**
-	 *
-	 * @param intergrationType
-	 *            integration type to set.
-	 */
-	public void setIntergrationType(Integration intergrationType) {
-		this.integration = intergrationType;
-	}
+//	/**
+//	 *
+//	 * @param intergrationType
+//	 *            integration type to set.
+//	 */
+//	public void setIntergrationType(Integration intergrationType) {
+//		this.integration = intergrationType;
+//	}
 
 	/**
 	 *
@@ -323,13 +318,16 @@ public class Model {
 	}
 
 	/**
-	 * Method to reset all model values.
+	 * Prepare all initial model values for running the simulation.
 	 */
-	protected void resetValues() {
+	protected void prepareInitialValues() {
 		this.currentTime = this.initialTime;
 		this.modelEntities.forEach((k, v) -> {
 			v.setCurrentValue(v.getInitialValue());
 		});
+		for (Converter converter:this.stockConverterList){
+			((Stock)converter.getTargetEntity()).getIntegration().setDt(timeSteps);
+		}
 	}
 
 }

@@ -33,7 +33,7 @@ public class Simulation {
 		// } else {
 		// this.model.resetValues();
 		// }
-		this.model.resetValues();
+		this.model.prepareInitialValues();
 		this.model.prepareValuesForTimestep();
 		executeConverters();
 		this.model.updateCurrentTime();
