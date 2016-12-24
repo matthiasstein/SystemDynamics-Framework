@@ -27,6 +27,17 @@ import java.util.HashMap;
 public class SimulationTest {
 
     private Model model;
+    private Stock populationPrey;
+    private Flow birthsPrey;
+    private Flow deathsPrey;
+    private Variable expansionRatePrey;
+    private Variable lossRatePrey;
+    private Stock populationPredator;
+    private Flow birthsPredator;
+    private Flow deathsPredator;
+    private Variable expansionRatePredator;
+    private Variable lossRatePredator;
+    private Variable meetings;
 
     private final String POPULATION_PREY_KEY = "Population_Prey";
     private final String BIRTHS_PREY_KEY = "Births_Prey";
@@ -66,38 +77,38 @@ public class SimulationTest {
         try {
             // prey
             // Create prey population as stock
-            Stock populationPrey = (Stock) model.createModelEntity(ModelEntityType.STOCK, POPULATION_PREY_KEY);
+            populationPrey = (Stock) model.createModelEntity(ModelEntityType.STOCK, POPULATION_PREY_KEY);
             populationPrey.setInitialValue(populationPreyValue);
             // Create prey births and deaths as flows
-            Flow birthsPrey = (Flow) model.createModelEntity(ModelEntityType.FLOW, BIRTHS_PREY_KEY);
-            Flow deathsPrey = (Flow) model.createModelEntity(ModelEntityType.FLOW, DEATHS_PREY_KEY);
+            birthsPrey = (Flow) model.createModelEntity(ModelEntityType.FLOW, BIRTHS_PREY_KEY);
+            deathsPrey = (Flow) model.createModelEntity(ModelEntityType.FLOW, DEATHS_PREY_KEY);
             // Add flows to prey population
-            populationPrey.addInputFlow(birthsPrey);
-            populationPrey.addOutputFlow(deathsPrey);
+            populationPrey.addInputFlows(birthsPrey);
+            populationPrey.addOutputFlows(deathsPrey);
             // Create prey birthrate and deathrate as variable
-            Variable expansionRatePrey = (Variable) model.createModelEntity(ModelEntityType.VARIABLE,
+            expansionRatePrey = (Variable) model.createModelEntity(ModelEntityType.VARIABLE,
                     BIRTH_RATE_PREY_KEY);
-            expansionRatePrey.setCurrentValue(expansionRatePreyValue);
-            Variable lossRatePrey = (Variable) model.createModelEntity(ModelEntityType.VARIABLE, DEATH_RATE_PREY_KEY);
-            lossRatePrey.setCurrentValue(lossRatePreyValue);
+            expansionRatePrey.setInitialValue(expansionRatePreyValue);
+            lossRatePrey = (Variable) model.createModelEntity(ModelEntityType.VARIABLE, DEATH_RATE_PREY_KEY);
+            lossRatePrey.setInitialValue(lossRatePreyValue);
 
             // predator
             // Create predator population as stock
-            Stock populationPredator = (Stock) model.createModelEntity(ModelEntityType.STOCK, POPULATION_PREDATOR_KEY);
+            populationPredator = (Stock) model.createModelEntity(ModelEntityType.STOCK, POPULATION_PREDATOR_KEY);
             populationPredator.setInitialValue(populationPredatorValue);
             // Create prey births and deaths as flows
-            Flow birthsPredator = (Flow) model.createModelEntity(ModelEntityType.FLOW, BIRTHS_PREDATOR_KEY);
-            Flow deathsPredator = (Flow) model.createModelEntity(ModelEntityType.FLOW, DEATHS_PREDATOR_KEY);
+            birthsPredator = (Flow) model.createModelEntity(ModelEntityType.FLOW, BIRTHS_PREDATOR_KEY);
+            deathsPredator = (Flow) model.createModelEntity(ModelEntityType.FLOW, DEATHS_PREDATOR_KEY);
             // Add flows to predator population
-            populationPredator.addInputFlow(birthsPredator);
-            populationPredator.addOutputFlow(deathsPredator);
+            populationPredator.addInputFlows(birthsPredator);
+            populationPredator.addOutputFlows(deathsPredator);
             // Create prey birthrate and deathrate as variable
-            Variable expansionRatePredator = (Variable) model.createModelEntity(ModelEntityType.VARIABLE,
+            expansionRatePredator = (Variable) model.createModelEntity(ModelEntityType.VARIABLE,
                     BIRTH_RATE_PREDATOR_KEY);
-            expansionRatePredator.setCurrentValue(expansionRatePredatorValue);
-            Variable lossRatePredator = (Variable) model.createModelEntity(ModelEntityType.VARIABLE,
+            expansionRatePredator.setInitialValue(expansionRatePredatorValue);
+            lossRatePredator = (Variable) model.createModelEntity(ModelEntityType.VARIABLE,
                     DEATH_RATE_PREDATOR_KEY);
-            lossRatePredator.setCurrentValue(lossRatePredatorValue);
+            lossRatePredator.setInitialValue(lossRatePredatorValue);
 
             // Create meetings as variable
             Variable meetings = (Variable) model.createModelEntity(ModelEntityType.VARIABLE, MEETINGS_KEY);
@@ -198,6 +209,48 @@ public class SimulationTest {
         Assert.assertThat(entities.get(DEATHS_PREDATOR_KEY).getCurrentValue(), Matchers.closeTo(0.0602, error));
 
         Assert.assertThat(entities.get(MEETINGS_KEY).getCurrentValue(), Matchers.closeTo(5411.9328, 0.001));
+        
+        System.out.println("Run Simulation 3");
+        changeInitialValues();
+        simulation.run();
+        entities = model.getModelEntities();
+        
+        Assert.assertThat(entities.get(POPULATION_PREY_KEY).getCurrentValue(), Matchers.closeTo(875.2394, error));
+        Assert.assertThat(entities.get(BIRTH_RATE_PREY_KEY).getCurrentValue(), Matchers.equalTo(0.07));
+        Assert.assertThat(entities.get(DEATH_RATE_PREY_KEY).getCurrentValue(), Matchers.equalTo(0.000035));
+        Assert.assertThat(entities.get(BIRTHS_PREY_KEY).getCurrentValue(), Matchers.closeTo(61.2668, error));
+        Assert.assertThat(entities.get(DEATHS_PREY_KEY).getCurrentValue(), Matchers.closeTo(36.4265, error));
+
+        Assert.assertThat(entities.get(POPULATION_PREDATOR_KEY).getCurrentValue(), Matchers.closeTo(1189.1126, error));
+        Assert.assertThat(entities.get(BIRTH_RATE_PREDATOR_KEY).getCurrentValue(), Matchers.equalTo(0.0005));
+        Assert.assertThat(entities.get(DEATH_RATE_PREDATOR_KEY).getCurrentValue(), Matchers.equalTo(0.00045));
+        Assert.assertThat(entities.get(BIRTHS_PREDATOR_KEY).getCurrentValue(), Matchers.closeTo(520.3791, error));
+        Assert.assertThat(entities.get(DEATHS_PREDATOR_KEY).getCurrentValue(), Matchers.closeTo(0.5351, error));
 
     }
+    
+    private void changeInitialValues(){
+        double populationPreyValue = 500;
+        double expansionRatePreyValue = 0.07;
+        double lossRatePreyValue = 0.000035;
+
+        double populationPredatorValue = 100;
+        double expansionRatePredatorValue = 0.0005;
+        double lossRatePredatorValue = 0.00045;
+
+        double initialTime=10;
+        double finalTime=20;
+        double dt = 2;
+        
+        populationPrey.setInitialValue(populationPreyValue);
+        expansionRatePrey.setInitialValue(expansionRatePreyValue);
+        lossRatePrey.setInitialValue(lossRatePreyValue);
+        populationPredator.setInitialValue(populationPredatorValue);
+        expansionRatePredator.setInitialValue(expansionRatePredatorValue);
+        lossRatePredator.setInitialValue(lossRatePredatorValue);
+        model.setInitialTime(initialTime);
+        model.setFinalTime(finalTime);
+        model.setTimeSteps(dt);
+    }
+    
 }
