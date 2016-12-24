@@ -27,14 +27,14 @@ public class Stock extends ModelEntity {
         this.outputFlows = new ArrayList<Flow>();
     }
 
-    /**
-     *
-     * @param value value to set
-     */
-    public void setInitialValue(double value) {
-        setCurrentValue(value);
-        setPreviousValue(value);
-    }
+//    /**
+//     *
+//     * @param value value to set
+//     */
+//    public void setInitialValue(double value) {
+//        setCurrentValue(value);
+//        setPreviousValue(value);
+//    }
 
     /**
      * Method to add multiple input flows.
@@ -54,7 +54,7 @@ public class Stock extends ModelEntity {
      * @param flow flow that should be added.
      * @throws ModelException
      */
-    public void addInputFlow(Flow flow) throws ModelException {
+    private void addInputFlow(Flow flow) throws ModelException {
         if (flowAlreadyAdded(flow)) {
             throw new ModelException(ModelException.DUPLICATE_FLOW_EXCEPTION);
         } else {
@@ -79,7 +79,7 @@ public class Stock extends ModelEntity {
      *
      * @param flow flow that should be added.
      */
-    public void addOutputFlow(Flow flow) {
+    protected void addOutputFlow(Flow flow) {
         this.outputFlows.add(flow);
     }
 

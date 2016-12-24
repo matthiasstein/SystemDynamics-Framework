@@ -11,6 +11,7 @@ public abstract class ModelEntity implements Cloneable {
     private String name;
     private double currentValue;
     private double previousValue;
+    private double initialValue;
     private boolean currentValueCalculated;
     private Converter converter;
 
@@ -36,7 +37,7 @@ public abstract class ModelEntity implements Cloneable {
      *
      * @param name name to set.
      */
-    public void setName(String name) {
+    protected void setName(String name) {
         this.name = name;
     }
 
@@ -52,7 +53,7 @@ public abstract class ModelEntity implements Cloneable {
      *
      * @param currentValue current value to set.
      */
-    public void setCurrentValue(double currentValue) {
+    protected void setCurrentValue(double currentValue) {
         this.currentValue = currentValue;
     }
 
@@ -68,7 +69,7 @@ public abstract class ModelEntity implements Cloneable {
      *
      * @param previousValue previous value to set.
      */
-    public void setPreviousValue(double previousValue) {
+    protected void setPreviousValue(double previousValue) {
         this.previousValue = previousValue;
     }
 
@@ -90,7 +91,7 @@ public abstract class ModelEntity implements Cloneable {
      *
      * @return converter.
      */
-    public Converter getConverter() {
+    protected Converter getConverter() {
         return this.converter;
     }
 
@@ -98,7 +99,7 @@ public abstract class ModelEntity implements Cloneable {
      *
      * @param b true or false.
      */
-    public void setCurrentValueCalculated(boolean b) {
+    protected void setCurrentValueCalculated(boolean b) {
         this.currentValueCalculated = b;
     }
 
@@ -106,11 +107,21 @@ public abstract class ModelEntity implements Cloneable {
      *
      * @return true if value has already been calculated.
      */
-    public boolean isCurrentValueCalculated() {
+    protected boolean isCurrentValueCalculated() {
         return this.currentValueCalculated;
     }
+    
+    
 
-    @Override
+    public double getInitialValue() {
+		return initialValue;
+	}
+
+	public void setInitialValue(double initialValue) {
+		this.initialValue = initialValue;
+	}
+
+	@Override
     public abstract Object clone() throws CloneNotSupportedException;
 
 }

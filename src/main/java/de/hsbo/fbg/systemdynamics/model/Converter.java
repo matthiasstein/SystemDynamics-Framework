@@ -36,7 +36,7 @@ public class Converter {
     /**
      * Method to convert the target model entity value.
      */
-    public void convert() {
+    protected void convert() {
         for (ModelEntity input : this.inputs) {
             if (!input.isCurrentValueCalculated() && input.getConverter() != null) {
                 input.getConverter().convert();
@@ -51,7 +51,7 @@ public class Converter {
      * @param inputs model entities.
      * @throws ModelException
      */
-    public void addInputs(ModelEntity... inputs) throws ModelException {
+    protected void addInputs(ModelEntity... inputs) throws ModelException {
         for (ModelEntity f : inputs) {
             this.addInput(f);
         }
