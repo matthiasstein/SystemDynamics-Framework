@@ -1,7 +1,5 @@
-package de.hsbo.fbg.systemdynamics.simulation;
+package de.hsbo.fbg.systemdynamics.model;
 
-import de.hsbo.fbg.systemdynamics.model.Converter;
-import de.hsbo.fbg.systemdynamics.model.Model;
 import de.hsbo.fbg.systemdynamics.output.CSVExporter;
 
 /**

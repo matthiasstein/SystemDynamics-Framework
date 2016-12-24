@@ -6,9 +6,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 import de.hsbo.fbg.systemdynamics.model.ModelEntityType;
+import de.hsbo.fbg.systemdynamics.model.Simulation;
 import de.hsbo.fbg.systemdynamics.model.Stock;
 import de.hsbo.fbg.systemdynamics.model.Variable;
-import de.hsbo.fbg.systemdynamics.simulation.Simulation;
 import de.hsbo.fbg.systemdynamics.exceptions.ModelException;
 import de.hsbo.fbg.systemdynamics.functions.EulerCauchyIntegration;
 import de.hsbo.fbg.systemdynamics.functions.IFunction;
