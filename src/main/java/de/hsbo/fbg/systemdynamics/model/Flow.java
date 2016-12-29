@@ -21,6 +21,7 @@ public class Flow extends ModelEntity {
     public Object clone() throws CloneNotSupportedException {
         Flow flow = new Flow(this.getName());
         flow.setCurrentValue(this.getCurrentValue());
+        flow.setInitialValue(getInitialValue());
         flow.setPreviousValue(this.getPreviousValue());
         return flow;
     }

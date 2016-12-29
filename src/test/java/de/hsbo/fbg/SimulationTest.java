@@ -37,7 +37,6 @@ public class SimulationTest {
     private Flow deathsPredator;
     private Variable expansionRatePredator;
     private Variable lossRatePredator;
-    private Variable meetings;
 
     private final String POPULATION_PREY_KEY = "Population_Prey";
     private final String BIRTHS_PREY_KEY = "Births_Prey";
