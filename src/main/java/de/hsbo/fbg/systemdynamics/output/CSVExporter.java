@@ -11,7 +11,7 @@ import java.util.logging.Logger;
  *
  * @author Matthias Stein
  */
-public class CSVExporter {
+public class CSVExporter implements IExporter {
 
     private final String separator;
     private final String csvFile;
@@ -29,11 +29,7 @@ public class CSVExporter {
         this.sb = new StringBuilder();
     }
 
-    /**
-     * Method to write on line.
-     *
-     * @param values list of values that should be added to the csv file.
-     */
+    @Override
     public void writeLine(List<String> values) {
 
         boolean first = true;
@@ -50,22 +46,25 @@ public class CSVExporter {
 
     }
 
-    /**
-     * This method writes the data to the csv file.
-     */
+    @Override
     public void saveFile() {
         try {
-            int last = sb.lastIndexOf("\n");
-            if (last >= 0) {
-                sb.delete(last, sb.length());
-            }
             try (FileWriter writer = new FileWriter(this.csvFile)) {
-                writer.append(sb.toString());
+                writer.append(this.getString());
                 writer.flush();
+                Logger.getLogger(CSVExporter.class.getName()).log(Level.SEVERE, null, "File saved");
             }
         } catch (IOException ex) {
             Logger.getLogger(CSVExporter.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
+    @Override
+    public String getString() {
+        int last = sb.lastIndexOf("\n");
+        if (last >= 0) {
+            sb.delete(last, sb.length());
+        }
+        return sb.toString();
+    }
 }
