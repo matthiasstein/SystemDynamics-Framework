@@ -110,18 +110,16 @@ public abstract class ModelEntity implements Cloneable {
     protected boolean isCurrentValueCalculated() {
         return this.currentValueCalculated;
     }
-    
-    
 
     public double getInitialValue() {
-		return initialValue;
-	}
+        return initialValue;
+    }
 
-	public void setInitialValue(double initialValue) {
-		this.initialValue = initialValue;
-	}
+    public void setInitialValue(double initialValue) {
+        this.initialValue = initialValue;
+    }
 
-	@Override
+    @Override
     public abstract Object clone() throws CloneNotSupportedException;
 
 }

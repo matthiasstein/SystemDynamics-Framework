@@ -69,10 +69,8 @@ public class SimulationTest {
 
         // Create a model with the parameters:
         // initialTime=0
-        // finalTime=50
-        // timeSteps=1
-        // integrationType=Euler-Cauchy
-        model = new Model(0, 5, dt, new EulerCauchyIntegration());
+        // finalTime=5
+        model = new Model(0, 5, dt);
         try {
             // prey
             // Create prey population as stock
@@ -136,9 +134,9 @@ public class SimulationTest {
                     () -> populationPredator.getCurrentValue() * lossRatePredator.getCurrentValue(), populationPredator,
                     lossRatePredator);
 
-            Converter preyPopulationConverter = model.createStockConverter(populationPrey,new EulerCauchyIntegration());
+            Converter preyPopulationConverter = model.createStockConverter(populationPrey, new EulerCauchyIntegration());
 
-            Converter predatorPopulationConverter = model.createStockConverter(populationPredator,new EulerCauchyIntegration());
+            Converter predatorPopulationConverter = model.createStockConverter(populationPredator, new EulerCauchyIntegration());
         } catch (ModelException e) {
             e.printStackTrace();
         }
@@ -208,12 +206,12 @@ public class SimulationTest {
         Assert.assertThat(entities.get(DEATHS_PREDATOR_KEY).getCurrentValue(), Matchers.closeTo(0.0602, error));
 
         Assert.assertThat(entities.get(MEETINGS_KEY).getCurrentValue(), Matchers.closeTo(5411.9328, 0.001));
-        
+
         System.out.println("Run Simulation 3");
         changeInitialValues();
         simulation.run();
         entities = model.getModelEntities();
-        
+
         Assert.assertThat(entities.get(POPULATION_PREY_KEY).getCurrentValue(), Matchers.closeTo(875.2394, error));
         Assert.assertThat(entities.get(BIRTH_RATE_PREY_KEY).getCurrentValue(), Matchers.equalTo(0.07));
         Assert.assertThat(entities.get(DEATH_RATE_PREY_KEY).getCurrentValue(), Matchers.equalTo(0.000035));
@@ -227,8 +225,8 @@ public class SimulationTest {
         Assert.assertThat(entities.get(DEATHS_PREDATOR_KEY).getCurrentValue(), Matchers.closeTo(0.5351, error));
 
     }
-    
-    private void changeInitialValues(){
+
+    private void changeInitialValues() {
         double populationPreyValue = 500;
         double expansionRatePreyValue = 0.07;
         double lossRatePreyValue = 0.000035;
@@ -237,10 +235,10 @@ public class SimulationTest {
         double expansionRatePredatorValue = 0.0005;
         double lossRatePredatorValue = 0.00045;
 
-        double initialTime=10;
-        double finalTime=20;
+        double initialTime = 10;
+        double finalTime = 20;
         double dt = 2;
-        
+
         populationPrey.setInitialValue(populationPreyValue);
         expansionRatePrey.setInitialValue(expansionRatePreyValue);
         lossRatePrey.setInitialValue(lossRatePreyValue);
@@ -251,5 +249,5 @@ public class SimulationTest {
         model.setFinalTime(finalTime);
         model.setTimeSteps(dt);
     }
-    
+
 }

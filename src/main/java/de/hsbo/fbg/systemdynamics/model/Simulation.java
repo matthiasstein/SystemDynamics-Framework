@@ -28,11 +28,6 @@ public class Simulation {
 	 */
 	public void run() {
 		CSVExporter csvExporter = new CSVExporter("output.csv", ";");
-		// if (initialRun) {
-		// this.model.saveInitialValues();
-		// } else {
-		// this.model.resetValues();
-		// }
 		this.model.prepareInitialValues();
 		this.model.prepareValuesForTimestep();
 		executeConverters();

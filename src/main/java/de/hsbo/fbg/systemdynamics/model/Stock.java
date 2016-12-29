@@ -29,15 +29,6 @@ public class Stock extends ModelEntity {
         this.outputFlows = new ArrayList<Flow>();
     }
 
-//    /**
-//     *
-//     * @param value value to set
-//     */
-//    public void setInitialValue(double value) {
-//        setCurrentValue(value);
-//        setPreviousValue(value);
-//    }
-
     /**
      * Method to add multiple input flows.
      *
@@ -128,14 +119,12 @@ public class Stock extends ModelEntity {
         return stock;
     }
 
-	public Integration getIntegration() {
-		return integration;
-	}
+    public Integration getIntegration() {
+        return integration;
+    }
 
-	protected void setIntegration(Integration integration) {
-		this.integration = integration;
-	}
-    
-    
+    protected void setIntegration(Integration integration) {
+        this.integration = integration;
+    }
 
 }

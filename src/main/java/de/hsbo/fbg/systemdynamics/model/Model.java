@@ -45,9 +45,8 @@ public class Model {
      * @param initialTime initial time.
      * @param finalTime final time.
      * @param timeSteps length of a time step.
-     * @param integrationType integration type.
      */
-    public Model(double initialTime, double finalTime, double timeSteps, Integration integrationType) {
+    public Model(double initialTime, double finalTime, double timeSteps) {
         this.modelEntities = new HashMap<String, ModelEntity>();
         this.converterList = new ArrayList<Converter>();
         this.stockConverterList = new ArrayList<Converter>();
@@ -213,21 +212,6 @@ public class Model {
         this.timeSteps = timeSteps;
     }
 
-//	/**
-//	 *
-//	 * @return integration type.
-//	 */
-//	public Integration getIntergrationType() {
-//		return this.integration;
-//	}
-//	/**
-//	 *
-//	 * @param intergrationType
-//	 *            integration type to set.
-//	 */
-//	public void setIntergrationType(Integration intergrationType) {
-//		this.integration = intergrationType;
-//	}
     /**
      *
      * @return current time.
