@@ -11,12 +11,12 @@ import de.hsbo.fbg.systemdynamics.model.Stock;
 import de.hsbo.fbg.systemdynamics.model.Variable;
 import de.hsbo.fbg.systemdynamics.exceptions.ModelException;
 import de.hsbo.fbg.systemdynamics.functions.EulerCauchyIntegration;
-import de.hsbo.fbg.systemdynamics.functions.IFunction;
 import de.hsbo.fbg.systemdynamics.model.Converter;
 import de.hsbo.fbg.systemdynamics.model.Flow;
 import de.hsbo.fbg.systemdynamics.model.Model;
 import de.hsbo.fbg.systemdynamics.model.ModelEntity;
 import de.hsbo.fbg.systemdynamics.output.CSVExporter;
+import de.hsbo.fbg.systemdynamics.output.ChartsViewer;
 import java.util.HashMap;
 
 /**
@@ -226,6 +226,9 @@ public class SimulationTest {
         Assert.assertThat(entities.get(BIRTHS_PREDATOR_KEY).getCurrentValue(), Matchers.closeTo(520.3791, error));
         Assert.assertThat(entities.get(DEATHS_PREDATOR_KEY).getCurrentValue(), Matchers.closeTo(0.5351, error));
 
+        String file = simulation.getExporter().getString();
+        ChartsViewer.setCSVFile(file);
+        ChartsViewer.launch(ChartsViewer.class);
     }
 
     private void changeInitialValues() {

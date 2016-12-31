@@ -60,6 +60,10 @@ public class Simulation {
         this.exporter = exporter;
     }
 
+    public IExporter getExporter() {
+        return this.exporter;
+    }
+
     /**
      * Prepare all initial model values for running the simulation.
      */

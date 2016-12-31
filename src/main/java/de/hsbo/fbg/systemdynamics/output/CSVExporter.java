@@ -62,7 +62,7 @@ public class CSVExporter implements IExporter {
     @Override
     public String getString() {
         int last = sb.lastIndexOf("\n");
-        if (last >= 0) {
+        if (last >= 0 && sb.length() - last == 1) {
             sb.delete(last, sb.length());
         }
         return sb.toString();
