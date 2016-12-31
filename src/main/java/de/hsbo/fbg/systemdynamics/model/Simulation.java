@@ -31,7 +31,7 @@ public class Simulation {
 		this.prepareInitialValues();
 
 		// Prepare all values for the first time step and run the simulation for
-		// it. The stock converters don't have to be execute, because for the
+		// it. The stock converters don't have to be executed, because for the
 		// first time step their current value is the same as their initial
 		// value.
 		this.prepareValuesForFirstTimestep();
