@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.ArrayList;
 
 import de.hsbo.fbg.systemdynamics.exceptions.ModelException;
-import de.hsbo.fbg.systemdynamics.functions.IFunction;
 import de.hsbo.fbg.systemdynamics.functions.Integration;
 import java.text.DecimalFormat;
 import java.util.List;
@@ -113,12 +112,11 @@ public class Model {
      * Method to create a new converter.
      *
      * @param entity model entity.
-     * @param function calculation function.
      * @param inputs input model entities.
      * @return the created converter.
      */
-    public Converter createConverter(ModelEntity entity, IFunction function, ModelEntity... inputs) {
-        Converter converter = new Converter(entity, function, inputs);
+    public Converter createConverter(ModelEntity entity, ModelEntity... inputs) {
+        Converter converter = new Converter(entity, inputs);
         this.addConverter(converter);
         entity.setConverter(converter);
         return converter;
@@ -133,7 +131,8 @@ public class Model {
     public Converter createStockConverter(Stock stock, Integration integration) {
         stock.setIntegration(integration);
         integration.setDt(timeSteps);
-        Converter converter = new Converter(stock, stock.getIntegration().getIntegrationFunction(stock));
+        Converter converter = new Converter(stock);
+        converter.setFunction(stock.getIntegration().getIntegrationFunction(stock));
         this.addStockConverter(converter);
         return converter;
     }

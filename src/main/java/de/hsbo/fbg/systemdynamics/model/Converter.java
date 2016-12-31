@@ -21,16 +21,22 @@ public class Converter {
      * Constructor.
      *
      * @param entity target model entity.
-     * @param function calculation function.
      * @param inputs input model entities.
      */
-    protected Converter(ModelEntity entity, IFunction function, ModelEntity... inputs) {
+    protected Converter(ModelEntity entity, ModelEntity... inputs) {
         this.targetEntity = entity;
-        this.function = function;
         this.inputs = new ArrayList<ModelEntity>();
         for (ModelEntity modelEntity : inputs) {
             this.inputs.add(modelEntity);
         }
+    }
+    
+    /**
+     * Adds a function for calculating the current value of the target ModelEntity.
+     * @param function function for the target ModelEntity's current value
+     */
+    public void setFunction(IFunction function){
+    	this.function=function;
     }
 
     /**
