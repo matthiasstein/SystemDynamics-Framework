@@ -26,9 +26,9 @@ import javax.imageio.ImageIO;
  * @author Matthias Stein
  */
 public class ChartsViewer extends Application {
-    
+
     private static ArrayList<Series> series;
-    
+
     @Override
     public void start(Stage stage) {
         stage.setTitle("System Dynamics Chart");
@@ -39,22 +39,23 @@ public class ChartsViewer extends Application {
         //creating the chart
         final LineChart<Number, Number> lineChart
                 = new LineChart<Number, Number>(xAxis, yAxis);
-        
+
         lineChart.setAnimated(false);
-        
+
         lineChart.setTitle("System Dynamics Chart");
         //defining a series
 
         Scene scene = new Scene(lineChart, 800, 600);
-        
+
         for (Series s : ChartsViewer.series) {
             lineChart.getData().add(s);
         }
-        
+
         stage.setScene(scene);
         stage.show();
-        
         ChartsViewer.saveToFile(scene);
+        // stop application
+        //Platform.exit();
     }
 
     /**
@@ -66,11 +67,11 @@ public class ChartsViewer extends Application {
         ChartsViewer.series = new ArrayList<Series>();
         String[] lines = csvFile.split("\\r?\\n");
         String[] modelEntityNames = lines[0].split(";");
-        
+
         for (int i = 0; i < modelEntityNames.length; i++) {
             Series s = new Series();
             s.setName(modelEntityNames[i]);
-            
+
             for (int j = 1; j < lines.length; j++) {
                 String line = lines[j];
                 String valueString = line.split(";")[i];
