@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package de.hsbo.fbg.systemdynamics.output;
 
 import java.awt.image.BufferedImage;
@@ -21,18 +16,19 @@ import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.chart.XYChart.Series;
-import javafx.scene.image.Image;
+import javafx.scene.image.WritableImage;
 import javafx.stage.Stage;
 import javax.imageio.ImageIO;
 
 /**
+ * This class handels the chart printing.
  *
  * @author Matthias Stein
  */
 public class ChartsViewer extends Application {
-
+    
     private static ArrayList<Series> series;
-
+    
     @Override
     public void start(Stage stage) {
         stage.setTitle("System Dynamics Chart");
@@ -43,29 +39,38 @@ public class ChartsViewer extends Application {
         //creating the chart
         final LineChart<Number, Number> lineChart
                 = new LineChart<Number, Number>(xAxis, yAxis);
-
+        
+        lineChart.setAnimated(false);
+        
         lineChart.setTitle("System Dynamics Chart");
         //defining a series
 
         Scene scene = new Scene(lineChart, 800, 600);
-
+        
         for (Series s : ChartsViewer.series) {
             lineChart.getData().add(s);
         }
-
+        
         stage.setScene(scene);
         stage.show();
+        
+        ChartsViewer.saveToFile(scene);
     }
 
+    /**
+     * Set CSV String and add series to chart.
+     *
+     * @param csvFile CSV String
+     */
     public static void setCSVFile(String csvFile) {
         ChartsViewer.series = new ArrayList<Series>();
         String[] lines = csvFile.split("\\r?\\n");
         String[] modelEntityNames = lines[0].split(";");
-
+        
         for (int i = 0; i < modelEntityNames.length; i++) {
             Series s = new Series();
             s.setName(modelEntityNames[i]);
-
+            
             for (int j = 1; j < lines.length; j++) {
                 String line = lines[j];
                 String valueString = line.split(";")[i];
@@ -83,7 +88,13 @@ public class ChartsViewer extends Application {
         }
     }
 
-    public static void saveToFile(Image image) {
+    /**
+     * Method to save the chart as an image.
+     *
+     * @param scene Scene
+     */
+    public static void saveToFile(Scene scene) {
+        WritableImage image = scene.snapshot(null);
         File outputFile = new File("chart.png");
         BufferedImage bImage = SwingFXUtils.fromFXImage(image, null);
         try {
