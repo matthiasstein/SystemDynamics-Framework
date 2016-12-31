@@ -95,20 +95,6 @@ public class Model {
     }
 
     /**
-     * Method to prepare all values for the first timestep.
-     */
-    protected void prepareValuesForTimestep() {
-        this.modelEntities.forEach((k, v) -> {
-            v.setPreviousValue(v.getCurrentValue());
-            if (v instanceof Stock && this.currentTime == this.initialTime) {
-                v.setCurrentValueCalculated(true);
-            } else {
-                v.setCurrentValueCalculated(false);
-            }
-        });
-    }
-
-    /**
      * Method to create a new converter.
      *
      * @param entity model entity.
@@ -143,16 +129,6 @@ public class Model {
 
     private void addStockConverter(Converter converter) {
         this.stockConverterList.add(converter);
-    }
-
-    /**
-     * Method to simulate the model. It calculates all added converters.
-     */
-    public void simulate() {
-        // simulate model
-        this.converterList.forEach((converter) -> {
-            converter.convert();
-        });
     }
 
     /**
@@ -243,21 +219,6 @@ public class Model {
         return this.stockConverterList;
     }
 
-    /**
-     * Method to update the current time by adding one time step.
-     */
-    protected void updateCurrentTime() {
-        this.currentTime = this.currentTime + this.timeSteps;
-    }
-
-    /**
-     * Method that controls if the final time has been reached.
-     *
-     * @return <tt>true</tt> only if the final time has been reached.
-     */
-    public boolean finalTimeReached() {
-        return this.currentTime <= this.finalTime;
-    }
 
     @Override
     public String toString() {
@@ -283,19 +244,6 @@ public class Model {
             modelEntitiesValues.add(new DecimalFormat("#.######").format(modelEntity.getCurrentValue()));
         });
         return modelEntitiesValues;
-    }
-
-    /**
-     * Prepare all initial model values for running the simulation.
-     */
-    protected void prepareInitialValues() {
-        this.currentTime = this.initialTime;
-        this.modelEntities.forEach((k, v) -> {
-            v.setCurrentValue(v.getInitialValue());
-        });
-        for (Converter converter : this.stockConverterList) {
-            ((Stock) converter.getTargetEntity()).getIntegration().setDt(timeSteps);
-        }
     }
 
 }
