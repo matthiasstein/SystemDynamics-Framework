@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import de.hsbo.fbg.systemdynamics.exceptions.ModelException;
 import de.hsbo.fbg.systemdynamics.functions.IFunction;
+import de.hsbo.fbg.systemdynamics.functions.Integration;
 
 /**
  * This class represents a converter.
@@ -45,6 +46,12 @@ public class Converter {
 	public void setFunction(IFunction function) {
 		this.function = function;
 	}
+	
+	public void setIntegration(Integration integration){
+		Stock stock=(Stock)targetEntity;
+		stock.setIntegration(integration);
+        this.function=stock.getIntegration().getIntegrationFunction(stock);
+	}
 
 	/**
 	 * Method to convert the target model entity value.
@@ -65,6 +72,7 @@ public class Converter {
 		} else {
 			this.targetEntity.setCurrentValue(calculatedValue);
 		}
+		this.targetEntity.setCurrentValueCalculated(true);
 
 	}
 

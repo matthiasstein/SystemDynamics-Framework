@@ -71,6 +71,7 @@ public class Simulation {
         this.model.setCurrentTime(this.model.getInitialTime());
         this.model.getModelEntities().forEach((k, v) -> {
             v.setCurrentValue(v.getInitialValue());
+            v.setCurrentValueCalculated(false);
         });
         for (Converter converter : this.model.getStockConverterList()) {
             ((Stock) converter.getTargetEntity()).getIntegration().setDt(this.model.getTimeSteps());
