@@ -11,12 +11,16 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Application;
 import javafx.embed.swing.SwingFXUtils;
+import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.chart.XYChart.Series;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.scene.image.WritableImage;
+import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import javax.imageio.ImageIO;
 
@@ -28,34 +32,80 @@ import javax.imageio.ImageIO;
 public class ChartsViewer extends Application {
 
     private static ArrayList<Series> series;
+    private static ArrayList<Series> series2;
 
     @Override
     public void start(Stage stage) {
-        stage.setTitle("System Dynamics Chart");
+        stage.setTitle("System Dynamics Charts");
+
+        // create root group
+        Group root = new Group();
+
+        // create scene
+        Scene scene = new Scene(root, 800, 600/*, Color.WHITE*/);
+
+        // create first tab
+        TabPane tabPane = new TabPane();
+        Tab firstTab = new Tab();
+        firstTab.setText("All Data");
+
         //defining the axes
         final NumberAxis xAxis = new NumberAxis();
         final NumberAxis yAxis = new NumberAxis();
         xAxis.setLabel("Value");
         //creating the chart
-        final LineChart<Number, Number> lineChart
-                = new LineChart<Number, Number>(xAxis, yAxis);
+        LineChart lineChart = this.createLineChart("All Data");
+        lineChart.getData().addAll(series);
 
-        lineChart.setAnimated(false);
+        firstTab.setContent(lineChart);
+        tabPane.getTabs().add(firstTab);
 
-        lineChart.setTitle("System Dynamics Chart");
-        //defining a series
+        ChartsViewer.series2.forEach((s) -> {
+            //creating the chart
+            LineChart chart = this.createLineChart(s.getName());
+            chart.getData().add(s);
+            // create tab
+            Tab tab = new Tab();
+            tab.setText(s.getName());
+            tab.setContent(chart);
+            tabPane.getTabs().add(tab);
+        });
 
-        Scene scene = new Scene(lineChart, 800, 600);
+        BorderPane borderPane = new BorderPane();
+        // bind to take available space
+        borderPane.prefHeightProperty().bind(scene.heightProperty());
+        borderPane.prefWidthProperty().bind(scene.widthProperty());
+        borderPane.setCenter(tabPane);
 
-        for (Series s : ChartsViewer.series) {
-            lineChart.getData().add(s);
-        }
-
+        // add border pane to root
+        root.getChildren().add(borderPane);
         stage.setScene(scene);
         stage.show();
         ChartsViewer.saveToFile(scene);
         // stop application
         //Platform.exit();
+    }
+
+    /**
+     * Method to create a LineChart
+     *
+     * @param title line chart title
+     * @return line chart
+     */
+    private LineChart createLineChart(String title) {
+        //defining the axes
+        NumberAxis xAxis = new NumberAxis();
+        NumberAxis yAxis = new NumberAxis();
+        xAxis.setLabel("Value");
+        //creating the chart
+        LineChart<Number, Number> lineChart
+                = new LineChart<Number, Number>(xAxis, yAxis);
+
+        // disable chart animation
+        lineChart.setAnimated(false);
+
+        lineChart.setTitle(title);
+        return lineChart;
     }
 
     /**
@@ -65,12 +115,15 @@ public class ChartsViewer extends Application {
      */
     public static void setCSVFile(String csvFile) {
         ChartsViewer.series = new ArrayList<Series>();
+        ChartsViewer.series2 = new ArrayList<Series>();
         String[] lines = csvFile.split("\\r?\\n");
         String[] modelEntityNames = lines[0].split(";");
 
         for (int i = 0; i < modelEntityNames.length; i++) {
             Series s = new Series();
+            Series s2 = new Series();
             s.setName(modelEntityNames[i]);
+            s2.setName(modelEntityNames[i]);
 
             for (int j = 1; j < lines.length; j++) {
                 String line = lines[j];
@@ -81,11 +134,13 @@ public class ChartsViewer extends Application {
                     number = format.parse(valueString);
                     double value = number.doubleValue();
                     s.getData().add(new XYChart.Data(j - 1, value));
+                    s2.getData().add(new XYChart.Data(j - 1, value));
                 } catch (ParseException ex) {
                     Logger.getLogger(ChartsViewer.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
             ChartsViewer.series.add(s);
+            ChartsViewer.series2.add(s2);
         }
     }
 
