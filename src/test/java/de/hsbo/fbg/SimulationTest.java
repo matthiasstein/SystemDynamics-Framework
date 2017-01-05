@@ -194,8 +194,39 @@ public class SimulationTest {
 		Assert.assertThat(entities.get(DEATHS_PREDATOR_KEY).getCurrentValue(), Matchers.closeTo(0.0525, error));
 
 		Assert.assertThat(entities.get(MEETINGS_KEY).getCurrentValue(), Matchers.closeTo(5118.9363, 0.001));
+		
+		//Test Runge-Kutta
+		model.setIntegration(new RungeKuttaIntegration());
+		System.out.println("Run Simulation Runge-Kutta");
+		simulation.run();
+		entities = model.getModelEntities();
 
+		Assert.assertThat(entities.get(POPULATION_PREY_KEY).getCurrentValue(), Matchers.closeTo(97.5189, error));
+		Assert.assertThat(entities.get(BIRTH_RATE_PREY_KEY).getCurrentValue(), Matchers.equalTo(0.001));
+		Assert.assertThat(entities.get(DEATH_RATE_PREY_KEY).getCurrentValue(), Matchers.equalTo(0.001));
+		Assert.assertThat(entities.get(BIRTHS_PREY_KEY).getCurrentValue(), Matchers.closeTo(0.0975, error));
+		Assert.assertThat(entities.get(DEATHS_PREY_KEY).getCurrentValue(), Matchers.closeTo(5.1202, error));
+
+		Assert.assertThat(entities.get(POPULATION_PREDATOR_KEY).getCurrentValue(), Matchers.closeTo(52.5048, error));
+		Assert.assertThat(entities.get(BIRTH_RATE_PREDATOR_KEY).getCurrentValue(), Matchers.equalTo(0.001));
+		Assert.assertThat(entities.get(DEATH_RATE_PREDATOR_KEY).getCurrentValue(), Matchers.equalTo(0.001));
+		Assert.assertThat(entities.get(BIRTHS_PREDATOR_KEY).getCurrentValue(), Matchers.closeTo(5.1202, error));
+		Assert.assertThat(entities.get(DEATHS_PREDATOR_KEY).getCurrentValue(), Matchers.closeTo(0.0525, error));
+
+		Assert.assertThat(entities.get(MEETINGS_KEY).getCurrentValue(), Matchers.closeTo(5120.2151, 0.001));
+		
+		model.setFinalTime(10);
+		model.setTimeSteps(0.25);
+		simulation.run();
+		entities = model.getModelEntities();
+
+		Assert.assertThat(entities.get(POPULATION_PREY_KEY).getCurrentValue(), Matchers.closeTo(46.8925, error));
+		Assert.assertThat(entities.get(POPULATION_PREDATOR_KEY).getCurrentValue(), Matchers.closeTo(103.074, error));
+
+		//Simulation 2 Euler-Cauchy
+		model.setIntegration(new EulerCauchyIntegration());
 		model.setFinalTime(2);
+		model.setTimeSteps(0.5);
 		System.out.println("Run Simulation 2");
 		simulation.run();
 		entities = model.getModelEntities();
@@ -214,9 +245,6 @@ public class SimulationTest {
 
 		Assert.assertThat(entities.get(MEETINGS_KEY).getCurrentValue(), Matchers.closeTo(5411.9328, 0.001));
 
-		// changeIntegrationType();
-		// System.out.println("Run Simulation after Integration change");
-		// simulation.run();
 
 		System.out.println("Run Simulation 3");
 		changeInitialValues();
@@ -263,10 +291,6 @@ public class SimulationTest {
 		model.setInitialTime(initialTime);
 		model.setFinalTime(finalTime);
 		model.setTimeSteps(dt);
-	}
-
-	private void changeIntegrationType() {
-		model.setIntegration(new RungeKuttaIntegration());
 	}
 
 }

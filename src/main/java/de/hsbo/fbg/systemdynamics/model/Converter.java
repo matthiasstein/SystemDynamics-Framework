@@ -60,7 +60,7 @@ public class Converter {
 	/**
 	 * Method to convert the target model entity value.
 	 */
-	protected void convert() {
+	public void convert() {
 		for (ModelEntity input : this.inputs) {
 			if (!input.isCurrentValueCalculated() && input.getConverter() != null) {
 				input.getConverter().convert();

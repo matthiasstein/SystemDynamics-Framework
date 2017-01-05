@@ -12,11 +12,11 @@ import de.hsbo.fbg.systemdynamics.model.Converter;
  */
 public abstract class Integration {
 
-    double dt;
-	List <Converter> stockConverter;
-    List <Converter> variableConverter;
-    
-    public List<Converter> getStockConverter() {
+	double dt;
+	List<Converter> stockConverter;
+	List<Converter> variableConverter;
+
+	public List<Converter> getStockConverter() {
 		return stockConverter;
 	}
 
@@ -32,33 +32,26 @@ public abstract class Integration {
 		this.variableConverter = variableConverter;
 	}
 
+	/**
+	 *
+	 * @return dt.
+	 */
+	public double getDt() {
+		return dt;
+	}
 
+	/**
+	 *
+	 * @param dt
+	 *            dt to set.
+	 */
+	public void setDt(double dt) {
+		this.dt = dt;
+	}
 
-//    /**
-//     * Abstract method to get the integration function.
-//     *
-//     * @param stock stock.
-//     * @return integration function.
-//     */
-//    public abstract IFunction getIntegrationFunction(Stock stock);
-
-    /**
-     *
-     * @return dt.
-     */
-    public double getDt() {
-        return dt;
-    }
-
-    /**
-     *
-     * @param dt dt to set.
-     */
-    public void setDt(double dt) {
-        this.dt = dt;
-    }
-        
-    
-    public abstract void integrate ();
+	/**
+	 * This method has to be implemented, to calculate the integration.
+	 */
+	public abstract void integrate();
 
 }
