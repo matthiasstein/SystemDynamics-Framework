@@ -3,7 +3,6 @@ package de.hsbo.fbg.systemdynamics.model;
 import java.util.ArrayList;
 
 import de.hsbo.fbg.systemdynamics.exceptions.ModelException;
-import de.hsbo.fbg.systemdynamics.functions.Integration;
 
 /**
  * This class represents a stock.
@@ -15,7 +14,6 @@ public class Stock extends ModelEntity {
 
     private ArrayList<Flow> inputFlows;
     private ArrayList<Flow> outputFlows;
-    private Integration integration;
 
     /**
      * Constructor.
@@ -118,13 +116,4 @@ public class Stock extends ModelEntity {
         }
         return stock;
     }
-
-    public Integration getIntegration() {
-        return integration;
-    }
-
-    protected void setIntegration(Integration integration) {
-        this.integration = integration;
-    }
-
 }

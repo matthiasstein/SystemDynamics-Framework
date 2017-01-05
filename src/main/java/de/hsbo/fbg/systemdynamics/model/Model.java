@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.ArrayList;
 
 import de.hsbo.fbg.systemdynamics.exceptions.ModelException;
+import de.hsbo.fbg.systemdynamics.functions.EulerCauchyIntegration;
 import de.hsbo.fbg.systemdynamics.functions.Integration;
 import java.text.DecimalFormat;
 import java.util.List;
@@ -23,8 +24,11 @@ public class Model {
     private double finalTime;
     private double timeSteps;
     private double currentTime;
+    private Integration integration;
 
-    /**
+
+
+	/**
      * Constructor.
      */
     public Model() {
@@ -35,7 +39,7 @@ public class Model {
         this.currentTime = this.initialTime;
         this.finalTime = 100;
         this.timeSteps = 1;
-
+        this.integration=new EulerCauchyIntegration();
     }
 
     /**
@@ -45,7 +49,7 @@ public class Model {
      * @param finalTime final time.
      * @param timeSteps length of a time step.
      */
-    public Model(double initialTime, double finalTime, double timeSteps) {
+    public Model(double initialTime, double finalTime, double timeSteps, Integration integration) {
         this.modelEntities = new HashMap<String, ModelEntity>();
         this.converterList = new ArrayList<Converter>();
         this.stockConverterList = new ArrayList<Converter>();
@@ -53,6 +57,7 @@ public class Model {
         this.currentTime = initialTime;
         this.finalTime = finalTime;
         this.timeSteps = timeSteps;
+        this.integration=integration;
     }
 
     /**
@@ -114,11 +119,8 @@ public class Model {
      * @param stock stock.
      * @return the created stock converter.
      */
-    public Converter createStockConverter(Stock stock, Integration integration) {
-        stock.setIntegration(integration);
-        integration.setDt(timeSteps);
+    public Converter createStockConverter(Stock stock) {
         Converter converter = new Converter(stock);
-        converter.setFunction(stock.getIntegration().getIntegrationFunction(stock));
         this.addStockConverter(converter);
         return converter;
     }
@@ -245,5 +247,13 @@ public class Model {
         });
         return modelEntitiesValues;
     }
+    
+    public Integration getIntegration() {
+		return integration;
+	}
+
+	public void setIntegration(Integration integration) {
+		this.integration = integration;
+	}
 
 }

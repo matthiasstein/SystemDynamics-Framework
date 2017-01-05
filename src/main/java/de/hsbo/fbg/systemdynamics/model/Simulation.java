@@ -73,9 +73,12 @@ public class Simulation {
             v.setCurrentValue(v.getInitialValue());
             v.setCurrentValueCalculated(false);
         });
-        for (Converter converter : this.model.getStockConverterList()) {
-            ((Stock) converter.getTargetEntity()).getIntegration().setDt(this.model.getTimeSteps());
-        }
+//        for (Converter converter : this.model.getStockConverterList()) {
+//            ((Stock) converter.getTargetEntity()).getIntegration().setDt(this.model.getTimeSteps());
+//        }
+        this.model.getIntegration().setStockConverter(model.getStockConverterList());
+        this.model.getIntegration().setVariableConverter(model.getConverterList());
+        this.model.getIntegration().setDt(this.model.getTimeSteps());
     }
 
     /**
@@ -121,11 +124,7 @@ public class Simulation {
      * Method to execute the stock converters.
      */
     private void executeStockConverters() {
-        for (Converter stockConverter : this.model.getStockConverterList()) {
-            if (stockConverter != null && !stockConverter.getTargetEntity().isCurrentValueCalculated()) {
-                stockConverter.convert();
-            }
-        }
+    	model.getIntegration().integrate();
     }
 
     /**

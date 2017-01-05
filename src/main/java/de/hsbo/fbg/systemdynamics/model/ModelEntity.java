@@ -53,7 +53,7 @@ public abstract class ModelEntity implements Cloneable {
      *
      * @param currentValue current value to set.
      */
-    protected void setCurrentValue(double currentValue) {
+    public void setCurrentValue(double currentValue) {
         this.currentValue = currentValue;
     }
 
@@ -69,7 +69,7 @@ public abstract class ModelEntity implements Cloneable {
      *
      * @param previousValue previous value to set.
      */
-    protected void setPreviousValue(double previousValue) {
+    public void setPreviousValue(double previousValue) {
         this.previousValue = previousValue;
     }
 
@@ -91,7 +91,7 @@ public abstract class ModelEntity implements Cloneable {
      *
      * @return converter.
      */
-    protected Converter getConverter() {
+    public Converter getConverter() {
         return this.converter;
     }
 
@@ -99,7 +99,7 @@ public abstract class ModelEntity implements Cloneable {
      *
      * @param b true or false.
      */
-    protected void setCurrentValueCalculated(boolean b) {
+    public void setCurrentValueCalculated(boolean b) {
         this.currentValueCalculated = b;
     }
 

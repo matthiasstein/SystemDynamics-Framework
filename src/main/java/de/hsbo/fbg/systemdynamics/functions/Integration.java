@@ -1,6 +1,8 @@
 package de.hsbo.fbg.systemdynamics.functions;
 
-import de.hsbo.fbg.systemdynamics.model.Stock;
+import java.util.List;
+
+import de.hsbo.fbg.systemdynamics.model.Converter;
 
 /**
  * Abstract class that describes an integration type.
@@ -11,14 +13,34 @@ import de.hsbo.fbg.systemdynamics.model.Stock;
 public abstract class Integration {
 
     double dt;
+	List <Converter> stockConverter;
+    List <Converter> variableConverter;
+    
+    public List<Converter> getStockConverter() {
+		return stockConverter;
+	}
 
-    /**
-     * Abstract method to get the integration function.
-     *
-     * @param stock stock.
-     * @return integration function.
-     */
-    public abstract IFunction getIntegrationFunction(Stock stock);
+	public void setStockConverter(List<Converter> stockConverter) {
+		this.stockConverter = stockConverter;
+	}
+
+	public List<Converter> getVariableConverter() {
+		return variableConverter;
+	}
+
+	public void setVariableConverter(List<Converter> variableConverter) {
+		this.variableConverter = variableConverter;
+	}
+
+
+
+//    /**
+//     * Abstract method to get the integration function.
+//     *
+//     * @param stock stock.
+//     * @return integration function.
+//     */
+//    public abstract IFunction getIntegrationFunction(Stock stock);
 
     /**
      *
@@ -35,5 +57,8 @@ public abstract class Integration {
     public void setDt(double dt) {
         this.dt = dt;
     }
+        
+    
+    public abstract void integrate ();
 
 }

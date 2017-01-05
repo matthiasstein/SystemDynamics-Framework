@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import de.hsbo.fbg.systemdynamics.exceptions.ModelException;
 import de.hsbo.fbg.systemdynamics.functions.IFunction;
-import de.hsbo.fbg.systemdynamics.functions.Integration;
 
 /**
  * This class represents a converter.
@@ -15,6 +14,7 @@ import de.hsbo.fbg.systemdynamics.functions.Integration;
 public class Converter {
 
 	private IFunction function;
+
 	private ModelEntity targetEntity;
 	ArrayList<ModelEntity> inputs;
 	private Double minLimitValue;
@@ -47,11 +47,15 @@ public class Converter {
 		this.function = function;
 	}
 	
-	public void setIntegration(Integration integration){
-		Stock stock=(Stock)targetEntity;
-		stock.setIntegration(integration);
-        this.function=stock.getIntegration().getIntegrationFunction(stock);
+	public IFunction getFunction() {
+		return function;
 	}
+	
+//	public void setIntegration(Integration integration){
+//		Stock stock=(Stock)targetEntity;
+//		stock.setIntegration(integration);
+//        //this.function=stock.getIntegration().getIntegrationFunction(stock);
+//	}
 
 	/**
 	 * Method to convert the target model entity value.
