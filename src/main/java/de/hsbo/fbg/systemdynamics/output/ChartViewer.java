@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -134,6 +135,12 @@ public class ChartViewer extends Application {
         }
     }
 
+    /**
+     * Set scene width and height.
+     *
+     * @param width  width.
+     * @param height height.
+     */
     public static void setSize(double width, double height) {
         ChartViewer.width = width;
         ChartViewer.height = height;

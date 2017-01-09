@@ -13,46 +13,55 @@ import de.hsbo.fbg.systemdynamics.model.Stock;
  */
 public abstract class Integration {
 
-	double dt;
-	List<Stock> stocks;
-	List<Converter> variableConverter;
+    private double dt;
+    private List<Stock> stocks;
+    private List<Converter> variableConverter;
 
-	public List<Stock> getStocks() {
-		return stocks;
-	}
+    /**
+     * @return stocks.
+     */
+    public List<Stock> getStocks() {
+        return stocks;
+    }
 
-	public void setStocks(List<Stock> stocks) {
-		this.stocks = stocks;
-	}
+    /**
+     * @param stocks stocks to set.
+     */
+    public void setStocks(List<Stock> stocks) {
+        this.stocks = stocks;
+    }
 
-	public List<Converter> getVariableConverter() {
-		return variableConverter;
-	}
+    /**
+     * @return variable converters.
+     */
+    public List<Converter> getVariableConverter() {
+        return variableConverter;
+    }
 
-	public void setVariableConverter(List<Converter> variableConverter) {
-		this.variableConverter = variableConverter;
-	}
+    /**
+     * @param variableConverter variable converters to set.
+     */
+    public void setVariableConverter(List<Converter> variableConverter) {
+        this.variableConverter = variableConverter;
+    }
 
-	/**
-	 *
-	 * @return dt.
-	 */
-	public double getDt() {
-		return dt;
-	}
+    /**
+     * @return dt.
+     */
+    public double getDt() {
+        return dt;
+    }
 
-	/**
-	 *
-	 * @param dt
-	 *            dt to set.
-	 */
-	public void setDt(double dt) {
-		this.dt = dt;
-	}
+    /**
+     * @param dt dt to set.
+     */
+    public void setDt(double dt) {
+        this.dt = dt;
+    }
 
-	/**
-	 * This method has to be implemented, to calculate the integration.
-	 */
-	public abstract void integrate();
+    /**
+     * This method has to be implemented, to calculate the integration.
+     */
+    public abstract void integrate();
 
 }

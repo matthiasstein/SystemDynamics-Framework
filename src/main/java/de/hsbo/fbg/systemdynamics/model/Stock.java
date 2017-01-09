@@ -33,7 +33,7 @@ public class Stock extends ModelEntity {
      * Method to add multiple input flows.
      *
      * @param flow flows that should be added.
-     * @throws ModelException
+     * @throws ModelException model exception.
      */
     public void addInputFlows(Flow... flow) throws ModelException {
         for (Flow f : flow) {
@@ -45,7 +45,7 @@ public class Stock extends ModelEntity {
      * Method to add one input flow.
      *
      * @param flow flow that should be added.
-     * @throws ModelException
+     * @throws ModelException model exception.
      */
     private void addInputFlow(Flow flow) throws ModelException {
         if (flowAlreadyAdded(flow)) {
@@ -59,7 +59,7 @@ public class Stock extends ModelEntity {
      * Method to add multiple output flow.
      *
      * @param flow flow that should be added.
-     * @throws ModelException
+     * @throws ModelException model exception.
      */
     public void addOutputFlows(Flow... flow) throws ModelException {
         for (Flow f : flow) {
@@ -87,7 +87,6 @@ public class Stock extends ModelEntity {
     }
 
     /**
-     *
      * @return input flows.
      */
     public ArrayList<Flow> getInputFlows() {
@@ -95,30 +94,27 @@ public class Stock extends ModelEntity {
     }
 
     /**
-     *
      * @return output flows.
      */
     public ArrayList<Flow> getOutputFlows() {
         return outputFlows;
-    }   
+    }
 
     /**
-     * 
      * @return function for the flow rate
      */
     public IFunction getFlowRateFunction() {
-		return flowRateFunction;
-	}
+        return flowRateFunction;
+    }
 
     /**
-     * 
      * @param flowRateFunction function for the flow rate
      */
-	public void setFlowRateFunction(IFunction flowRateFunction) {
-		this.flowRateFunction = flowRateFunction;
-	}
+    public void setFlowRateFunction(IFunction flowRateFunction) {
+        this.flowRateFunction = flowRateFunction;
+    }
 
-	@Override
+    @Override
     public Object clone() throws CloneNotSupportedException {
         Stock stock = new Stock(this.getName());
         stock.setCurrentValue(this.getCurrentValue());

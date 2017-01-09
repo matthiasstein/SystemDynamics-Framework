@@ -120,6 +120,12 @@ public class ChartPlotter extends Application {
         }
     }
 
+    /**
+     * Set scene width and height.
+     *
+     * @param width  width.
+     * @param height height.
+     */
     public static void setSize(double width, double height) {
         ChartPlotter.width = width;
         ChartPlotter.height = height;

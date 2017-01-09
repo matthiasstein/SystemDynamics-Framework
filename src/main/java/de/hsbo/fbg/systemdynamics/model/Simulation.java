@@ -52,19 +52,6 @@ public class Simulation {
     }
 
     /**
-     * Method to set exporter class
-     *
-     * @param exporter exporter class
-     */
-    public void setExporter(IExporter exporter) {
-        this.exporter = exporter;
-    }
-
-    public IExporter getExporter() {
-        return this.exporter;
-    }
-
-    /**
      * Prepare all initial model values for running the simulation.
      */
     private void prepareInitialValues() {
@@ -121,7 +108,7 @@ public class Simulation {
      * Method to execute the stock converters.
      */
     private void executeStockConverters() {
-    	model.getIntegration().integrate();
+        model.getIntegration().integrate();
     }
 
     /**
@@ -134,6 +121,22 @@ public class Simulation {
             }
         }
 
+    }
+
+    /**
+     * Method to set exporter class
+     *
+     * @param exporter exporter class
+     */
+    public void setExporter(IExporter exporter) {
+        this.exporter = exporter;
+    }
+
+    /**
+     * @return exporter.
+     */
+    public IExporter getExporter() {
+        return this.exporter;
     }
 
 }

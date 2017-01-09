@@ -22,7 +22,6 @@ public interface IExporter {
     public void saveFile();
 
     /**
-     *
      * @return file content as string.
      */
     public String getString();

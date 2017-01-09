@@ -20,7 +20,7 @@ public class CSVExporter implements IExporter {
     /**
      * Constructor.
      *
-     * @param csvFile the path to the csv file.
+     * @param csvFile   the path to the csv file.
      * @param separator the separator string.
      */
     public CSVExporter(String csvFile, String separator) {

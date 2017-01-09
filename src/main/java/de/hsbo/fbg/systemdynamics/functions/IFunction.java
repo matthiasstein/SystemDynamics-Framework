@@ -9,9 +9,8 @@ package de.hsbo.fbg.systemdynamics.functions;
 public interface IFunction {
 
     /**
-     *
      * @return calculated entity value
      */
-    public double calculateEntityValue();
+    double calculateEntityValue();
 
 }

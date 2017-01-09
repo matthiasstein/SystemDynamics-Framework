@@ -26,7 +26,6 @@ public abstract class ModelEntity implements Cloneable {
     }
 
     /**
-     *
      * @return model entity name.
      */
     public String getName() {
@@ -34,7 +33,6 @@ public abstract class ModelEntity implements Cloneable {
     }
 
     /**
-     *
      * @param name name to set.
      */
     protected void setName(String name) {
@@ -42,7 +40,6 @@ public abstract class ModelEntity implements Cloneable {
     }
 
     /**
-     *
      * @return current model entity value.
      */
     public double getCurrentValue() {
@@ -50,7 +47,6 @@ public abstract class ModelEntity implements Cloneable {
     }
 
     /**
-     *
      * @param currentValue current value to set.
      */
     public void setCurrentValue(double currentValue) {
@@ -58,7 +54,6 @@ public abstract class ModelEntity implements Cloneable {
     }
 
     /**
-     *
      * @return previous model entity value.
      */
     public double getPreviousValue() {
@@ -66,29 +61,20 @@ public abstract class ModelEntity implements Cloneable {
     }
 
     /**
-     *
      * @param previousValue previous value to set.
      */
     public void setPreviousValue(double previousValue) {
         this.previousValue = previousValue;
     }
 
-    @Override
-    public String toString() {
-        return "ModelEntity{" + "name=" + this.name + ", value=" + this.currentValue + ", previousValue=" + this.previousValue + '}';
-    }
-
     /**
-     *
      * @param converter converter to set.
      */
     protected void setConverter(Converter converter) {
         this.converter = converter;
-
     }
 
     /**
-     *
      * @return converter.
      */
     public Converter getConverter() {
@@ -96,7 +82,6 @@ public abstract class ModelEntity implements Cloneable {
     }
 
     /**
-     *
      * @param b true or false.
      */
     public void setCurrentValueCalculated(boolean b) {
@@ -104,22 +89,32 @@ public abstract class ModelEntity implements Cloneable {
     }
 
     /**
-     *
      * @return true if value has already been calculated.
      */
     protected boolean isCurrentValueCalculated() {
         return this.currentValueCalculated;
     }
 
+    /**
+     * @return intitial value.
+     */
     public double getInitialValue() {
         return initialValue;
     }
 
+    /**
+     * @param initialValue initial value to set.
+     */
     public void setInitialValue(double initialValue) {
         this.initialValue = initialValue;
     }
 
     @Override
     public abstract Object clone() throws CloneNotSupportedException;
+
+    @Override
+    public String toString() {
+        return "ModelEntity{" + "name=" + this.name + ", value=" + this.currentValue + ", previousValue=" + this.previousValue + '}';
+    }
 
 }

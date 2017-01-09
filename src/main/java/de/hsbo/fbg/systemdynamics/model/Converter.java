@@ -1,6 +1,7 @@
 package de.hsbo.fbg.systemdynamics.model;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import de.hsbo.fbg.systemdynamics.exceptions.ModelException;
 import de.hsbo.fbg.systemdynamics.functions.IFunction;
@@ -13,133 +14,135 @@ import de.hsbo.fbg.systemdynamics.functions.IFunction;
  */
 public class Converter {
 
-	private IFunction function;
+    private IFunction function;
 
-	private ModelEntity targetEntity;
-	ArrayList<ModelEntity> inputs;
-	private Double minLimitValue;
-	private Double maxLimitValue;
+    private ModelEntity targetEntity;
+    ArrayList<ModelEntity> inputs;
+    private Double minLimitValue;
+    private Double maxLimitValue;
 
-	/**
-	 * Constructor.
-	 *
-	 * @param entity
-	 *            target model entity.
-	 * @param inputs
-	 *            input model entities.
-	 */
-	protected Converter(ModelEntity entity, ModelEntity... inputs) {
-		this.targetEntity = entity;
-		this.inputs = new ArrayList<ModelEntity>();
-		for (ModelEntity modelEntity : inputs) {
-			this.inputs.add(modelEntity);
-		}
-	}
+    /**
+     * Constructor.
+     *
+     * @param entity target model entity.
+     * @param inputs input model entities.
+     */
+    protected Converter(ModelEntity entity, ModelEntity... inputs) {
+        this.targetEntity = entity;
+        this.inputs = new ArrayList<ModelEntity>();
+        Collections.addAll(this.inputs, inputs);
+    }
 
-	/**
-	 * Adds a function for calculating the current value of the target
-	 * ModelEntity.
-	 * 
-	 * @param function
-	 *            function for the target ModelEntity's current value
-	 */
-	public void setFunction(IFunction function) {
-		this.function = function;
-	}
-	
-	public IFunction getFunction() {
-		return function;
-	}
-	
+    /**
+     * Adds a function for calculating the current value of the target
+     * ModelEntity.
+     *
+     * @param function function for the target ModelEntity's current value.
+     */
+    public void setFunction(IFunction function) {
+        this.function = function;
+    }
 
-	/**
-	 * Method to convert the target model entity value.
-	 */
-	public void convert() {
-		for (ModelEntity input : this.inputs) {
-			if (!input.isCurrentValueCalculated() && input.getConverter() != null) {
-				input.getConverter().convert();
-			}
-		}
-		double calculatedValue = function.calculateEntityValue();
+    /**
+     * @return function for the target ModelEntity's current value.
+     */
+    public IFunction getFunction() {
+        return function;
+    }
 
-		// Check if there are any limits for the value that has to be converted.
-		if (minLimitValue != null && minLimitValue < calculatedValue) {
-			this.targetEntity.setCurrentValue(this.minLimitValue);
-		} else if (maxLimitValue != null && calculatedValue > maxLimitValue) {
-			this.targetEntity.setCurrentValue(maxLimitValue);
-		} else {
-			this.targetEntity.setCurrentValue(calculatedValue);
-		}
-		this.targetEntity.setCurrentValueCalculated(true);
 
-	}
+    /**
+     * Method to convert the target model entity value.
+     */
+    public void convert() {
+        for (ModelEntity input : this.inputs) {
+            if (!input.isCurrentValueCalculated() && input.getConverter() != null) {
+                input.getConverter().convert();
+            }
+        }
+        double calculatedValue = function.calculateEntityValue();
 
-	/**
-	 * Method to add multiple input model entities.
-	 *
-	 * @param inputs
-	 *            model entities.
-	 * @throws ModelException
-	 */
-	protected void addInputs(ModelEntity... inputs) throws ModelException {
-		for (ModelEntity f : inputs) {
-			this.addInput(f);
-		}
-	}
+        // Check if there are any limits for the value that has to be converted.
+        if (minLimitValue != null && minLimitValue < calculatedValue) {
+            this.targetEntity.setCurrentValue(this.minLimitValue);
+        } else if (maxLimitValue != null && calculatedValue > maxLimitValue) {
+            this.targetEntity.setCurrentValue(maxLimitValue);
+        } else {
+            this.targetEntity.setCurrentValue(calculatedValue);
+        }
+        this.targetEntity.setCurrentValueCalculated(true);
 
-	/**
-	 * Method to add an input for the target entity.
-	 * @param input input entity
-	 * @throws ModelException
-	 */
-	private void addInput(ModelEntity input) throws ModelException {
-		if (inputAlreadyAdded(input)) {
-			throw new ModelException(ModelException.DUPLICATE_VARIABLE_EXCEPTION);
-		} else {
-			this.inputs.add(input);
-		}
-	}
+    }
 
-	/**
-	 * Method to determine if a ModelEntity has been already added to the Converter.
-	 * @param variable ModelEntity to check
-	 * @return true if the ModelEntity already exists
-	 */
-	private boolean inputAlreadyAdded(ModelEntity variable) {
-		return inputs.contains(variable);
-	}
+    /**
+     * Method to add multiple input model entities.
+     *
+     * @param inputs model entities.
+     * @throws ModelException model exception.
+     */
+    protected void addInputs(ModelEntity... inputs) throws ModelException {
+        for (ModelEntity f : inputs) {
+            this.addInput(f);
+        }
+    }
 
-	/**
-	 *
-	 * @return target entity.
-	 */
-	public ModelEntity getTargetEntity() {
-		return this.targetEntity;
-	}
+    /**
+     * Method to add an input for the target entity.
+     *
+     * @param input input entity.
+     * @throws ModelException model exception.
+     */
+    private void addInput(ModelEntity input) throws ModelException {
+        if (inputAlreadyAdded(input)) {
+            throw new ModelException(ModelException.DUPLICATE_VARIABLE_EXCEPTION);
+        } else {
+            this.inputs.add(input);
+        }
+    }
 
-	/**
-	 * 
-	 * @return minimum limit that will be calculated by the converter
-	 */
-	public double getMinLimitValue() {
-		return minLimitValue;
-	}
+    /**
+     * Method to determine if a ModelEntity has been already added to the Converter.
+     *
+     * @param variable ModelEntity to check.
+     * @return true if the ModelEntity already exists.
+     */
+    private boolean inputAlreadyAdded(ModelEntity variable) {
+        return inputs.contains(variable);
+    }
 
-	public void setMinLimitValue(double minLimitValue) {
-		this.minLimitValue = minLimitValue;
-	}
+    /**
+     * @return target entity.
+     */
+    public ModelEntity getTargetEntity() {
+        return this.targetEntity;
+    }
 
-	/**
-	 * 
-	 * @return minimum limit that will be calculated by the converter
-	 */
-	public double getMaxLimitValue() {
-		return maxLimitValue;
-	}
+    /**
+     * @return minimum limit that will be calculated by the converter.
+     */
+    public double getMinLimitValue() {
+        return minLimitValue;
+    }
 
-	public void setMaxLimitValue(double maxLimitValue) {
-		this.maxLimitValue = maxLimitValue;
-	}
+    /**
+     * @param minLimitValue minimum limit to set.
+     */
+    public void setMinLimitValue(double minLimitValue) {
+        this.minLimitValue = minLimitValue;
+    }
+
+    /**
+     * @return maximum limit that will be calculated by the converter.
+     */
+    public double getMaxLimitValue() {
+        return maxLimitValue;
+    }
+
+    /**
+     * @param maxLimitValue maximum limit to set.
+     */
+    public void setMaxLimitValue(double maxLimitValue) {
+        this.maxLimitValue = maxLimitValue;
+    }
 
 }
