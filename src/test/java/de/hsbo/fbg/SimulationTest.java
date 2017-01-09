@@ -17,7 +17,8 @@ import de.hsbo.fbg.systemdynamics.model.Flow;
 import de.hsbo.fbg.systemdynamics.model.Model;
 import de.hsbo.fbg.systemdynamics.model.ModelEntity;
 import de.hsbo.fbg.systemdynamics.output.CSVExporter;
-import de.hsbo.fbg.systemdynamics.output.ChartsViewer;
+import de.hsbo.fbg.systemdynamics.output.ChartViewer;
+import de.hsbo.fbg.systemdynamics.output.ChartPlotter;
 import java.util.HashMap;
 
 /**
@@ -260,8 +261,13 @@ public class SimulationTest {
 		Assert.assertThat(entities.get(DEATHS_PREDATOR_KEY).getCurrentValue(), Matchers.closeTo(0.5351, error));
 
 		String file = simulation.getExporter().getString();
-		ChartsViewer.setCSVFile(file);
-		ChartsViewer.launch(ChartsViewer.class);
+        ChartViewer.setCSVFile(file);
+        ChartViewer.setSize(1000, 800);
+        ChartViewer.launch(ChartViewer.class);
+
+        //ChartPlotter.setCSVFile(file);
+        //ChartPlotter.setSize(1000, 800);
+        //ChartPlotter.launch(ChartPlotter.class);
 
 	}
 

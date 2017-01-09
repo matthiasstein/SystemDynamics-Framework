@@ -1,8 +1,5 @@
 package de.hsbo.fbg.systemdynamics.output;
 
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -10,7 +7,6 @@ import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Application;
-import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.chart.LineChart;
@@ -19,20 +15,20 @@ import javafx.scene.chart.XYChart;
 import javafx.scene.chart.XYChart.Series;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
-import javafx.scene.image.WritableImage;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
-import javax.imageio.ImageIO;
 
 /**
  * This class handels the chart printing.
  *
  * @author Matthias Stein
  */
-public class ChartsViewer extends Application {
+public class ChartViewer extends Application {
 
     private static ArrayList<Series> series;
     private static ArrayList<Series> series2;
+    private static double width = 800;
+    private static double height = 600;
 
     @Override
     public void start(Stage stage) {
@@ -42,7 +38,7 @@ public class ChartsViewer extends Application {
         Group root = new Group();
 
         // create scene
-        Scene scene = new Scene(root, 800, 600/*, Color.WHITE*/);
+        Scene scene = new Scene(root, width, height);
 
         // create first tab
         TabPane tabPane = new TabPane();
@@ -60,7 +56,7 @@ public class ChartsViewer extends Application {
         firstTab.setContent(lineChart);
         tabPane.getTabs().add(firstTab);
 
-        ChartsViewer.series2.forEach((s) -> {
+        ChartViewer.series2.forEach((s) -> {
             //creating the chart
             LineChart chart = this.createLineChart(s.getName());
             chart.getData().add(s);
@@ -81,9 +77,6 @@ public class ChartsViewer extends Application {
         root.getChildren().add(borderPane);
         stage.setScene(scene);
         stage.show();
-        ChartsViewer.saveToFile(scene);
-        // stop application
-        //Platform.exit();
     }
 
     /**
@@ -101,9 +94,6 @@ public class ChartsViewer extends Application {
         LineChart<Number, Number> lineChart
                 = new LineChart<Number, Number>(xAxis, yAxis);
 
-        // disable chart animation
-        lineChart.setAnimated(false);
-
         lineChart.setTitle(title);
         return lineChart;
     }
@@ -114,8 +104,8 @@ public class ChartsViewer extends Application {
      * @param csvFile CSV String
      */
     public static void setCSVFile(String csvFile) {
-        ChartsViewer.series = new ArrayList<Series>();
-        ChartsViewer.series2 = new ArrayList<Series>();
+        ChartViewer.series = new ArrayList<Series>();
+        ChartViewer.series2 = new ArrayList<Series>();
         String[] lines = csvFile.split("\\r?\\n");
         String[] modelEntityNames = lines[0].split(";");
 
@@ -136,27 +126,16 @@ public class ChartsViewer extends Application {
                     s.getData().add(new XYChart.Data(j - 1, value));
                     s2.getData().add(new XYChart.Data(j - 1, value));
                 } catch (ParseException ex) {
-                    Logger.getLogger(ChartsViewer.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(ChartViewer.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
-            ChartsViewer.series.add(s);
-            ChartsViewer.series2.add(s2);
+            ChartViewer.series.add(s);
+            ChartViewer.series2.add(s2);
         }
     }
 
-    /**
-     * Method to save the chart as an image.
-     *
-     * @param scene Scene
-     */
-    public static void saveToFile(Scene scene) {
-        WritableImage image = scene.snapshot(null);
-        File outputFile = new File("chart.png");
-        BufferedImage bImage = SwingFXUtils.fromFXImage(image, null);
-        try {
-            ImageIO.write(bImage, "png", outputFile);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+    public static void setSize(double width, double height) {
+        ChartViewer.width = width;
+        ChartViewer.height = height;
     }
 }
