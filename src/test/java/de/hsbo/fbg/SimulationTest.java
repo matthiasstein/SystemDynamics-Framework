@@ -40,9 +40,6 @@ public class SimulationTest {
 	private Variable expansionRatePredator;
 	private Variable lossRatePredator;
 
-	private Converter preyPopulationConverter;
-	private Converter predatorPopulationConverter;
-
 	private final String POPULATION_PREY_KEY = "Population_Prey";
 	private final String BIRTHS_PREY_KEY = "Births_Prey";
 	private final String DEATHS_PREY_KEY = "Deaths_Prey";
@@ -113,34 +110,34 @@ public class SimulationTest {
 			// Create meetings as variable
 			Variable meetings = (Variable) model.createModelEntity(ModelEntityType.VARIABLE, MEETINGS_KEY);
 
-			// Approach for converting entity values by implementing IFunction
-			// with an inner class
-			Converter meetingsConverter = model.createConverter(meetings, populationPrey, populationPredator);
-			meetingsConverter
-					.setFunction(() -> populationPrey.getCurrentValue() * populationPredator.getCurrentValue());
-
-			Converter birthsPreyConverter = model.createConverter(birthsPrey, populationPrey, expansionRatePrey);
-			birthsPreyConverter
-					.setFunction(() -> populationPrey.getCurrentValue() * expansionRatePrey.getCurrentValue());
+			// Create converters
 
 			Converter deathsPreyConverter = model.createConverter(deathsPrey, meetings, lossRatePrey);
 			deathsPreyConverter.setFunction(() -> meetings.getCurrentValue() * lossRatePrey.getCurrentValue());
 
-			Converter birthsPredatorConverter = model.createConverter(birthsPredator, meetings, expansionRatePredator);
-			birthsPredatorConverter
-					.setFunction(() -> meetings.getCurrentValue() * expansionRatePredator.getCurrentValue());
+			Converter birthsPreyConverter = model.createConverter(birthsPrey, populationPrey, expansionRatePrey);
+			birthsPreyConverter
+					.setFunction(() -> populationPrey.getCurrentValue() * expansionRatePrey.getCurrentValue());
 
 			Converter deathsPredatorConverter = model.createConverter(deathsPredator, populationPredator,
 					lossRatePredator);
 			deathsPredatorConverter
 					.setFunction(() -> populationPredator.getCurrentValue() * lossRatePredator.getCurrentValue());
 
-			preyPopulationConverter = model.createStockConverter(populationPrey);
-			preyPopulationConverter.setFunction(() -> birthsPrey.getCurrentValue()
-					- deathsPrey.getCurrentValue());
+			// Approach for converting entity values by implementing IFunction
+			// with an inner class
+			Converter meetingsConverter = model.createConverter(meetings, populationPrey, populationPredator);
+			meetingsConverter
+					.setFunction(() -> populationPrey.getCurrentValue() * populationPredator.getCurrentValue());
 
-			predatorPopulationConverter = model.createStockConverter(populationPredator);
-			predatorPopulationConverter.setFunction(() ->birthsPredator.getCurrentValue() - deathsPredator.getCurrentValue());
+			Converter birthsPredatorConverter = model.createConverter(birthsPredator, meetings, expansionRatePredator);
+			birthsPredatorConverter
+					.setFunction(() -> meetings.getCurrentValue() * expansionRatePredator.getCurrentValue());
+
+			populationPrey.setFlowRateFunction(() -> birthsPrey.getCurrentValue() - deathsPrey.getCurrentValue());
+			populationPredator
+					.setFlowRateFunction(() -> birthsPredator.getCurrentValue() - deathsPredator.getCurrentValue());
+
 		} catch (ModelException e) {
 			e.printStackTrace();
 		}
@@ -194,8 +191,8 @@ public class SimulationTest {
 		Assert.assertThat(entities.get(DEATHS_PREDATOR_KEY).getCurrentValue(), Matchers.closeTo(0.0525, error));
 
 		Assert.assertThat(entities.get(MEETINGS_KEY).getCurrentValue(), Matchers.closeTo(5118.9363, 0.001));
-		
-		//Test Runge-Kutta
+
+		// Test Runge-Kutta
 		model.setIntegration(new RungeKuttaIntegration());
 		System.out.println("Run Simulation Runge-Kutta");
 		simulation.run();
@@ -214,7 +211,7 @@ public class SimulationTest {
 		Assert.assertThat(entities.get(DEATHS_PREDATOR_KEY).getCurrentValue(), Matchers.closeTo(0.0525, error));
 
 		Assert.assertThat(entities.get(MEETINGS_KEY).getCurrentValue(), Matchers.closeTo(5120.2151, 0.001));
-		
+
 		model.setFinalTime(10);
 		model.setTimeSteps(0.25);
 		simulation.run();
@@ -223,7 +220,7 @@ public class SimulationTest {
 		Assert.assertThat(entities.get(POPULATION_PREY_KEY).getCurrentValue(), Matchers.closeTo(46.8925, error));
 		Assert.assertThat(entities.get(POPULATION_PREDATOR_KEY).getCurrentValue(), Matchers.closeTo(103.074, error));
 
-		//Simulation 2 Euler-Cauchy
+		// Simulation 2 Euler-Cauchy
 		model.setIntegration(new EulerCauchyIntegration());
 		model.setFinalTime(2);
 		model.setTimeSteps(0.5);
@@ -244,7 +241,6 @@ public class SimulationTest {
 		Assert.assertThat(entities.get(DEATHS_PREDATOR_KEY).getCurrentValue(), Matchers.closeTo(0.0602, error));
 
 		Assert.assertThat(entities.get(MEETINGS_KEY).getCurrentValue(), Matchers.closeTo(5411.9328, 0.001));
-
 
 		System.out.println("Run Simulation 3");
 		changeInitialValues();

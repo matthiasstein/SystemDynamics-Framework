@@ -51,11 +51,6 @@ public class Converter {
 		return function;
 	}
 	
-//	public void setIntegration(Integration integration){
-//		Stock stock=(Stock)targetEntity;
-//		stock.setIntegration(integration);
-//        //this.function=stock.getIntegration().getIntegrationFunction(stock);
-//	}
 
 	/**
 	 * Method to convert the target model entity value.
@@ -93,6 +88,11 @@ public class Converter {
 		}
 	}
 
+	/**
+	 * Method to add an input for the target entity.
+	 * @param input input entity
+	 * @throws ModelException
+	 */
 	private void addInput(ModelEntity input) throws ModelException {
 		if (inputAlreadyAdded(input)) {
 			throw new ModelException(ModelException.DUPLICATE_VARIABLE_EXCEPTION);
@@ -101,6 +101,11 @@ public class Converter {
 		}
 	}
 
+	/**
+	 * Method to determine if a ModelEntity has been already added to the Converter.
+	 * @param variable ModelEntity to check
+	 * @return true if the ModelEntity already exists
+	 */
 	private boolean inputAlreadyAdded(ModelEntity variable) {
 		return inputs.contains(variable);
 	}
@@ -113,6 +118,10 @@ public class Converter {
 		return this.targetEntity;
 	}
 
+	/**
+	 * 
+	 * @return minimum limit that will be calculated by the converter
+	 */
 	public double getMinLimitValue() {
 		return minLimitValue;
 	}
@@ -121,6 +130,10 @@ public class Converter {
 		this.minLimitValue = minLimitValue;
 	}
 
+	/**
+	 * 
+	 * @return minimum limit that will be calculated by the converter
+	 */
 	public double getMaxLimitValue() {
 		return maxLimitValue;
 	}

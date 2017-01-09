@@ -73,10 +73,7 @@ public class Simulation {
             v.setCurrentValue(v.getInitialValue());
             v.setCurrentValueCalculated(false);
         });
-//        for (Converter converter : this.model.getStockConverterList()) {
-//            ((Stock) converter.getTargetEntity()).getIntegration().setDt(this.model.getTimeSteps());
-//        }
-        this.model.getIntegration().setStockConverter(model.getStockConverterList());
+        this.model.getIntegration().setStocks(model.getStocks());
         this.model.getIntegration().setVariableConverter(model.getConverterList());
         this.model.getIntegration().setDt(this.model.getTimeSteps());
     }

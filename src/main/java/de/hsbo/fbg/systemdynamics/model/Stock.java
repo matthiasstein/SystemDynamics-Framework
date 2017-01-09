@@ -3,6 +3,7 @@ package de.hsbo.fbg.systemdynamics.model;
 import java.util.ArrayList;
 
 import de.hsbo.fbg.systemdynamics.exceptions.ModelException;
+import de.hsbo.fbg.systemdynamics.functions.IFunction;
 
 /**
  * This class represents a stock.
@@ -14,6 +15,7 @@ public class Stock extends ModelEntity {
 
     private ArrayList<Flow> inputFlows;
     private ArrayList<Flow> outputFlows;
+    private IFunction flowRateFunction;
 
     /**
      * Constructor.
@@ -98,9 +100,25 @@ public class Stock extends ModelEntity {
      */
     public ArrayList<Flow> getOutputFlows() {
         return outputFlows;
-    }
+    }   
 
-    @Override
+    /**
+     * 
+     * @return function for the flow rate
+     */
+    public IFunction getFlowRateFunction() {
+		return flowRateFunction;
+	}
+
+    /**
+     * 
+     * @param flowRateFunction function for the flow rate
+     */
+	public void setFlowRateFunction(IFunction flowRateFunction) {
+		this.flowRateFunction = flowRateFunction;
+	}
+
+	@Override
     public Object clone() throws CloneNotSupportedException {
         Stock stock = new Stock(this.getName());
         stock.setCurrentValue(this.getCurrentValue());

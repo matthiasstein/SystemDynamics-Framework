@@ -1,6 +1,6 @@
 package de.hsbo.fbg.systemdynamics.functions;
 
-import de.hsbo.fbg.systemdynamics.model.Converter;
+import de.hsbo.fbg.systemdynamics.model.Stock;
 
 /**
  * This class extends the IntegrationType and represents the Euler-Cauchy
@@ -11,12 +11,13 @@ import de.hsbo.fbg.systemdynamics.model.Converter;
  */
 public class EulerCauchyIntegration extends Integration {
 
+	@Override
 	public void integrate() {
-		for (Converter converter : this.getStockConverter()) {
-			double calculatedValue = converter.getTargetEntity().getCurrentValue()
-					+ converter.getFunction().calculateEntityValue() * this.getDt();
-			converter.getTargetEntity().setCurrentValue(calculatedValue);
-			converter.getTargetEntity().setCurrentValueCalculated(true);
+		for (Stock stock : this.getStocks()) {
+			double calculatedValue = stock.getCurrentValue()
+					+ stock.getFlowRateFunction().calculateEntityValue() * this.getDt();
+			stock.setCurrentValue(calculatedValue);
+			stock.setCurrentValueCalculated(true);
 		}
 	}
 

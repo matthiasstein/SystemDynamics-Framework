@@ -3,6 +3,7 @@ package de.hsbo.fbg.systemdynamics.functions;
 import java.util.List;
 
 import de.hsbo.fbg.systemdynamics.model.Converter;
+import de.hsbo.fbg.systemdynamics.model.Stock;
 
 /**
  * Abstract class that describes an integration type.
@@ -13,15 +14,15 @@ import de.hsbo.fbg.systemdynamics.model.Converter;
 public abstract class Integration {
 
 	double dt;
-	List<Converter> stockConverter;
+	List<Stock> stocks;
 	List<Converter> variableConverter;
 
-	public List<Converter> getStockConverter() {
-		return stockConverter;
+	public List<Stock> getStocks() {
+		return stocks;
 	}
 
-	public void setStockConverter(List<Converter> stockConverter) {
-		this.stockConverter = stockConverter;
+	public void setStocks(List<Stock> stocks) {
+		this.stocks = stocks;
 	}
 
 	public List<Converter> getVariableConverter() {
