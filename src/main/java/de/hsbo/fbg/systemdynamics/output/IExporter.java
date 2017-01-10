@@ -10,19 +10,19 @@ import java.util.List;
 public interface IExporter {
 
     /**
-     * Method to write a line.
+     * Method to write all time step values to the file.
      *
      * @param values list of values that should be added to the csv file.
      */
-    public void writeLine(List<String> values);
+    void writeTimeStepValues(List<String> values);
 
     /**
      * This method writes the data to the file.
      */
-    public void saveFile();
+    void saveFile();
 
     /**
      * @return file content as string.
      */
-    public String getString();
+    String getString();
 }

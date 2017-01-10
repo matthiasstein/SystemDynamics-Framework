@@ -30,8 +30,7 @@ public class CSVExporter implements IExporter {
     }
 
     @Override
-    public void writeLine(List<String> values) {
-
+    public void writeTimeStepValues(List<String> values) {
         boolean first = true;
 
         for (String value : values) {

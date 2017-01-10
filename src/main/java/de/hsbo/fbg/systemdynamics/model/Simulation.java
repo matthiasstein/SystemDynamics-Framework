@@ -37,8 +37,8 @@ public class Simulation {
         executeConverters();
 
         // add keys and first values to csv
-        this.exporter.writeLine(this.model.getModelEntitiesKeys());
-        this.exporter.writeLine(this.model.getModelEntitiesValues());
+        this.exporter.writeTimeStepValues(this.model.getModelEntitiesKeys());
+        this.exporter.writeTimeStepValues(this.model.getModelEntitiesValues());
         while (this.finalTimeReached()) {
             this.updateCurrentTime();
             this.prepareValuesForTimestep();
@@ -46,7 +46,7 @@ public class Simulation {
             executeConverters();
             System.out.println(this.model);
             // add values to csv
-            this.exporter.writeLine(this.model.getModelEntitiesValues());
+            this.exporter.writeTimeStepValues(this.model.getModelEntitiesValues());
         }
         this.exporter.saveFile();
     }
