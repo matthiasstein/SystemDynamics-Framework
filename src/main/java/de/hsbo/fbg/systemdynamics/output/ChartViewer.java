@@ -8,15 +8,17 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javafx.application.Application;
-import javafx.scene.Group;
+import javafx.event.ActionEvent;
+import javafx.geometry.Insets;
+import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.chart.XYChart.Series;
-import javafx.scene.control.Tab;
-import javafx.scene.control.TabPane;
+import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 /**
@@ -27,57 +29,65 @@ import javafx.stage.Stage;
 public class ChartViewer extends Application {
 
     private static ArrayList<Series> series;
-    private static ArrayList<Series> series2;
+    private static ArrayList<CheckBox> checkBoxes;
     private static double width = 800;
     private static double height = 600;
+    private static LineChart lineChart;
 
     @Override
     public void start(Stage stage) {
-        stage.setTitle("System Dynamics Charts");
+        stage.setTitle("System Dynamics Chart");
 
-        // create root group
-        Group root = new Group();
+        BorderPane root = new BorderPane();
 
         // create scene
         Scene scene = new Scene(root, width, height);
 
-        // create first tab
-        TabPane tabPane = new TabPane();
-        Tab firstTab = new Tab();
-        firstTab.setText("All Data");
-
-        //defining the axes
-        final NumberAxis xAxis = new NumberAxis();
-        final NumberAxis yAxis = new NumberAxis();
-        xAxis.setLabel("Value");
         //creating the chart
-        LineChart lineChart = this.createLineChart("All Data");
+        lineChart = this.createLineChart("");
+        lineChart.setCursor(Cursor.CROSSHAIR);
         lineChart.getData().addAll(series);
+        addTooltips();
 
-        firstTab.setContent(lineChart);
-        tabPane.getTabs().add(firstTab);
+        // add checkboxes
+        checkBoxes = new ArrayList<>();
+        for (Series s : series) {
+            CheckBox cb = new CheckBox(s.getName());
+            cb.setOnAction((ActionEvent event) -> this.refreshChart(event));
+            cb.setSelected(true);
+            checkBoxes.add(cb);
+        }
 
-        ChartViewer.series2.forEach((s) -> {
-            //creating the chart
-            LineChart chart = this.createLineChart(s.getName());
-            chart.getData().add(s);
-            // create tab
-            Tab tab = new Tab();
-            tab.setText(s.getName());
-            tab.setContent(chart);
-            tabPane.getTabs().add(tab);
-        });
+        Label dataLabel = new Label("Data:");
+        VBox vbox = new VBox(8); // spacing = 8
+        vbox.getChildren().addAll(dataLabel);
+        vbox.getChildren().addAll(checkBoxes);
+        vbox.setPadding(new Insets(20, 10, 20, 0));
 
-        BorderPane borderPane = new BorderPane();
-        // bind to take available space
-        borderPane.prefHeightProperty().bind(scene.heightProperty());
-        borderPane.prefWidthProperty().bind(scene.widthProperty());
-        borderPane.setCenter(tabPane);
+        root.setCenter(lineChart);
+        root.setRight(vbox);
 
-        // add border pane to root
-        root.getChildren().add(borderPane);
         stage.setScene(scene);
         stage.show();
+    }
+
+    /**
+     * Method to add / remove chart data.
+     *
+     * @param event ActionEvent
+     */
+    private void refreshChart(ActionEvent event) {
+        CheckBox cb = (CheckBox) event.getSource();
+        String text = cb.getText();
+        for (Series s : series) {
+            if (text.equals(s.getName())) {
+                if (cb.isSelected()) {
+                    lineChart.getData().add(s);
+                } else {
+                    lineChart.getData().remove(s);
+                }
+            }
+        }
     }
 
     /**
@@ -90,7 +100,8 @@ public class ChartViewer extends Application {
         //defining the axes
         NumberAxis xAxis = new NumberAxis();
         NumberAxis yAxis = new NumberAxis();
-        xAxis.setLabel("Value");
+        xAxis.setLabel("Timestep");
+        yAxis.setLabel("Value");
         //creating the chart
         LineChart<Number, Number> lineChart
                 = new LineChart<Number, Number>(xAxis, yAxis);
@@ -105,16 +116,13 @@ public class ChartViewer extends Application {
      * @param csvFile CSV String
      */
     public static void setCSVFile(String csvFile) {
-        ChartViewer.series = new ArrayList<Series>();
-        ChartViewer.series2 = new ArrayList<Series>();
+        ChartViewer.series = new ArrayList<>();
         String[] lines = csvFile.split("\\r?\\n");
         String[] modelEntityNames = lines[0].split(";");
 
         for (int i = 0; i < modelEntityNames.length; i++) {
             Series s = new Series();
-            Series s2 = new Series();
             s.setName(modelEntityNames[i]);
-            s2.setName(modelEntityNames[i]);
 
             for (int j = 1; j < lines.length; j++) {
                 String line = lines[j];
@@ -125,13 +133,30 @@ public class ChartViewer extends Application {
                     number = format.parse(valueString);
                     double value = number.doubleValue();
                     s.getData().add(new XYChart.Data(j - 1, value));
-                    s2.getData().add(new XYChart.Data(j - 1, value));
                 } catch (ParseException ex) {
                     Logger.getLogger(ChartViewer.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
             ChartViewer.series.add(s);
-            ChartViewer.series2.add(s2);
+        }
+    }
+
+    /**
+     * Method to add tooltips to chart.
+     */
+    private void addTooltips() {
+        /*
+         * Browsing through the Data and applying ToolTip as well as the class on hover
+         */
+        for (int i = 0; i < lineChart.getData().size(); i++) {
+            for (int j = 0; j < ((Series) lineChart.getData().get(i)).getData().size(); j++) {
+                XYChart.Data<Number, Number> d = (XYChart.Data<Number, Number>) ((Series) lineChart.getData().get(i)).getData().get(j);
+                Tooltip.install(d.getNode(), new Tooltip("timestep: " + d.getXValue() + "\nvalue: " + d.getYValue()));
+                // Adding class on hover
+                d.getNode().setOnMouseEntered(event -> d.getNode().getStyleClass().add("onHover"));
+                // Removing class on exit
+                d.getNode().setOnMouseExited(event -> d.getNode().getStyleClass().remove("onHover"));
+            }
         }
     }
 

@@ -44,10 +44,6 @@ public class ChartPlotter extends Application {
         // create scene
         Scene scene = new Scene(root, width, height);
 
-        //defining the axes
-        final NumberAxis xAxis = new NumberAxis();
-        final NumberAxis yAxis = new NumberAxis();
-        xAxis.setLabel("Value");
         //creating the chart
         LineChart lineChart = this.createLineChart("System Dynamics Chart");
         lineChart.getData().addAll(series);
@@ -77,7 +73,8 @@ public class ChartPlotter extends Application {
         //defining the axes
         NumberAxis xAxis = new NumberAxis();
         NumberAxis yAxis = new NumberAxis();
-        xAxis.setLabel("Value");
+        xAxis.setLabel("Timestep");
+        yAxis.setLabel("Value");
         //creating the chart
         LineChart<Number, Number> lineChart
                 = new LineChart<Number, Number>(xAxis, yAxis);
