@@ -17,7 +17,7 @@ public class RungeKuttaIntegration extends Integration {
         for (int i = 0; i <= 3; i++) {
             int j = 0;
             for (Stock stock : this.getStocks()) {
-                k[j][i] = stock.getFlowRateFunction().calculateEntityValue() * this.getDt();
+                k[j][i] = stock.getChangeRateFunction().calculateEntityValue() * this.getDt();
                 if (i < 2)
                     stock.setCurrentValue(stock.getPreviousValue() + k[j][i] / 2);
                 else if (i == 2)

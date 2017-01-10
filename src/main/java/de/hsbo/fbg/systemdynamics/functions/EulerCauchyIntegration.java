@@ -15,7 +15,7 @@ public class EulerCauchyIntegration extends Integration {
     public void integrate() {
         for (Stock stock : this.getStocks()) {
             double calculatedValue = stock.getCurrentValue()
-                    + stock.getFlowRateFunction().calculateEntityValue() * this.getDt();
+                    + stock.getChangeRateFunction().calculateEntityValue() * this.getDt();
             stock.setCurrentValue(calculatedValue);
             stock.setCurrentValueCalculated(true);
         }

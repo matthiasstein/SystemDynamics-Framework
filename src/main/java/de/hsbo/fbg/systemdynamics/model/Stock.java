@@ -15,7 +15,7 @@ public class Stock extends ModelEntity {
 
     private ArrayList<Flow> inputFlows;
     private ArrayList<Flow> outputFlows;
-    private IFunction flowRateFunction;
+    private IFunction changeRateFunction;
 
     /**
      * Constructor.
@@ -103,15 +103,15 @@ public class Stock extends ModelEntity {
     /**
      * @return function for the flow rate
      */
-    public IFunction getFlowRateFunction() {
-        return flowRateFunction;
+    public IFunction getChangeRateFunction() {
+        return changeRateFunction;
     }
 
     /**
-     * @param flowRateFunction function for the flow rate
+     * @param changeRateFunction function for the flow rate
      */
-    public void setFlowRateFunction(IFunction flowRateFunction) {
-        this.flowRateFunction = flowRateFunction;
+    public void setChangeRateFunction(IFunction changeRateFunction) {
+        this.changeRateFunction = changeRateFunction;
     }
 
     @Override

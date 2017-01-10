@@ -18,7 +18,6 @@ import de.hsbo.fbg.systemdynamics.model.Model;
 import de.hsbo.fbg.systemdynamics.model.ModelEntity;
 import de.hsbo.fbg.systemdynamics.output.CSVExporter;
 import de.hsbo.fbg.systemdynamics.output.ChartViewer;
-import de.hsbo.fbg.systemdynamics.output.ChartPlotter;
 
 import java.util.HashMap;
 
@@ -136,9 +135,9 @@ public class SimulationTest {
             birthsPredatorConverter
                     .setFunction(() -> meetings.getCurrentValue() * expansionRatePredator.getCurrentValue());
 
-            populationPrey.setFlowRateFunction(() -> birthsPrey.getCurrentValue() - deathsPrey.getCurrentValue());
+            populationPrey.setChangeRateFunction(() -> birthsPrey.getCurrentValue() - deathsPrey.getCurrentValue());
             populationPredator
-                    .setFlowRateFunction(() -> birthsPredator.getCurrentValue() - deathsPredator.getCurrentValue());
+                    .setChangeRateFunction(() -> birthsPredator.getCurrentValue() - deathsPredator.getCurrentValue());
 
         } catch (ModelException e) {
             e.printStackTrace();
