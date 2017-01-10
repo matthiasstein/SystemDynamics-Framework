@@ -1,5 +1,8 @@
 package de.hsbo.fbg.systemdynamics.output;
 
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -8,7 +11,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javafx.application.Application;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
@@ -17,9 +22,14 @@ import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.chart.XYChart.Series;
 import javafx.scene.control.*;
+import javafx.scene.image.WritableImage;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+
+import javax.imageio.ImageIO;
 
 /**
  * This class handels the chart printing.
@@ -28,6 +38,7 @@ import javafx.stage.Stage;
  */
 public class ChartViewer extends Application {
 
+    private static Scene scene;
     private static ArrayList<Series> series;
     private static ArrayList<CheckBox> checkBoxes;
     private static double width = 800;
@@ -41,13 +52,14 @@ public class ChartViewer extends Application {
         BorderPane root = new BorderPane();
 
         // create scene
-        Scene scene = new Scene(root, width, height);
+        scene = new Scene(root, width, height);
 
         //creating the chart
         lineChart = this.createLineChart("");
         lineChart.setCursor(Cursor.CROSSHAIR);
         lineChart.getData().addAll(series);
         addTooltips();
+        addLineChartContextMenu();
 
         // add checkboxes
         checkBoxes = new ArrayList<>();
@@ -110,6 +122,21 @@ public class ChartViewer extends Application {
         return lineChart;
     }
 
+    private void addLineChartContextMenu() {
+        final MenuItem saveAsFile = new MenuItem("Save as file");
+        saveAsFile.setOnAction(event -> saveToFile(scene));
+
+        final ContextMenu menu = new ContextMenu(
+                saveAsFile
+        );
+
+        lineChart.setOnMouseClicked(event -> {
+            if (MouseButton.SECONDARY.equals(event.getButton())) {
+                menu.show(lineChart, event.getScreenX(), event.getScreenY());
+            }
+        });
+    }
+
     /**
      * Set CSV String and add series to chart.
      *
@@ -169,5 +196,21 @@ public class ChartViewer extends Application {
     public static void setSize(double width, double height) {
         ChartViewer.width = width;
         ChartViewer.height = height;
+    }
+
+    /**
+     * Method to save the chart as an image.
+     *
+     * @param scene Scene
+     */
+    private static void saveToFile(Scene scene) {
+        WritableImage image = scene.snapshot(null);
+        File outputFile = new File("chart.png");
+        BufferedImage bImage = SwingFXUtils.fromFXImage(image, null);
+        try {
+            ImageIO.write(bImage, "png", outputFile);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
