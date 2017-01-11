@@ -64,7 +64,8 @@ public class Model {
      * @return the created model entity.
      * @throws ModelException model exception.
      */
-    public ModelEntity createModelEntity(ModelEntityType entityType, String name) throws ModelException {
+    public ModelEntity createModelEntity(
+            ModelEntityType entityType, String name) throws ModelException {
         ModelEntity modelEntity;
         switch (entityType) {
             case STOCK:

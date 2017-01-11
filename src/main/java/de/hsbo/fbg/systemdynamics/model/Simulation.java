@@ -1,5 +1,6 @@
 package de.hsbo.fbg.systemdynamics.model;
 
+import de.hsbo.fbg.systemdynamics.output.CSVExporter;
 import de.hsbo.fbg.systemdynamics.output.IExporter;
 
 /**
@@ -19,8 +20,19 @@ public class Simulation {
      *
      * @param model the model object that describes the system dynamic model.
      */
+    public Simulation(Model model, IExporter exporter) {
+        this.model = model;
+        this.exporter=exporter;
+    }
+
+    /**
+     * Constructor.
+     *
+     * @param model the model object that describes the system dynamic model.
+     */
     public Simulation(Model model) {
         this.model = model;
+        this.exporter=new CSVExporter("output.csv", ";");
     }
 
     /**
