@@ -112,7 +112,6 @@ public class SimulationTest {
             Variable meetings = (Variable) model.createModelEntity(ModelEntityType.VARIABLE, MEETINGS_KEY);
 
             // Create converters
-
             Converter deathsPreyConverter = model.createConverter(deathsPrey, meetings, lossRatePrey);
             deathsPreyConverter.setFunction(() -> meetings.getCurrentValue() * lossRatePrey.getCurrentValue());
 

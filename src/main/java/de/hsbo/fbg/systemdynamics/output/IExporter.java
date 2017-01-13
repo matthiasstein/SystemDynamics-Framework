@@ -25,4 +25,9 @@ public interface IExporter {
      * @return file content as string.
      */
     String getString();
+
+    /**
+     * Method to clear file content.
+     */
+    void clearContent();
 }

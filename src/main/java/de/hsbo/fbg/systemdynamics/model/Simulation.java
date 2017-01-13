@@ -22,7 +22,7 @@ public class Simulation {
      */
     public Simulation(Model model, IExporter exporter) {
         this.model = model;
-        this.exporter=exporter;
+        this.exporter = exporter;
     }
 
     /**
@@ -32,7 +32,7 @@ public class Simulation {
      */
     public Simulation(Model model) {
         this.model = model;
-        this.exporter=new CSVExporter("output.csv", ";");
+        this.exporter = new CSVExporter("output.csv", ";");
     }
 
     /**
@@ -48,6 +48,7 @@ public class Simulation {
         this.prepareValuesForFirstTimestep();
         executeConverters();
 
+        this.exporter.clearContent();
         // add keys and first values to csv
         this.exporter.writeTimeStepValues(this.model.getModelEntitiesKeys());
         this.exporter.writeTimeStepValues(this.model.getModelEntitiesValues());

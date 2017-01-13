@@ -66,4 +66,9 @@ public class CSVExporter implements IExporter {
         }
         return sb.toString();
     }
+
+    @Override
+    public void clearContent() {
+        sb.delete(0, sb.length());
+    }
 }

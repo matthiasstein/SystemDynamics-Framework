@@ -20,7 +20,7 @@ public abstract class Integration {
     /**
      * @return stocks.
      */
-    public List<Stock> getStocks() {
+    protected List<Stock> getStocks() {
         return stocks;
     }
 
@@ -34,7 +34,7 @@ public abstract class Integration {
     /**
      * @return variable converters.
      */
-    public List<Converter> getVariableConverter() {
+    protected List<Converter> getVariableConverter() {
         return variableConverter;
     }
 
@@ -48,7 +48,7 @@ public abstract class Integration {
     /**
      * @return dt.
      */
-    public double getDt() {
+    protected double getDt() {
         return dt;
     }
 

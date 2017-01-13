@@ -101,14 +101,14 @@ public class Stock extends ModelEntity {
     }
 
     /**
-     * @return function for the flow rate
+     * @return function for the flow rate.
      */
     public IFunction getChangeRateFunction() {
         return changeRateFunction;
     }
 
     /**
-     * @param changeRateFunction function for the flow rate
+     * @param changeRateFunction function for the flow rate.
      */
     public void setChangeRateFunction(IFunction changeRateFunction) {
         this.changeRateFunction = changeRateFunction;
