@@ -4,8 +4,8 @@ package de.hsbo.fbg.systemdynamics.exceptions;
  * This class extents the Exception class and offers static strings to describe
  * model exceptions.
  *
- * @author Sebastian Drost
- * @author Matthias Stein
+ * @author <a href="mailto:sebastian.drost@hs-bochum.de">Sebastian Drost</a>
+ * @author <a href="mailto:matthias.stein@hs-bochum.de">Matthias Stein</a>
  */
 public class ModelException extends Exception {
 

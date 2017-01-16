@@ -1,31 +1,23 @@
 package de.hsbo.fbg;
 
+import de.hsbo.fbg.systemdynamics.exceptions.ModelException;
+import de.hsbo.fbg.systemdynamics.functions.EulerCauchyIntegration;
+import de.hsbo.fbg.systemdynamics.functions.RungeKuttaIntegration;
+import de.hsbo.fbg.systemdynamics.model.*;
+import de.hsbo.fbg.systemdynamics.output.CSVExporter;
+import de.hsbo.fbg.systemdynamics.output.ChartViewer;
 import org.hamcrest.Matchers;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-
-import de.hsbo.fbg.systemdynamics.model.ModelEntityType;
-import de.hsbo.fbg.systemdynamics.model.Simulation;
-import de.hsbo.fbg.systemdynamics.model.Stock;
-import de.hsbo.fbg.systemdynamics.model.Variable;
-import de.hsbo.fbg.systemdynamics.exceptions.ModelException;
-import de.hsbo.fbg.systemdynamics.functions.EulerCauchyIntegration;
-import de.hsbo.fbg.systemdynamics.functions.RungeKuttaIntegration;
-import de.hsbo.fbg.systemdynamics.model.Converter;
-import de.hsbo.fbg.systemdynamics.model.Flow;
-import de.hsbo.fbg.systemdynamics.model.Model;
-import de.hsbo.fbg.systemdynamics.model.ModelEntity;
-import de.hsbo.fbg.systemdynamics.output.CSVExporter;
-import de.hsbo.fbg.systemdynamics.output.ChartViewer;
 
 import java.util.HashMap;
 
 /**
  * Class to test the simulation.
  *
- * @author Sebastian Drost
- * @author Matthias Stein
+ * @author <a href="mailto:sebastian.drost@hs-bochum.de">Sebastian Drost</a>
+ * @author <a href="mailto:matthias.stein@hs-bochum.de">Matthias Stein</a>
  */
 public class SimulationTest {
 

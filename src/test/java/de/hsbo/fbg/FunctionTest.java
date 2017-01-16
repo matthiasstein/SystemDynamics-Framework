@@ -1,24 +1,21 @@
 package de.hsbo.fbg;
 
-import com.sun.corba.se.impl.encoding.OSFCodeSetRegistry;
 import de.hsbo.fbg.systemdynamics.exceptions.ModelException;
 import de.hsbo.fbg.systemdynamics.functions.EulerCauchyIntegration;
 import de.hsbo.fbg.systemdynamics.functions.IFunction;
 import de.hsbo.fbg.systemdynamics.model.*;
-import jdk.nashorn.internal.runtime.regexp.joni.constants.OPCode;
 import org.hamcrest.Matchers;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.Map;
 import java.util.TreeMap;
 
 /**
  * Test class for different types of functions.
- * Created by Sebastian Drost on 11.01.2017.
+ *
+ * @author <a href="mailto:sebastian.drost@hs-bochum.de">Sebastian Drost</a>
  */
 public class FunctionTest {
 
