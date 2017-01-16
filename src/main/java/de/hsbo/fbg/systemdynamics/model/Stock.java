@@ -8,8 +8,8 @@ import de.hsbo.fbg.systemdynamics.functions.IFunction;
 /**
  * This class represents a stock.
  *
- * @author Sebastian Drost
- * @author Matthias Stein
+ * @author <a href="mailto:sebastian.drost@hs-bochum.de">Sebastian Drost</a>
+ * @author <a href="mailto:matthias.stein@hs-bochum.de">Matthias Stein</a>
  */
 public class Stock extends ModelEntity {
 

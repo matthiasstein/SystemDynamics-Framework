@@ -1,10 +1,10 @@
 package de.hsbo.fbg.systemdynamics.model;
 
 /**
- * This class represents a flow.
+ * This class represents a flow. A flow can either be an input flow or an output flow for a stock.
  *
- * @author Sebastian Drost
- * @author Matthias Stein
+ * @author <a href="mailto:sebastian.drost@hs-bochum.de">Sebastian Drost</a>
+ * @author <a href="mailto:matthias.stein@hs-bochum.de">Matthias Stein</a>
  */
 public class Flow extends ModelEntity {
 

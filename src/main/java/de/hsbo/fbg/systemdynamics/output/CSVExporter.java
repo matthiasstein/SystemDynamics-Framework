@@ -9,7 +9,7 @@ import java.util.logging.Logger;
 /**
  * This class handles the CSV output.
  *
- * @author Matthias Stein
+ * @author <a href="mailto:matthias.stein@hs-bochum.de">Matthias Stein</a>
  */
 public class CSVExporter implements IExporter {
 

@@ -27,7 +27,7 @@ import java.util.logging.Logger;
 /**
  * This class handels the chart printing.
  *
- * @author Matthias Stein
+ * @author <a href="mailto:matthias.stein@hs-bochum.de">Matthias Stein</a>
  */
 public class ChartPlotter extends Application {
 

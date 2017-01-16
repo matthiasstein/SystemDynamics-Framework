@@ -6,10 +6,10 @@ import de.hsbo.fbg.systemdynamics.model.Converter;
 import de.hsbo.fbg.systemdynamics.model.Stock;
 
 /**
- * Abstract class that describes an integration type.
+ * Abstract class that describes an integration method.
  *
- * @author Sebastian Drost
- * @author Matthias Stein
+ * @author <a href="mailto:sebastian.drost@hs-bochum.de">Sebastian Drost</a>
+ * @author <a href="mailto:matthias.stein@hs-bochum.de">Matthias Stein</a>
  */
 public abstract class Integration {
 

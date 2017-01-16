@@ -4,10 +4,10 @@ import de.hsbo.fbg.systemdynamics.model.Converter;
 import de.hsbo.fbg.systemdynamics.model.Stock;
 
 /**
- * This class extends the Integration interace and represents the classical
+ * This class extends the {@link Integration} interface and represents the classical
  * Runge–Kutta method (RK4).
  *
- * @author Sebastian Drost
+ * @author <a href="mailto:sebastian.drost@hs-bochum.de">Sebastian Drost</a>
  */
 public class RungeKuttaIntegration extends Integration {
 

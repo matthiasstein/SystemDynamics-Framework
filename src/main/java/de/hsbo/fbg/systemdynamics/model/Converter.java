@@ -7,10 +7,12 @@ import de.hsbo.fbg.systemdynamics.exceptions.ModelException;
 import de.hsbo.fbg.systemdynamics.functions.IFunction;
 
 /**
- * This class represents a converter.
+ * This class represents a converter that calculates the current value of a target {@link ModelEntity}
+ * if all inputs has been already calculated.
+ * The calculation depends on the function that has been delivered to the converter.
  *
- * @author Sebastian Drost
- * @author Matthias Stein
+ * @author <a href="mailto:sebastian.drost@hs-bochum.de">Sebastian Drost</a>
+ * @author <a href="mailto:matthias.stein@hs-bochum.de">Matthias Stein</a>
  */
 public class Converter {
 

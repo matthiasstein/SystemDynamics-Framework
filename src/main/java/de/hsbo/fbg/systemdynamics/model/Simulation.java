@@ -7,8 +7,8 @@ import de.hsbo.fbg.systemdynamics.output.IExporter;
  * This class represents a system dynamics simulation and controls the
  * simulation execution.
  *
- * @author Sebastian Drost
- * @author Matthias Stein
+ * @author <a href="mailto:sebastian.drost@hs-bochum.de">Sebastian Drost</a>
+ * @author <a href="mailto:matthias.stein@hs-bochum.de">Matthias Stein</a>
  */
 public class Simulation {
 

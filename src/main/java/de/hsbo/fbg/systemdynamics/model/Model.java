@@ -11,10 +11,9 @@ import java.text.DecimalFormat;
 import java.util.List;
 
 /**
- * This class represents a model.
- *
- * @author Sebastian Drost
- * @author Matthias Stein
+ * This class represents a simulation model.
+ * @author <a href="mailto:sebastian.drost@hs-bochum.de">Sebastian Drost</a>
+ * @author <a href="mailto:matthias.stein@hs-bochum.de">Matthias Stein</a>
  */
 public class Model {
 

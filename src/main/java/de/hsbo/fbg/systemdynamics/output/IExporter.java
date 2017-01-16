@@ -5,7 +5,7 @@ import java.util.List;
 /**
  * Exporter interface.
  *
- * @author Matthias Stein
+ * @author <a href="mailto:matthias.stein@hs-bochum.de">Matthias Stein</a>
  */
 public interface IExporter {
 

@@ -3,11 +3,11 @@ package de.hsbo.fbg.systemdynamics.functions;
 import de.hsbo.fbg.systemdynamics.model.Stock;
 
 /**
- * This class extends the Integration interface and represents the Euler-Cauchy
+ * This class extends the {@link Integration} interface and represents the Euler-Cauchy
  * method.
  *
- * @author Sebastian Drost
- * @author Matthias Stein
+ * @author <a href="mailto:sebastian.drost@hs-bochum.de">Sebastian Drost</a>
+ * @author <a href="mailto:matthias.stein@hs-bochum.de">Matthias Stein</a>
  */
 public class EulerCauchyIntegration extends Integration {
 

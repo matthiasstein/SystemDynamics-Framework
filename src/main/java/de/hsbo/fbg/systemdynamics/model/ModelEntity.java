@@ -1,10 +1,10 @@
 package de.hsbo.fbg.systemdynamics.model;
 
 /**
- * Abstract class that represents a model entity.
+ * Abstract class that represents an entity of the simulation model.
  *
- * @author Sebastian Drost
- * @author Matthias Stein
+ * @author <a href="mailto:sebastian.drost@hs-bochum.de">Sebastian Drost</a>
+ * @author <a href="mailto:matthias.stein@hs-bochum.de">Matthias Stein</a>
  */
 public abstract class ModelEntity implements Cloneable {
 
