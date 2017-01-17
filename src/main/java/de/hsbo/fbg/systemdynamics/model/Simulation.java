@@ -55,7 +55,7 @@ public class Simulation {
         while (this.finalTimeReached()) {
             this.updateCurrentTime();
             this.prepareValuesForTimestep();
-            executeStockConverters();
+            model.getIntegration().integrate();
             executeConverters();
             System.out.println(this.model);
             // add values to csv
@@ -115,13 +115,6 @@ public class Simulation {
      */
     public boolean finalTimeReached() {
         return this.model.getCurrentTime() < this.model.getFinalTime();
-    }
-
-    /**
-     * Method to execute the stock converters.
-     */
-    private void executeStockConverters() {
-        model.getIntegration().integrate();
     }
 
     /**
