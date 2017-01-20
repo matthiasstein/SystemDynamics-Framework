@@ -2,6 +2,9 @@ package de.hsbo.fbg.systemdynamics.model;
 
 import de.hsbo.fbg.systemdynamics.output.CSVExporter;
 import de.hsbo.fbg.systemdynamics.output.IExporter;
+import de.hsbo.fbg.systemdynamics.output.SimulationEventListener;
+
+import java.util.ArrayList;
 
 /**
  * This class represents a system dynamics simulation and controls the
@@ -14,6 +17,7 @@ public class Simulation {
 
     private Model model;
     private IExporter exporter;
+    private ArrayList<SimulationEventListener> simulationListener;
 
     /**
      * Constructor.
@@ -23,6 +27,7 @@ public class Simulation {
     public Simulation(Model model, IExporter exporter) {
         this.model = model;
         this.exporter = exporter;
+        this.simulationListener = new ArrayList<>();
     }
 
     /**
@@ -127,6 +132,51 @@ public class Simulation {
             }
         }
 
+    }
+
+    /**
+     * Adds an listener that handles simulation events.
+     *
+     * @param listener {@link SimulationEventListener}
+     */
+    public void addSimulationEventListener(SimulationEventListener listener) {
+        this.simulationListener.add(listener);
+    }
+
+    /**
+     * Removes a {@link SimulationEventListener}.
+     *
+     * @param listener {@link SimulationEventListener}
+     */
+    public void removeSimulationEventListener(SimulationEventListener listener) {
+        this.simulationListener.remove(listener);
+    }
+
+    /**
+     * Fires an event for the initialization of the simulation.
+     *
+     * @param model {@link Model} for the simulation
+     */
+    private void fireSimulationInitializedEvent(Model model) {
+        this.simulationListener.forEach(listener -> listener.simulationInitialized(model));
+    }
+
+    /**
+     * Fires an event for a finished calculation of a time step.
+     *
+     * @param model {@link Model} for the simulation
+     */
+    private void fireTimeStepCalculatedEvent(Model model) {
+        this.simulationListener.forEach(listener -> listener.timeStepCalculated(model));
+    }
+
+    /**
+     * Fires an event for a finished simulation.
+     *
+     * @param model
+     */
+    private void fireSimulationFinishedEvent(Model model) {
+        this.simulationListener.forEach(listener -> listener.simulationFinished(model));
     }
 
     /**
