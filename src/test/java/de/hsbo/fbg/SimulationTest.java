@@ -145,7 +145,7 @@ public class SimulationTest {
         double error = 0.001;
 
         Simulation simulation = new Simulation(model);
-        simulation.setExporter(csvExporter);
+        simulation.addSimulationEventListener(csvExporter);
 
         model.setFinalTime(0);
         simulation.run();
@@ -251,7 +251,7 @@ public class SimulationTest {
         Assert.assertThat(entities.get(BIRTHS_PREDATOR_KEY).getCurrentValue(), Matchers.closeTo(520.3791, error));
         Assert.assertThat(entities.get(DEATHS_PREDATOR_KEY).getCurrentValue(), Matchers.closeTo(0.5351, error));
 
-        String file = simulation.getExporter().getString();
+        String file = csvExporter.getString();
         ChartViewer.setCSVFile(file);
         ChartViewer.setSize(1000, 800);
         ChartViewer.launch(ChartViewer.class);

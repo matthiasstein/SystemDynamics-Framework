@@ -1,7 +1,5 @@
 package de.hsbo.fbg.systemdynamics.model;
 
-import de.hsbo.fbg.systemdynamics.output.CSVExporter;
-import de.hsbo.fbg.systemdynamics.output.IExporter;
 import de.hsbo.fbg.systemdynamics.output.SimulationEventListener;
 
 import java.util.ArrayList;
@@ -16,19 +14,8 @@ import java.util.ArrayList;
 public class Simulation {
 
     private Model model;
-    private IExporter exporter;
     private ArrayList<SimulationEventListener> simulationListener;
 
-    /**
-     * Constructor.
-     *
-     * @param model the model object that describes the system dynamic model.
-     */
-    public Simulation(Model model, IExporter exporter) {
-        this.model = model;
-        this.exporter = exporter;
-        this.simulationListener = new ArrayList<>();
-    }
 
     /**
      * Constructor.
@@ -37,7 +24,7 @@ public class Simulation {
      */
     public Simulation(Model model) {
         this.model = model;
-        this.exporter = new CSVExporter("output.csv", ";");
+        this.simulationListener = new ArrayList<>();
     }
 
     /**
@@ -51,22 +38,18 @@ public class Simulation {
         // first time step their current value is the same as their initial
         // value.
         this.prepareValuesForFirstTimestep();
+        fireSimulationInitializedEvent(this.model);
         executeConverters();
-
-        this.exporter.clearContent();
-        // add keys and first values to csv
-        this.exporter.writeTimeStepValues(this.model.getModelEntitiesKeys());
-        this.exporter.writeTimeStepValues(this.model.getModelEntitiesValues());
+        fireTimeStepCalculatedEvent(this.model);
         while (this.finalTimeReached()) {
             this.updateCurrentTime();
             this.prepareValuesForTimestep();
             model.getIntegration().integrate();
             executeConverters();
             System.out.println(this.model);
-            // add values to csv
-            this.exporter.writeTimeStepValues(this.model.getModelEntitiesValues());
+            fireTimeStepCalculatedEvent(model);
         }
-        this.exporter.saveFile();
+        fireSimulationFinishedEvent(model);
     }
 
     /**
@@ -177,22 +160,6 @@ public class Simulation {
      */
     private void fireSimulationFinishedEvent(Model model) {
         this.simulationListener.forEach(listener -> listener.simulationFinished(model));
-    }
-
-    /**
-     * Method to set exporter class
-     *
-     * @param exporter exporter class
-     */
-    public void setExporter(IExporter exporter) {
-        this.exporter = exporter;
-    }
-
-    /**
-     * @return exporter.
-     */
-    public IExporter getExporter() {
-        return this.exporter;
     }
 
 }

@@ -1,7 +1,10 @@
 package de.hsbo.fbg.systemdynamics.output;
 
+import de.hsbo.fbg.systemdynamics.model.Model;
+
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.EventListener;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -11,7 +14,7 @@ import java.util.logging.Logger;
  *
  * @author <a href="mailto:matthias.stein@hs-bochum.de">Matthias Stein</a>
  */
-public class CSVExporter implements IExporter {
+public class CSVExporter implements SimulationEventListener {
 
     private final String separator;
     private final String csvFile;
@@ -29,8 +32,7 @@ public class CSVExporter implements IExporter {
         this.sb = new StringBuilder();
     }
 
-    @Override
-    public void writeTimeStepValues(List<String> values) {
+    private void writeTimeStepValues(List<String> values) {
         boolean first = true;
 
         for (String value : values) {
@@ -45,8 +47,7 @@ public class CSVExporter implements IExporter {
 
     }
 
-    @Override
-    public void saveFile() {
+    private void saveFile() {
         try {
             try (FileWriter writer = new FileWriter(this.csvFile)) {
                 writer.append(this.getString());
@@ -58,7 +59,6 @@ public class CSVExporter implements IExporter {
         }
     }
 
-    @Override
     public String getString() {
         int last = sb.lastIndexOf("\n");
         if (last >= 0 && sb.length() - last == 1) {
@@ -67,8 +67,24 @@ public class CSVExporter implements IExporter {
         return sb.toString();
     }
 
-    @Override
-    public void clearContent() {
+    private void clearContent() {
         sb.delete(0, sb.length());
+    }
+
+    @Override
+    public void simulationInitialized(Model model) {
+        clearContent();
+        writeTimeStepValues(model.getModelEntitiesKeys());
+
+    }
+
+    @Override
+    public void timeStepCalculated(Model model) {
+        writeTimeStepValues(model.getModelEntitiesValues());
+    }
+
+    @Override
+    public void simulationFinished(Model model) {
+        saveFile();
     }
 }

@@ -113,7 +113,7 @@ public class SampleSimulationTest {
         double error = 0.001;
 
         Simulation simulation = new Simulation(model);
-        simulation.setExporter(csvExporter);
+        simulation.addSimulationEventListener(csvExporter);
 
         model.setFinalTime(10);
         simulation.run();
@@ -135,7 +135,7 @@ public class SampleSimulationTest {
         Assert.assertThat(entities.get(MEETINGS_KEY).getCurrentValue(), Matchers.closeTo(26.0779, error));
 
 
-        String file = simulation.getExporter().getString();
+        String file = csvExporter.getString();
         ChartViewer.setCSVFile(file);
         ChartViewer.setSize(1000, 800);
         ChartViewer.launch(ChartViewer.class);
