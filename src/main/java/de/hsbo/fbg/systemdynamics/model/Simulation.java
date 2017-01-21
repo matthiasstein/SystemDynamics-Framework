@@ -38,18 +38,18 @@ public class Simulation {
         // first time step their current value is the same as their initial
         // value.
         this.prepareValuesForFirstTimestep();
-        fireSimulationInitializedEvent(this.model);
-        executeConverters();
-        fireTimeStepCalculatedEvent(this.model);
+        this.fireSimulationInitializedEvent(this.model);
+        this.executeConverters();
+        this.fireTimeStepCalculatedEvent(this.model);
         while (this.finalTimeReached()) {
             this.updateCurrentTime();
             this.prepareValuesForTimestep();
-            model.getIntegration().integrate();
-            executeConverters();
+            this.model.getIntegration().integrate();
+            this.executeConverters();
             System.out.println(this.model);
-            fireTimeStepCalculatedEvent(model);
+            this.fireTimeStepCalculatedEvent(model);
         }
-        fireSimulationFinishedEvent(model);
+        this.fireSimulationFinishedEvent(model);
     }
 
     /**
@@ -156,7 +156,7 @@ public class Simulation {
     /**
      * Fires an event for a finished simulation.
      *
-     * @param model
+     * @param model {@link Model} for the simulation
      */
     private void fireSimulationFinishedEvent(Model model) {
         this.simulationListener.forEach(listener -> listener.simulationFinished(model));
