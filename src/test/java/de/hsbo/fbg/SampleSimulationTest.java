@@ -4,7 +4,9 @@ import de.hsbo.fbg.systemdynamics.exceptions.ModelException;
 import de.hsbo.fbg.systemdynamics.functions.EulerCauchyIntegration;
 import de.hsbo.fbg.systemdynamics.model.*;
 import de.hsbo.fbg.systemdynamics.output.CSVExporter;
+import de.hsbo.fbg.systemdynamics.output.ChartPlotter;
 import de.hsbo.fbg.systemdynamics.output.ChartViewer;
+import de.hsbo.fbg.systemdynamics.output.ChartViewerApplication;
 import org.hamcrest.Matchers;
 import org.junit.Assert;
 import org.junit.Test;
@@ -114,6 +116,8 @@ public class SampleSimulationTest {
 
         Simulation simulation = new Simulation(model);
         simulation.addSimulationEventListener(csvExporter);
+        simulation.addSimulationEventListener(new ChartViewer());
+        //simulation.addSimulationEventListener(new ChartPlotter());
 
         model.setFinalTime(10);
         simulation.run();
@@ -133,16 +137,6 @@ public class SampleSimulationTest {
         Assert.assertThat(entities.get(DEATHS_PREDATOR_KEY).getCurrentValue(), Matchers.closeTo(9.2274, error));
 
         Assert.assertThat(entities.get(MEETINGS_KEY).getCurrentValue(), Matchers.closeTo(26.0779, error));
-
-
-        String file = csvExporter.getString();
-        ChartViewer.setCSVFile(file);
-        ChartViewer.setSize(1000, 800);
-        ChartViewer.launch(ChartViewer.class);
-
-        //ChartPlotter.setCSVFile(file);
-        //ChartPlotter.setSize(1000, 800);
-        //ChartPlotter.launch(ChartPlotter.class);
     }
 
 }

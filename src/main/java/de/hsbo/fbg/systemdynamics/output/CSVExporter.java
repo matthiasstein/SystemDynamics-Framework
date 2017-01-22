@@ -32,10 +32,10 @@ public class CSVExporter implements SimulationEventListener {
         this.sb = new StringBuilder();
     }
 
-    private void writeTimeStepValues(List<String> values) {
+    private void writeTimeStepValues(List<String> modelEntityValues) {
         boolean first = true;
 
-        for (String value : values) {
+        for (String value : modelEntityValues) {
             if (!first) {
                 this.sb.append(this.separator);
             }
@@ -59,7 +59,7 @@ public class CSVExporter implements SimulationEventListener {
         }
     }
 
-    public String getString() {
+    private String getString() {
         int last = sb.lastIndexOf("\n");
         if (last >= 0 && sb.length() - last == 1) {
             sb.delete(last, sb.length());
@@ -75,7 +75,6 @@ public class CSVExporter implements SimulationEventListener {
     public void simulationInitialized(Model model) {
         clearContent();
         writeTimeStepValues(model.getModelEntitiesKeys());
-
     }
 
     @Override

@@ -5,7 +5,7 @@ import de.hsbo.fbg.systemdynamics.functions.EulerCauchyIntegration;
 import de.hsbo.fbg.systemdynamics.functions.RungeKuttaIntegration;
 import de.hsbo.fbg.systemdynamics.model.*;
 import de.hsbo.fbg.systemdynamics.output.CSVExporter;
-import de.hsbo.fbg.systemdynamics.output.ChartViewer;
+import de.hsbo.fbg.systemdynamics.output.ChartViewerApplication;
 import org.hamcrest.Matchers;
 import org.junit.Assert;
 import org.junit.Before;
@@ -250,16 +250,6 @@ public class SimulationTest {
         Assert.assertThat(entities.get(DEATH_RATE_PREDATOR_KEY).getCurrentValue(), Matchers.equalTo(0.00045));
         Assert.assertThat(entities.get(BIRTHS_PREDATOR_KEY).getCurrentValue(), Matchers.closeTo(520.3791, error));
         Assert.assertThat(entities.get(DEATHS_PREDATOR_KEY).getCurrentValue(), Matchers.closeTo(0.5351, error));
-
-        String file = csvExporter.getString();
-        ChartViewer.setCSVFile(file);
-        ChartViewer.setSize(1000, 800);
-        ChartViewer.launch(ChartViewer.class);
-
-        //ChartPlotter.setCSVFile(file);
-        //ChartPlotter.setSize(1000, 800);
-        //ChartPlotter.launch(ChartPlotter.class);
-
     }
 
     private void changeInitialValues() {
