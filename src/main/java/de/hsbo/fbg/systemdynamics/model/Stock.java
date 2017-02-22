@@ -7,6 +7,9 @@ import de.hsbo.fbg.systemdynamics.functions.IFunction;
 
 /**
  * This class represents a stock.
+ * A stock remembers the current state of the dynamic system, has one or more
+ * input and output {@link Flow} instances that represent it's changing rate
+ * and will be calculated by an integration method.
  *
  * @author <a href="mailto:sebastian.drost@hs-bochum.de">Sebastian Drost</a>
  * @author <a href="mailto:matthias.stein@hs-bochum.de">Matthias Stein</a>

@@ -8,7 +8,7 @@ import de.hsbo.fbg.systemdynamics.functions.IFunction;
 
 /**
  * This class represents a converter that calculates the current value of a target {@link ModelEntity}
- * if all inputs has been already calculated.
+ * in a time step. It represents the cause-effect relationships between {@link ModelEntity} instances.
  * The calculation depends on the function that has been delivered to the converter.
  *
  * @author <a href="mailto:sebastian.drost@hs-bochum.de">Sebastian Drost</a>

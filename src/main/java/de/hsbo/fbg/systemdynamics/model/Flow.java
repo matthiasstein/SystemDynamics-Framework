@@ -1,7 +1,8 @@
 package de.hsbo.fbg.systemdynamics.model;
 
 /**
- * This class represents a flow. A flow can either be an input flow or an output flow for a stock.
+ * This class represents a flow. A flow can either be an input flow or an output flow for a {@link Stock}.
+ * It defines the changing rate of a {@link Stock}.
  *
  * @author <a href="mailto:sebastian.drost@hs-bochum.de">Sebastian Drost</a>
  * @author <a href="mailto:matthias.stein@hs-bochum.de">Matthias Stein</a>

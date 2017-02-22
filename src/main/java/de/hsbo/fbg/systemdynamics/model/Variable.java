@@ -2,6 +2,8 @@ package de.hsbo.fbg.systemdynamics.model;
 
 /**
  * This class represents a variable.
+ * If a variable ha no converter it represents an input variable
+ * that won't be affected by other entities.
  *
  * @author <a href="mailto:sebastian.drost@hs-bochum.de">Sebastian Drost</a>
  * @author <a href="mailto:matthias.stein@hs-bochum.de">Matthias Stein</a>

@@ -11,7 +11,8 @@ import java.text.DecimalFormat;
 import java.util.List;
 
 /**
- * This class represents a simulation model.
+ * This class represents a simulation model. It defines all {@link ModelEntity} instances
+ * and their cause-effect relationships.
  * @author <a href="mailto:sebastian.drost@hs-bochum.de">Sebastian Drost</a>
  * @author <a href="mailto:matthias.stein@hs-bochum.de">Matthias Stein</a>
  */
