@@ -14,20 +14,20 @@ public interface SimulationEventListener {
      *
      * @param model {@link Model} for the {@link Simulation}
      */
-    public void simulationInitialized(Model model);
+    void simulationInitialized(Model model);
 
     /**
      * Handles an event for a finished calculation of a time step.
      *
      * @param model {@link Model} for the {@link Simulation}
      */
-    public void timeStepCalculated(Model model);
+    void timeStepCalculated(Model model);
 
     /**
      * Handles an event for a finished simulation.
      *
      * @param model {@link Model} for the {@link Simulation}
      */
-    public void simulationFinished(Model model);
+    void simulationFinished(Model model);
 
 }

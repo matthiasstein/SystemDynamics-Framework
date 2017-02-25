@@ -26,7 +26,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * This class handels the chart plotting.
+ * Class that handles the chart plotting.
  *
  * @author <a href="mailto:matthias.stein@hs-bochum.de">Matthias Stein</a>
  */
@@ -65,7 +65,8 @@ public class ChartPlotterApplication extends Application {
     }
 
     /**
-     * Method to add series to chart.
+     * Method to add series to the chart.
+     *
      * @param modelEntityNames list of model entity names.
      */
     public static void addSeries(List<String> modelEntityNames) {
@@ -78,9 +79,10 @@ public class ChartPlotterApplication extends Application {
     }
 
     /**
-     * Method to add values to chart series.
+     * Method to add values to the chart series.
+     *
      * @param modelEntityValues list of model entity values.
-     * @param currentTime current model time.
+     * @param currentTime       current model time.
      */
     public static void addValues(List<String> modelEntityValues, double currentTime) {
         for (int i = 0; i < modelEntityValues.size(); i++) {
@@ -98,7 +100,7 @@ public class ChartPlotterApplication extends Application {
     }
 
     /**
-     * Method to create a LineChart
+     * Method to create a LineChart.
      *
      * @param title line chart title
      * @return line chart

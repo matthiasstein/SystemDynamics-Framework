@@ -10,7 +10,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * This class handles the CSV output.
+ * Class that handles the CSV output.
  *
  * @author <a href="mailto:matthias.stein@hs-bochum.de">Matthias Stein</a>
  */
@@ -32,6 +32,11 @@ public class CSVExporter implements SimulationEventListener {
         this.sb = new StringBuilder();
     }
 
+    /**
+     * Method to write all values for one timestep to the CSV.
+     *
+     * @param modelEntityValues values of the model entities.
+     */
     private void writeTimeStepValues(List<String> modelEntityValues) {
         boolean first = true;
 
@@ -47,6 +52,9 @@ public class CSVExporter implements SimulationEventListener {
 
     }
 
+    /**
+     * Method to save the data to CSV file.
+     */
     private void saveFile() {
         try {
             try (FileWriter writer = new FileWriter(this.csvFile)) {
@@ -59,6 +67,9 @@ public class CSVExporter implements SimulationEventListener {
         }
     }
 
+    /**
+     * @return CSV content
+     */
     private String getString() {
         int last = sb.lastIndexOf("\n");
         if (last >= 0 && sb.length() - last == 1) {
@@ -67,6 +78,9 @@ public class CSVExporter implements SimulationEventListener {
         return sb.toString();
     }
 
+    /**
+     * Method to clear the CSV content.
+     */
     private void clearContent() {
         sb.delete(0, sb.length());
     }

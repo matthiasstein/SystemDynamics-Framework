@@ -31,7 +31,7 @@ import javafx.stage.Stage;
 import javax.imageio.ImageIO;
 
 /**
- * This class handels the chart printing.
+ * Class that handles the chart printing.
  *
  * @author <a href="mailto:matthias.stein@hs-bochum.de">Matthias Stein</a>
  */
@@ -53,7 +53,7 @@ public class ChartViewerApplication extends Application {
         // create scene
         scene = new Scene(root, width, height);
 
-        //creating the chart
+        // creating the chart
         lineChart = this.createLineChart("");
         lineChart.setCursor(Cursor.CROSSHAIR);
         lineChart.getData().addAll(series);
