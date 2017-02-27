@@ -110,12 +110,10 @@ public class SampleSimulationTest {
             e.printStackTrace();
         }
 
-        CSVExporter csvExporter = new CSVExporter("output.csv", ";");
-
         double error = 0.001;
 
         Simulation simulation = new Simulation(model);
-        simulation.addSimulationEventListener(csvExporter);
+        simulation.addSimulationEventListener(new CSVExporter("output.csv", ";"));
         simulation.addSimulationEventListener(new ChartViewer());
         //simulation.addSimulationEventListener(new ChartPlotter());
 
