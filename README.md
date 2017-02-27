@@ -2,7 +2,7 @@
 
 ### Introduction
 
-This Framework allows you to create your own System Dynamic model and run a simulation.
+This Framework allows you to create your own System Dynamics model of complex systems and to simulate its dynamic behavior.
 
 ### Usage
 
@@ -67,7 +67,6 @@ simulation.addSimulationEventListener(
 simulation.addSimulationEventListener(
 	new ChartViewer()
 );
-
 ```
 #### 7. Run the simulation
 ```
