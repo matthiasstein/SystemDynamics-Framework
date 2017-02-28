@@ -6,7 +6,7 @@ import de.hsbo.fbg.systemdynamics.model.Simulation;
 /**
  * Interface that defines the methods for dealing with simulation events.
  *
- * @author <a href="mailto:sebastian.drost@hs-bochum.de">Matthias Stein</a>
+ * @author <a href="mailto:sebastian.drost@hs-bochum.de">Sebastian Drost</a>
  */
 public interface SimulationEventListener {
     /**
